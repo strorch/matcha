@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\Domain\GetDomainInfoAction;
 use App\Infrastructure\Provider\MrdpDomainProvider;
 use DI\ContainerBuilder;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
@@ -29,6 +30,13 @@ return function (ContainerBuilder $containerBuilder) {
             $logger->pushHandler($handler);
 
             return $logger;
+        },
+        GetDomainInfoAction::class => function (ContainerInterface $c) {
+            $domainInfoDir = $c->get('settings')['domainInfoDir'] ?? '';
+            return new GetDomainInfoAction(
+                $c->get(StreamFactoryInterface::class),
+                $domainInfoDir
+            );
         },
         SerializerInterface::class => DI\autowire(SymfonySerializer::class),
         DomainProviderInterface::class => DI\autowire(MrdpDomainProvider::class),

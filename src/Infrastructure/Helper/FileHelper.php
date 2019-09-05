@@ -8,8 +8,8 @@ use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 
 class FileHelper
 {
-    public static function getHashName(DomainName $domainName): string
+    public static function getDomainNameHash(DomainName $domainName): string
     {
-        return hash('md5', $domainName->toLDH());
+        return md5($domainName->toLDH());
     }
 }

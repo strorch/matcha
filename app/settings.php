@@ -8,6 +8,7 @@ return function (ContainerBuilder $containerBuilder) {
     // Global Settings Object
     $containerBuilder->addDefinitions([
         'settings' => [
+            'domainInfoDir' =>  __DIR__ . '/../../info/',
             'displayErrorDetails' => true, // Should be set to false in production
             'logger' => [
                 'name' => 'rdap-server',
