@@ -37,14 +37,33 @@ final class GetDomainInfoAction
         if (empty($args['domainName'])) {
             throw new \BadMethodCallException('Domain name is missing');
         }
-
-        $domainDirName = FileHelper::getDomainNameHash(DomainName::of($args['domainName']));
-        $desc = file_get_contents($this->domainInfoDir . $domainDirName . '/1.json');
+        $pathToDomain = $this->getPathToDomain($args['domainName']);
+        if (!file_exists($pathToDomain)) {
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withStatus(418)
+                ->withBody($this->streamFactory->createStream($this->getErrorMessage()));
+        }
 
         return $response->withHeader('Content-Type', 'application/json')
             ->withStatus(200)
-            ->withBody($this->streamFactory->createStream((string)$desc));
+            ->withBody($this->streamFactory->createStreamFromFile($pathToDomain, 'r+'));
     }
 
-//    private function
+    private function getErrorMessage(): string
+    {
+        return json_encode([
+            'errorCode' => 418,
+            'title' => 'Your Beverage Choice is Not Available',
+            'description' => [
+                'domain does not exist',
+            ],
+        ]);
+    }
+
+    private function getPathToDomain(string $domainName): string
+    {
+        $hash = FileHelper::getDomainNameHash(DomainName::of($domainName));
+        $fileLocation = "$hash[0]/$hash[1]/$domainName.json";
+        return $this->domainInfoDir . $fileLocation;
+    }
 }
