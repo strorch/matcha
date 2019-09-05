@@ -3,32 +3,19 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Domain;
 
+use App\Infrastructure\Helper\FileHelper;
 use hiqdev\rdap\core\Domain\ValueObject\DomainName;
-use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
-use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
+use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Request;
 
 final class GetDomainInfoAction
 {
-    /**
-     * @var DomainProviderInterface
-     */
-    private $domainProvider;
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-    /**
-     * @var StreamFactoryInterface
-     */
     private $streamFactory;
 
-    public function __construct(DomainProviderInterface $domainProvider, SerializerInterface $serializer, StreamFactoryInterface $streamFactory)
+    public function __construct(StreamFactoryInterface $streamFactory)
     {
-        $this->domainProvider = $domainProvider;
-        $this->serializer = $serializer;
         $this->streamFactory = $streamFactory;
     }
 
@@ -38,10 +25,11 @@ final class GetDomainInfoAction
             throw new \BadMethodCallException('Domain name is missing');
         }
 
-        $domain = $this->domainProvider->get(DomainName::of($args['domainName']));
+        $domainDirName = FileHelper::getHashName(DomainName::of($args['domainName']));
+        $desc = file_get_contents(DOMAIN_INFO_DIR . $domainDirName . '/1.json');
 
         return $response->withHeader('Content-Type', 'application/json')
             ->withStatus(200)
-            ->withBody($this->streamFactory->createStream($this->serializer->serialize($domain)));
+            ->withBody($this->streamFactory->createStream((string)$desc));
     }
 }

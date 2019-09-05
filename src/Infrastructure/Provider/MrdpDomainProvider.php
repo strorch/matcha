@@ -17,8 +17,9 @@ final class MrdpDomainProvider implements DomainProviderInterface
 
     public function get(DomainName $domainName): Domain
     {
+        $domain = new Domain($domainName);
         // TODO: extract data from reader
 
-        return new Domain(DomainName::of('example.com'));
+        return $domain;
     }
 }
