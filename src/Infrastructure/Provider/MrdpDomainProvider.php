@@ -9,7 +9,7 @@ use hiqdev\rdap\core\Domain\Entity\Domain;
 use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 
-final class MrdpDomainProvider implements DomainProviderInterface
+final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe, add DomainListProviderInterface::getList(): DomainName[]
 {
     /**
      * @var DB
@@ -26,16 +26,19 @@ final class MrdpDomainProvider implements DomainProviderInterface
     }
 
     /**
-     * @return array|null
+     * @return \Iterator array of DomainName objects
      */
-    public function getAvailableDomainNames()
+    public function getAvailableDomainNames(): \Iterator
     {
-        return $this->db->query('
+        $domains = $this->db->query("
             SELECT      d.domain as name
             FROM        domain              d
-            LEFT JOIN   status              s ON s.object_id=d.obj_id AND s.type_id=status_id(\'domain,whoised\')
+            LEFT JOIN   status              s ON s.object_id=d.obj_id AND s.type_id=status_id('domain,whoised')
             ORDER BY    s.time IS NOT NULL,s.time ASC
-        ');
+        ");
+        foreach ($domains as $domain) {
+            yield DomainName::of($domain['name']);
+        }
     }
 
     /**

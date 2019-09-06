@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Application\Actions\Console;
 
 use App\Infrastructure\Provider\MrdpDomainProvider;
-use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -44,8 +43,9 @@ final class PackDomainsInfoAction
     {
         $availableNames = $this->domainProvider->getAvailableDomainNames();
 //        foreach ($availableNames as $name) {
-            $domain = $this->domainProvider->get(DomainName::of(reset($availableNames)['name']));
+            $domain = $this->domainProvider->get($availableNames->current());
             $serialized = $this->serializer->serialize($domain);
+            // TODO: $serialized > file
 //        }
 
         return $response
