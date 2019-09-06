@@ -6,6 +6,7 @@ namespace App\Infrastructure\Provider;
 
 use App\Infrastructure\DB\DB;
 use hiqdev\rdap\core\Domain\Entity\Domain;
+use hiqdev\rdap\core\Domain\Entity\Entity;
 use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 
@@ -50,7 +51,12 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
     {
         $domain = new Domain($domainName);
         $searchRes = $this->prepareCondition((string)$domainName);
-        $domain->setHandle((string)reset($searchRes)['obj_id']);
+        $domainId = (string)$searchRes['obj_id'];
+        $domain->setHandle($domainId);
+
+        foreach ($this->getEntities($domainId) as $entity) {
+            $domain->addEntity($entity);
+        }
 
         return $domain;
     }
@@ -94,6 +100,29 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
         )           AS              s ON s.object_id=d.obj_id
         ", [':name' => $name]);
 
-        return $commonInfo;
+        return reset($commonInfo);
+    }
+
+    /**
+     * @param string $domainId
+     * @return Entity[]
+     */
+    private function getEntities(string $domainId): array
+    {
+        $contacts = $this->db->query("
+            SELECT  dc.type_id,
+                    CASE WHEN dc.type = 'admin' THEN 'registrar'
+                         WHEN dc.type = 'tech'  THEN 'technical'
+                         ELSE dc.type
+                    END     AS type,
+                    zc.*
+            FROM    domain2contactz dc
+            JOIN    zcontact        zc  ON  zc.obj_id = dc.contact_id
+                                        AND dc.domain_id = :domain_id
+        ", [':domain_id' => $domainId]);
+        foreach ($contacts as $contact) {
+            //TODO: compact entities
+        }
+        return [];
     }
 }
