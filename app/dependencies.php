@@ -39,7 +39,7 @@ return function (ContainerBuilder $containerBuilder) {
             );
         },
         SerializerInterface::class => DI\autowire(SymfonySerializer::class),
-        DomainProviderInterface::class => function (ContainerInterface $c) {
+        MrdpDomainProvider::class => function (ContainerInterface $c) {
             $settings = $c->get('settings');
             return new MrdpDomainProvider($settings['dbParams']);
         },

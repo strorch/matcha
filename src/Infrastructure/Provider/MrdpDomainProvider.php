@@ -26,6 +26,19 @@ final class MrdpDomainProvider implements DomainProviderInterface
     }
 
     /**
+     * @return array|null
+     */
+    public function getAvailableDomainNames()
+    {
+        return $this->db->query('
+            SELECT      d.domain as name
+            FROM        domain              d
+            LEFT JOIN   status              s ON s.object_id=d.obj_id AND s.type_id=status_id(\'domain,whoised\')
+            ORDER BY    s.time IS NOT NULL,s.time ASC
+        ');
+    }
+
+    /**
      * @param DomainName $domainName
      * @return Domain
      */
@@ -34,7 +47,6 @@ final class MrdpDomainProvider implements DomainProviderInterface
         $domain = new Domain($domainName);
         $tmp = $this->db->query('select * from client2role limit 1');
         $domain->setHandle(reset($tmp)['role']);
-        // TODO: extract data from reader
 
         return $domain;
     }

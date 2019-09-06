@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Console;
 
+use App\Infrastructure\Provider\MrdpDomainProvider;
 use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
@@ -28,11 +29,11 @@ final class PackDomainsInfoAction
 
     /**
      * PackDomainsInfoAction constructor.
-     * @param DomainProviderInterface $domainProvider
+     * @param MrdpDomainProvider $domainProvider
      * @param SerializerInterface $serializer
      * @param StreamFactoryInterface $streamFactory
      */
-    public function __construct(DomainProviderInterface $domainProvider, SerializerInterface $serializer, StreamFactoryInterface $streamFactory)
+    public function __construct(MrdpDomainProvider $domainProvider, SerializerInterface $serializer, StreamFactoryInterface $streamFactory)
     {
         $this->domainProvider = $domainProvider;
         $this->serializer = $serializer;
@@ -41,10 +42,11 @@ final class PackDomainsInfoAction
 
     public function __invoke(Request $request, Response $response): Response
     {
-        $domain = $this->domainProvider->get(DomainName::of('example.com'));
-        $serialized = $this->serializer->serialize($domain);
-
-        //TODO: insert into files
+        $availableNames = $this->domainProvider->getAvailableDomainNames();
+//        foreach ($availableNames as $name) {
+            $domain = $this->domainProvider->get(DomainName::of(reset($availableNames)['name']));
+            $serialized = $this->serializer->serialize($domain);
+//        }
 
         return $response
             ->withStatus(200)
