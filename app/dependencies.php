@@ -38,6 +38,10 @@ return function (ContainerBuilder $containerBuilder) {
                 $domainInfoDir
             );
         },
+        MrdpDomainProvider::class => function (ContainerInterface $c) {
+            $settings = $c->get('settings');
+            return new MrdpDomainProvider($settings['dbParams']);
+        },
         SerializerInterface::class => DI\autowire(SymfonySerializer::class),
         DomainProviderInterface::class => DI\autowire(MrdpDomainProvider::class),
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),

@@ -15,6 +15,14 @@ return function (ContainerBuilder $containerBuilder) {
                 'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                 'level' => Logger::DEBUG,
             ],
+            'dbParams' => [ // Should be set to false in production
+                'type' => 'pgsql',
+                'host' => '172.21.0.2',
+                'port' => '5432',
+                'dbName' => 'mrdp',
+                'user' => 'sol',
+                'password' => 'cnhju45l',
+            ],
         ],
     ]);
 };
