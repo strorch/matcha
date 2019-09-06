@@ -34,6 +34,7 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
             SELECT      d.domain as name
             FROM        domain              d
             LEFT JOIN   status              s ON s.object_id=d.obj_id AND s.type_id=status_id('domain,whoised')
+            WHERE       d.state_id!=state_id('domain,new')
             ORDER BY    s.time IS NOT NULL,s.time ASC
         ");
         foreach ($domains as $domain) {
@@ -48,14 +49,51 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
     public function get(DomainName $domainName): Domain
     {
         $domain = new Domain($domainName);
-        $tmp = $this->db->query('select * from client2role limit 1');
-        $domain->setHandle(reset($tmp)['role']);
+        $searchRes = $this->prepareCondition((string)$domainName);
+        $domain->setHandle((string)reset($searchRes)['obj_id']);
 
         return $domain;
     }
 
-    private function prepareCondition()
+    private function prepareCondition(string $name)
     {
-        //TODO implement prepareCondition method
+        $commonInfo = $this->db->query("
+        SELECT      DISTINCT 
+                    d.obj_id,
+                    d.roid,
+                    d.domain,
+                    h.hosts,
+                    s.statuses,
+                    to_t(whois_protected) AS whois_protected,
+                    to_t(is_holded) AS is_holded,
+                    to_t(d.state_id IN (state_id('domain,deleted'),
+                    state_id('domain,new'))) AS deleted,
+                    coalesce(r.value,t.value,w.value) AS through,
+                    coalesce(u.value,a.value,b.value) AS abusemail,
+                    y.value AS dnssec_enabled,
+                    o.update_time AS updated_date,
+                    coalesce(d.created_date,o.create_time)::date AS creation_date,
+                    coalesce(d.expires,d.expiration_date,o.create_time+'1year')::date AS expiration_date
+        FROM        domainz         d
+        JOIN        obj             o ON o.obj_id=d.obj_id
+                                     AND d.domain=:name
+        LEFT JOIN   domain_hosts    h ON h.domain_id=d.obj_id
+        LEFT JOIN   client          c ON c.obj_id=d.client_id
+        LEFT JOIN   value           r ON r.obj_id=d.obj_id      AND r.prop_id=prop_id('domain,options:registered_through')
+        LEFT JOIN   value           u ON u.obj_id=d.obj_id      AND u.prop_id=prop_id('domain,options:abuse_email')
+        LEFT JOIN   value           y ON y.obj_id=d.obj_id      AND y.prop_id=prop_id('domain,options:dnssec_enabled')
+        LEFT JOIN   value           t ON t.obj_id=c.obj_id      AND t.prop_id=prop_id('reseller_settings:checked_whois_regthrough')
+        LEFT JOIN   value           w ON w.obj_id=c.seller_id   AND w.prop_id=prop_id('reseller_settings:checked_whois_regthrough')
+        LEFT JOIN   value           a ON a.obj_id=c.obj_id      AND a.prop_id=prop_id('reseller_settings:whois_abusemail')
+        LEFT JOIN   value           b ON b.obj_id=c.seller_id   AND b.prop_id=prop_id('reseller_settings:whois_abusemail')
+        LEFT JOIN   (
+            SELECT      s.object_id,cjoin(t.name) AS statuses
+            FROM        status          s
+            JOIN        ref             t ON t.obj_id=s.type_id AND t._id=status_id('domain,epp')
+            GROUP BY    s.object_id
+        )           AS              s ON s.object_id=d.obj_id
+        ", [':name' => $name]);
+
+        return $commonInfo;
     }
 }
