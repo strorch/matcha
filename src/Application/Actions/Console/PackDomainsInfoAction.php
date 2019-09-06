@@ -50,4 +50,10 @@ final class PackDomainsInfoAction
             ->withStatus(200)
             ->withBody($this->streamFactory->createStream($serialized));
     }
+
+
+    private function saveDomainInfoInFile()
+    {
+        //TODO implement saveDomainInfoInFile method
+    }
 }

@@ -11,13 +11,24 @@ use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 
 final class MrdpDomainProvider implements DomainProviderInterface
 {
+    /**
+     * @var DB
+     */
     private $db;
 
+    /**
+     * MrdpDomainProvider constructor.
+     * @param array $dbParams
+     */
     public function __construct(array $dbParams)
     {
         $this->db = DB::get($dbParams);
     }
 
+    /**
+     * @param DomainName $domainName
+     * @return Domain
+     */
     public function get(DomainName $domainName): Domain
     {
         $domain = new Domain($domainName);
@@ -28,13 +39,8 @@ final class MrdpDomainProvider implements DomainProviderInterface
         return $domain;
     }
 
-    private function execSearchQuery()
+    private function prepareCondition()
     {
-
-    }
-
-    private function saveInfoInFile()
-    {
-
+        //TODO implement prepareCondition method
     }
 }

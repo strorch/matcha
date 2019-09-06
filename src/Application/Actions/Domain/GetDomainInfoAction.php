@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Application\Actions\Domain;
 
 use App\Infrastructure\Helper\FileHelper;
-use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
@@ -49,6 +48,9 @@ final class GetDomainInfoAction
             ->withBody($this->streamFactory->createStreamFromFile($pathToDomain, 'r+'));
     }
 
+    /**
+     * @return string
+     */
     private function getErrorMessage(): string
     {
         return json_encode([

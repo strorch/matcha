@@ -5,7 +5,6 @@ use DI\ContainerBuilder;
 use Monolog\Logger;
 
 return function (ContainerBuilder $containerBuilder) {
-    // Global Settings Object
     $containerBuilder->addDefinitions([
         'settings' => [
             'domainInfoDir' =>  __DIR__ . '/../../info/',
@@ -15,7 +14,7 @@ return function (ContainerBuilder $containerBuilder) {
                 'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                 'level' => Logger::DEBUG,
             ],
-            'dbParams' => [ // Should be set to false in production
+            'dbParams' => [ // Should be set in production
                 'type' => 'pgsql',
                 'host' => '172.21.0.2',
                 'port' => '5432',
