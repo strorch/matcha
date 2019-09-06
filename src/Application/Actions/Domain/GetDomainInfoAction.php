@@ -37,7 +37,7 @@ final class GetDomainInfoAction
         if (empty($args['domainName'])) {
             throw new \BadMethodCallException('Domain name is missing');
         }
-        $pathToDomain = $this->getPathToDomain($args['domainName']);
+        $pathToDomain = FileHelper::getPathToDomain($args['domainName'], $this->domainInfoDir);
         if (!file_exists($pathToDomain)) {
             return $response->withHeader('Content-Type', 'application/json')
                 ->withStatus(418)
@@ -58,12 +58,5 @@ final class GetDomainInfoAction
                 'domain does not exist',
             ],
         ]);
-    }
-
-    private function getPathToDomain(string $domainName): string
-    {
-        $hash = FileHelper::getDomainNameHash(DomainName::of($domainName));
-        $fileLocation = "$hash[0]/$hash[1]/$domainName.json";
-        return $this->domainInfoDir . $fileLocation;
     }
 }
