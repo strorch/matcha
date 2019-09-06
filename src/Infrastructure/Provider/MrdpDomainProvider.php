@@ -21,6 +21,8 @@ final class MrdpDomainProvider implements DomainProviderInterface
     public function get(DomainName $domainName): Domain
     {
         $domain = new Domain($domainName);
+        $tmp = $this->db->query('select * from client2role limit 1');
+        $domain->setHandle(reset($tmp)['role']);
         // TODO: extract data from reader
 
         return $domain;

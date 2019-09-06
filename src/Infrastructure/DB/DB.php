@@ -15,8 +15,8 @@ final class DB
 
     private function __construct(array $dbParams)
     {
-        $this->validateParams();
         $this->dbParams = $dbParams;
+        $this->validateParams();
     }
 
     public static function get(array $dbParams): self
@@ -24,7 +24,7 @@ final class DB
         $DB = new static($dbParams);
 
         $DB->connection = new PDO($DB->getDSN(), $DB->getUser(), $DB->getPassword());
-        $DB->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $DB->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         return $DB;
     }
@@ -53,7 +53,7 @@ final class DB
     private function getDSN(): string
     {
         $params = $this->dbParams;
-        return "{$params['type']}:host={$params['type']};dbname={$params['dbName']};port={$params['port']}";
+        return "{$params['type']}:host={$params['host']};dbname={$params['dbName']};port={$params['port']}";
     }
 
     private function getUser(): string

@@ -7,6 +7,7 @@ use hiqdev\rdap\core\Domain\ValueObject\DomainName;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\NonBufferedBody;
 use Slim\Psr7\Request;
 
@@ -20,11 +21,22 @@ final class PackDomainsInfoAction
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var StreamFactoryInterface
+     */
+    private $streamFactory;
 
-    public function __construct(DomainProviderInterface $domainProvider, SerializerInterface $serializer)
+    /**
+     * PackDomainsInfoAction constructor.
+     * @param DomainProviderInterface $domainProvider
+     * @param SerializerInterface $serializer
+     * @param StreamFactoryInterface $streamFactory
+     */
+    public function __construct(DomainProviderInterface $domainProvider, SerializerInterface $serializer, StreamFactoryInterface $streamFactory)
     {
         $this->domainProvider = $domainProvider;
         $this->serializer = $serializer;
+        $this->streamFactory = $streamFactory;
     }
 
     public function __invoke(Request $request, Response $response): Response
@@ -36,6 +48,6 @@ final class PackDomainsInfoAction
 
         return $response
             ->withStatus(200)
-            ->withBody(new NonBufferedBody());
+            ->withBody($this->streamFactory->createStream($serialized));
     }
 }
