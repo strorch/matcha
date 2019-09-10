@@ -36,9 +36,9 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
     }
 
     /**
-     * @return \Iterator array of DomainName objects
+     * @return Iterator array of DomainName objects
      */
-    public function getAvailableDomainNames(): \Iterator
+    public function getAvailableDomainNames(): Iterator
     {
         $domains = $this->db->query("
             SELECT      d.domain as name
@@ -62,14 +62,14 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
         $searchRes = $this->prepareCondition((string)$domainName);
         $domainId = (string)$searchRes['obj_id'];
         $tmp = new Entity();
-//        foreach ($this->getContactsInfo($domainId) as $contactInfo) {
-//            $tmp->addEntity($contactInfo['entity']);
-//            $eventActor = $contactInfo['eventActor'];
-//        }
-//        $domain->addEntity($tmp);
-//        $domain->addEvent(Event::occurred(EventAction::REGISTRATION(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['creation_date'])));
-//        $domain->addEvent(Event::occurred(EventAction::LAST_CHANGED(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['updated_date'])));
-//        $domain->addEvent(Event::occurred(EventAction::EXPIRATION(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['expiration_date'])));
+        foreach ($this->getContactsInfo($domainId) as $contactInfo) {
+            $tmp->addEntity($contactInfo['entity']);
+            $eventActor = $contactInfo['eventActor'];
+        }
+        $domain->addEntity($tmp);
+        $domain->addEvent(Event::occurred(EventAction::REGISTRATION(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['creation_date'])));
+        $domain->addEvent(Event::occurred(EventAction::LAST_CHANGED(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['updated_date'])));
+        $domain->addEvent(Event::occurred(EventAction::EXPIRATION(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['expiration_date'])));
         if (!empty($searchRes['statuses'])) {
             foreach (explode(',', $searchRes['statuses']) as $status) {
                 $domain->addStatus(Status::byName(strtoupper($status)));
@@ -80,8 +80,8 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
                 $domain->addNameserver(new Nameserver(DomainName::of($host)));
             }
         }
-        if (!empty($searchRes['the_site_settings'])) {
-//            $domain->addNotice(new Notice())
+        if (!empty($searchRes['site_settings'])) {
+            $domain->addNotice(new Notice('Reseller settings', 'settings', [ $searchRes['site_settings'] ]));
         }
         $domain->setPort43(DomainName::of('whois.danesconames.com'));
         return $domain;
@@ -106,7 +106,7 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
                     o.update_time::date AS updated_date,
                     coalesce(d.created_date,o.create_time)::date AS creation_date,
                     coalesce(d.expires,d.expiration_date,o.create_time+'1year')::date AS expiration_date,
-                    e.value as the_site_settings
+                    e.value as site_settings
         FROM        domainz         d
         JOIN        obj             o ON o.obj_id=d.obj_id
                                      AND d.domain=:name

@@ -5,13 +5,11 @@ namespace App\Application\Actions\Console;
 
 use App\Infrastructure\Helper\FileHelper;
 use App\Infrastructure\Provider\MrdpDomainProvider;
-use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use hiqdev\rdap\core\Domain\Entity\Domain;
 use hiqdev\rdap\core\Infrastructure\Exception\ObjectNotAvailableException;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
-use League\Uri\File;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\NonBufferedBody;
