@@ -5,10 +5,19 @@ declare(strict_types=1);
 namespace App\Infrastructure\Provider;
 
 use App\Infrastructure\DB\DB;
+use DateTimeImmutable;
+use hiqdev\rdap\core\Domain\Constant\EventAction;
+use hiqdev\rdap\core\Domain\Constant\Role;
+use hiqdev\rdap\core\Domain\Constant\Status;
 use hiqdev\rdap\core\Domain\Entity\Domain;
 use hiqdev\rdap\core\Domain\Entity\Entity;
+use hiqdev\rdap\core\Domain\Entity\Nameserver;
 use hiqdev\rdap\core\Domain\ValueObject\DomainName;
+use hiqdev\rdap\core\Domain\ValueObject\Event;
+use hiqdev\rdap\core\Domain\ValueObject\Notice;
 use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
+use Iterator;
+use JeroenDesloovere\VCard\VCard;
 
 final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe, add DomainListProviderInterface::getList(): DomainName[]
 {
@@ -19,11 +28,11 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
 
     /**
      * MrdpDomainProvider constructor.
-     * @param array $dbParams
+     * @param SettingsProviderInterface $settingsProvider
      */
-    public function __construct(array $dbParams)
+    public function __construct(SettingsProviderInterface $settingsProvider)
     {
-        $this->db = DB::get($dbParams);
+        $this->db = DB::get($settingsProvider->getSettingByName('dbParams'));
     }
 
     /**
@@ -52,12 +61,29 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
         $domain = new Domain($domainName);
         $searchRes = $this->prepareCondition((string)$domainName);
         $domainId = (string)$searchRes['obj_id'];
-        $domain->setHandle($domainId);
-
-        foreach ($this->getEntities($domainId) as $entity) {
-            $domain->addEntity($entity);
+        $tmp = new Entity();
+//        foreach ($this->getContactsInfo($domainId) as $contactInfo) {
+//            $tmp->addEntity($contactInfo['entity']);
+//            $eventActor = $contactInfo['eventActor'];
+//        }
+//        $domain->addEntity($tmp);
+//        $domain->addEvent(Event::occurred(EventAction::REGISTRATION(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['creation_date'])));
+//        $domain->addEvent(Event::occurred(EventAction::LAST_CHANGED(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['updated_date'])));
+//        $domain->addEvent(Event::occurred(EventAction::EXPIRATION(), $eventActor, DateTimeImmutable::createFromFormat('Y-m-d', $searchRes['expiration_date'])));
+        if (!empty($searchRes['statuses'])) {
+            foreach (explode(',', $searchRes['statuses']) as $status) {
+                $domain->addStatus(Status::byName(strtoupper($status)));
+            }
         }
-
+        if (!empty($searchRes['hosts'])) {
+            foreach (explode(',', $searchRes['hosts']) as $host) {
+                $domain->addNameserver(new Nameserver(DomainName::of($host)));
+            }
+        }
+        if (!empty($searchRes['the_site_settings'])) {
+//            $domain->addNotice(new Notice())
+        }
+        $domain->setPort43(DomainName::of('whois.danesconames.com'));
         return $domain;
     }
 
@@ -77,9 +103,10 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
                     coalesce(r.value,t.value,w.value) AS through,
                     coalesce(u.value,a.value,b.value) AS abusemail,
                     y.value AS dnssec_enabled,
-                    o.update_time AS updated_date,
+                    o.update_time::date AS updated_date,
                     coalesce(d.created_date,o.create_time)::date AS creation_date,
-                    coalesce(d.expires,d.expiration_date,o.create_time+'1year')::date AS expiration_date
+                    coalesce(d.expires,d.expiration_date,o.create_time+'1year')::date AS expiration_date,
+                    e.value as the_site_settings
         FROM        domainz         d
         JOIN        obj             o ON o.obj_id=d.obj_id
                                      AND d.domain=:name
@@ -92,6 +119,7 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
         LEFT JOIN   value           w ON w.obj_id=c.seller_id   AND w.prop_id=prop_id('reseller_settings:checked_whois_regthrough')
         LEFT JOIN   value           a ON a.obj_id=c.obj_id      AND a.prop_id=prop_id('reseller_settings:whois_abusemail')
         LEFT JOIN   value           b ON b.obj_id=c.seller_id   AND b.prop_id=prop_id('reseller_settings:whois_abusemail')
+        LEFT JOIN   value           e ON e.obj_id=c.seller_id   AND e.prop_id=prop_id('reseller_settings:thesite')
         LEFT JOIN   (
             SELECT      s.object_id,cjoin(t.name) AS statuses
             FROM        status          s
@@ -105,24 +133,49 @@ final class MrdpDomainProvider implements DomainProviderInterface// TODO: maybe,
 
     /**
      * @param string $domainId
-     * @return Entity[]
+     * @return Iterator wich is an Entity[]
      */
-    private function getEntities(string $domainId): array
+    private function getContactsInfo(string $domainId): Iterator
     {
         $contacts = $this->db->query("
-            SELECT  dc.type_id,
+            SELECT  dc.type_id as role_type_id,
                     CASE WHEN dc.type = 'admin' THEN 'registrar'
                          WHEN dc.type = 'tech'  THEN 'technical'
                          ELSE dc.type
-                    END     AS type,
+                    END     AS role_type,
                     zc.*
             FROM    domain2contactz dc
             JOIN    zcontact        zc  ON  zc.obj_id = dc.contact_id
                                         AND dc.domain_id = :domain_id
         ", [':domain_id' => $domainId]);
         foreach ($contacts as $contact) {
-            //TODO: compact entities
+            $entity = new Entity();
+            $entity->addVcard($this->getVCard($contact));
+            $entity->addRole(Role::byName(strtoupper($contact['role_type'])));
+            yield [
+                'entity' => $entity,
+                'eventActor' => $contact['name'],
+            ];
         }
-        return [];
+    }
+
+    /**
+     * @param mixed[] $cInfo
+     * @return VCard
+     */
+    private function getVCard(array $cInfo): VCard
+    {
+        $contactVCard = new VCard();
+        $contactVCard->addRole(Role::byName(strtoupper($cInfo['role_type'])));
+        $contactVCard->addEmail($cInfo['email']);
+        $contactVCard->addEmail($cInfo['abuse_email']);
+        $contactVCard->addPhoneNumber($cInfo['phone']);
+        $contactVCard->addBirthday($cInfo['birth_date']);
+        $contactVCard->addName($cInfo['last_name'], $cInfo['first_name']);
+        $contactVCard->addAddress('', '', $cInfo['street1'], $cInfo['city'], $cInfo['province'], $cInfo['postal_code'], $cInfo['country']);
+        $contactVCard->addAddress('', '', $cInfo['street2'], $cInfo['city'], $cInfo['province'], $cInfo['postal_code'], $cInfo['country']);
+        $contactVCard->addAddress('', '', $cInfo['street3'], $cInfo['city'], $cInfo['province'], $cInfo['postal_code'], $cInfo['country']);
+        $contactVCard->addCompany($cInfo['organization']);
+        return $contactVCard;
     }
 }

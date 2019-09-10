@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\Console\PackDomainsInfoAction;
 use App\Application\Actions\Domain\GetDomainInfoAction;
 use App\Infrastructure\Provider\MrdpDomainProvider;
+use App\Infrastructure\Provider\SettingsProvider;
+use App\Infrastructure\Provider\SettingsProviderInterface;
 use DI\ContainerBuilder;
-use hiqdev\rdap\core\Infrastructure\Provider\DomainProviderInterface;
 use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
 use hiqdev\rdap\core\Infrastructure\Serialization\Symfony\SymfonySerializer;
 use Monolog\Handler\StreamHandler;
@@ -31,18 +33,13 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        GetDomainInfoAction::class => function (ContainerInterface $c) {
-            $domainInfoDir = $c->get('settings')['domainInfoDir'] ?? '';
-            return new GetDomainInfoAction(
-                $c->get(StreamFactoryInterface::class),
-                $domainInfoDir
-            );
+        SettingsProviderInterface::class => function (ContainerInterface $c) {
+            return new SettingsProvider($c->get('settings'));
         },
+        GetDomainInfoAction::class => DI\autowire(GetDomainInfoAction::class),
+        PackDomainsInfoAction::class => DI\autowire(PackDomainsInfoAction::class),
         SerializerInterface::class => DI\autowire(SymfonySerializer::class),
-        MrdpDomainProvider::class => function (ContainerInterface $c) {
-            $settings = $c->get('settings');
-            return new MrdpDomainProvider($settings['dbParams']);
-        },
+        MrdpDomainProvider::class => DI\autowire(MrdpDomainProvider::class),
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
     ]);
 };
