@@ -14,6 +14,7 @@ return function (ContainerBuilder $containerBuilder) {
                 'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                 'level' => Logger::DEBUG,
             ],
+            'countDomains' => 15,
             'dbParams' => [ // Should be set in production
                 'type' => 'pgsql',
                 'host' => '172.21.0.2',

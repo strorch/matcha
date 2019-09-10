@@ -64,8 +64,9 @@ final class PackDomainsInfoAction
     {
         $availableNames = $this->domainProvider->getAvailableDomainNames();
         foreach ($availableNames as $key => $name) {
-            if ($key >= 15)
+            if ($key >= $this->settingsProvider->getSettingByName('countDomains')) {
                 break;
+            }
             $domain = $this->domainProvider->get($availableNames->current());
             $serialized = $this->serializer->serialize($domain);
             $this->saveDomainInfoInFile($domain, $serialized);
@@ -74,9 +75,6 @@ final class PackDomainsInfoAction
         return $response
             ->withStatus(200)
             ->withBody(new NonBufferedBody());
-//        return $response
-//            ->withStatus(200)
-//            ->withBody($this->streamFactory->createStream($serialized));
     }
 
 
