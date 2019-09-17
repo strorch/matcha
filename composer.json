@@ -14,7 +14,8 @@
     "php": ">=7.2",
     "php-di/php-di": "^6.0",
     "slim/psr7": "^0.5",
-    "slim/slim": "^4.1"
+    "slim/slim": "^4.1",
+    "vlucas/phpdotenv": "^3.6"
   },
   "require-dev": {
     "hiqdev/hidev-php": "dev-master",
