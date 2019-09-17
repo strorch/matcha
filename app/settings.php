@@ -8,14 +8,14 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         'settings' => [
             'domainInfoDir' =>  __DIR__ . '/../../info/',
-            'displayErrorDetails' => true, // Should be set to false in production
+            'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
                 'name' => 'rdap-server',
                 'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                 'level' => Logger::DEBUG,
             ],
             'countDomains' => 15,
-            'dbParams' => [ // Should be set in production
+            'dbParams' => [
                 'type' => getenv('DB_TYPE'),
                 'host' => getenv('DB_HOST'),
                 'port' => getenv('DB_PORT'),
