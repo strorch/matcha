@@ -7,7 +7,6 @@
     "server"
   ],
   "require": {
-    "hiqdev/rdap": "dev-master",
     "ext-json": "*",
     "ext-pdo": "*",
     "monolog/monolog": "^1.24",
@@ -18,8 +17,6 @@
     "vlucas/phpdotenv": "^3.6"
   },
   "require-dev": {
-    "hiqdev/hidev-php": "dev-master",
-    "hiqdev/hidev-hiqdev": "dev-master"
   },
   "autoload": {
     "psr-4": {

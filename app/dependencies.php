@@ -1,14 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\Console\PackDomainsInfoAction;
-use App\Application\Actions\Domain\GetDomainInfoAction;
-use App\Infrastructure\Provider\MrdpDomainProvider;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use DI\ContainerBuilder;
-use hiqdev\rdap\core\Infrastructure\Serialization\SerializerInterface;
-use hiqdev\rdap\core\Infrastructure\Serialization\Symfony\SymfonySerializer;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -36,10 +31,6 @@ return function (ContainerBuilder $containerBuilder) {
         SettingsProviderInterface::class => function (ContainerInterface $c) {
             return new SettingsProvider($c->get('settings'));
         },
-        GetDomainInfoAction::class => DI\autowire(GetDomainInfoAction::class),
-        PackDomainsInfoAction::class => DI\autowire(PackDomainsInfoAction::class),
-        SerializerInterface::class => DI\autowire(SymfonySerializer::class),
-        MrdpDomainProvider::class => DI\autowire(MrdpDomainProvider::class),
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
     ]);
 };
