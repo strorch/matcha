@@ -39,6 +39,7 @@ final class DB
 
         $DB->connection = new PDO($DB->getDSN(), $DB->getUser(), $DB->getPassword());
         $DB->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $DB->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
         return $DB;
     }

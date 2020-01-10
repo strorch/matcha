@@ -33,8 +33,8 @@ return static function (ContainerBuilder $containerBuilder): void {
             return new SettingsProvider($c->get('settings'));
         },
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
-        DB::class => function (ContainerInterface $c) {
-
+        DB::class => function (SettingsProviderInterface $settingsProvider) {
+            return DB::get($settingsProvider->getSettingByName('dbParams'));
         },
     ]);
 };
