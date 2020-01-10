@@ -10,61 +10,45 @@ use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-//load env file
-$dotenv = Dotenv\Dotenv::create(__DIR__ . '/../');
-$dotenv->load();
+(static function () {
 
-// Instantiate PHP-DI ContainerBuilder
-$containerBuilder = new ContainerBuilder();
-
-if (false) { // Should be set to true in production
-	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
-}
-
-// Set up settings
-$settings = require __DIR__ . '/../app/settings.php';
-$settings($containerBuilder);
-
-// Set up dependencies
-$dependencies = require __DIR__ . '/../app/dependencies.php';
-$dependencies($containerBuilder);
-
-// Build PHP-DI Container instance
-$container = $containerBuilder->build();
+    /** @var \Psr\Container\ContainerInterface $container */
+    $container = (require __DIR__ . '/../app/bootstrap.php')();
 
 // Instantiate the app
-AppFactory::setContainer($container);
-$app = AppFactory::create();
-$callableResolver = $app->getCallableResolver();
+    AppFactory::setContainer($container);
+    $app = AppFactory::create();
+    $callableResolver = $app->getCallableResolver();
 
 // Register routes
-$routes = require __DIR__ . '/../app/routes.php';
-$routes($app);
+    $routes = require __DIR__ . '/../app/routes.php';
+    $routes($app);
 
-/** @var bool $displayErrorDetails */
-$displayErrorDetails = $container->get('settings')['displayErrorDetails'];
+    /** @var bool $displayErrorDetails */
+    $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
 
 // Create Request object from globals
-$serverRequestCreator = ServerRequestCreatorFactory::create();
-$request = $serverRequestCreator->createServerRequestFromGlobals();
+    $serverRequestCreator = ServerRequestCreatorFactory::create();
+    $request = $serverRequestCreator->createServerRequestFromGlobals();
 
 // Create Error Handler
-$responseFactory = $app->getResponseFactory();
-$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
-$errorHandler->setDisplayErrorDetailsFlag($displayErrorDetails);
+    $responseFactory = $app->getResponseFactory();
+    $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+    $errorHandler->setDisplayErrorDetailsFlag($displayErrorDetails);
 
 // Create Shutdown Handler
-$shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
-register_shutdown_function($shutdownHandler);
+    $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
+    register_shutdown_function($shutdownHandler);
 
 // Add Routing Middleware
-$app->addRoutingMiddleware();
+    $app->addRoutingMiddleware();
 
 // Add Error Middleware
-$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
-$errorMiddleware->setDefaultErrorHandler($errorHandler);
+    $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
+    $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 // Run App & Emit Response
-$response = $app->handle($request);
-$responseEmitter = new ResponseEmitter();
-$responseEmitter->emit($response);
+    $response = $app->handle($request);
+    $responseEmitter = new ResponseEmitter();
+    $responseEmitter->emit($response);
+})();

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Infrastructure\DB\DB;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use DI\ContainerBuilder;
@@ -12,9 +13,9 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\StreamFactory;
 
-return function (ContainerBuilder $containerBuilder) {
+return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
-        LoggerInterface::class => function (ContainerInterface $c) {
+        LoggerInterface::class => function (ContainerInterface $c): LoggerInterface {
             $settings = $c->get('settings');
 
             $loggerSettings = $settings['logger'];
@@ -32,5 +33,8 @@ return function (ContainerBuilder $containerBuilder) {
             return new SettingsProvider($c->get('settings'));
         },
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
+        DB::class => function (ContainerInterface $c) {
+
+        },
     ]);
 };
