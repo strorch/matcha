@@ -8,6 +8,7 @@ return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
         'settings' => [
             'domainInfoDir' =>  __DIR__ . '/../../info/',
+            'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
                 'name' => 'rdap-server',

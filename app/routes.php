@@ -17,8 +17,4 @@ return static function (App $app): void {
         $response->getBody()->write('Hello world!');
         return $response;
     });
-
-    $app->group('/domain', function (Group $group) {
-        $group->get('/{domainName}', GetDomainInfoAction::class);
-    });
 };
