@@ -7,15 +7,13 @@ use Monolog\Logger;
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
         'settings' => [
-            'domainInfoDir' =>  __DIR__ . '/../../info/',
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
                 'name' => 'rdap-server',
-                'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+                'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../runtime/logs/app.log',
                 'level' => Logger::DEBUG,
             ],
-            'countDomains' => 15,
             'dbParams' => [
                 'type' => getenv('DB_TYPE'),
                 'host' => getenv('DB_HOST'),

@@ -13,7 +13,7 @@ require __DIR__ . '/../vendor/autoload.php';
 (static function () {
 
     /** @var \Psr\Container\ContainerInterface $container */
-    $container = (require __DIR__ . '/../app/bootstrap.php')();
+    $container = (require __DIR__ . '/../config/bootstrap.php')();
 
 // Instantiate the app
     AppFactory::setContainer($container);
@@ -21,7 +21,7 @@ require __DIR__ . '/../vendor/autoload.php';
     $callableResolver = $app->getCallableResolver();
 
 // Register routes
-    $routes = require __DIR__ . '/../app/routes.php';
+    $routes = require __DIR__ . '/../config/routes.php';
     $routes($app);
 
     /** @var bool $displayErrorDetails */

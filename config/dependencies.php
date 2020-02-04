@@ -15,6 +15,7 @@ use Slim\Psr7\Factory\StreamFactory;
 
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
+        StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
         LoggerInterface::class => function (ContainerInterface $c): LoggerInterface {
             $settings = $c->get('settings');
 
@@ -32,7 +33,6 @@ return static function (ContainerBuilder $containerBuilder): void {
         SettingsProviderInterface::class => function (ContainerInterface $c) {
             return new SettingsProvider($c->get('settings'));
         },
-        StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
         DB::class => function (SettingsProviderInterface $settingsProvider) {
             return DB::get($settingsProvider->getSettingByName('dbParams'));
         },
