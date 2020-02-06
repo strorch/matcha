@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Migration;
 
 use App\Infrastructure\DB\DB;
+use App\Infrastructure\Provider\SettingsProviderInterface;
 use Dotenv\Exception\InvalidFileException;
 use PDO;
 
@@ -29,36 +30,40 @@ abstract class AbstractMigration implements MigrationInterface
      */
     protected $db;
 
-    public function __construct(DB $db)
+    /**
+     * @var SettingsProviderInterface
+     */
+    private $settingsProvider;
+
+    public function __construct(DB $db, SettingsProviderInterface $settingsProvider)
     {
         $this->db = $db;
+        $this->settingsProvider = $settingsProvider;
     }
 
     /**
      * @inheritDoc
      */
-    public function up(): bool
+    public function up(): void
     {
         $pdo = $this->db->getPDO();
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
+        $projectsDir = $this->settingsProvider->getSettingByName('projectDir');
 
         foreach (static::$files as $file) {
-            $filePath = __DIR__ . '/' . static::$filesDir . '/' . $file;
+            $filePath = $projectsDir . '/migrations/' . static::$filesDir . '/' . $file;
             $sqlRow = file_get_contents($filePath);
             if (empty($sqlRow)) {
-                throw new InvalidFileException('File not found');
+                throw new InvalidFileException('SQL file not found or empty');
             }
             $this->db->exec($sqlRow);
         }
-
-        return true;
     }
 
     /**
      * @inheritDoc
      */
-    public function down(): bool
+    public function down(): void
     {
-        return true;
     }
 }

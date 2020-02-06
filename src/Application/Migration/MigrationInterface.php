@@ -7,6 +7,6 @@ namespace App\Application\Migration;
 
 interface MigrationInterface
 {
-    public function up(): bool;
-    public function down(): bool;
+    public function up(): void;
+    public function down(): void;
 }

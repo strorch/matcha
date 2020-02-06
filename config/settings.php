@@ -7,10 +7,11 @@ use Monolog\Logger;
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
         'settings' => [
+            'projectDir' => __DIR__ . '/../',
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
-                'name' => 'rdap-server',
+                'name' => 'matcha-api',
                 'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../runtime/logs/app.log',
                 'level' => Logger::DEBUG,
             ],

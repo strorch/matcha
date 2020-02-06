@@ -31,14 +31,40 @@ return static function (ContainerBuilder $containerBuilder): void {
 
             return $logger;
         },
-        SettingsProviderInterface::class => function (ContainerInterface $c) {
+        SettingsProviderInterface::class => function (ContainerInterface $c): SettingsProviderInterface {
             return new SettingsProvider($c->get('settings'));
         },
-        DB::class => function (SettingsProviderInterface $settingsProvider) {
+        DB::class => function (SettingsProviderInterface $settingsProvider): DB {
             return DB::get($settingsProvider->getSettingByName('dbParams'));
         },
         MigrationInterface::class => function (ContainerInterface $c): MigrationInterface {
-//            TODO
+            return new class($c) implements MigrationInterface {
+                /** @var ContainerInterface */
+                private $container;
+
+                public function __construct(ContainerInterface $container)
+                {
+                    $this->container = $container;
+                }
+                public function up(): void
+                {
+                    $directory = new \DirectoryIterator('migrations');
+                    $regex = new \RegexIterator($directory, '/^.+\.php$/i', \RecursiveRegexIterator::GET_MATCH);
+
+                    foreach ($regex as $item) {
+                        $className = "\\App\\migrations\\" . basename(reset($item), '.php');
+                        if (!class_exists($className, true)) {
+                            throw new \Dotenv\Exception\InvalidFileException("File {$className} does not exists");
+                        }
+                        /** @var MigrationInterface $migration */
+                        $migration = $this->container->get($className);
+                        $migration->up();
+                    }
+                }
+                public function down(): void
+                {
+                }
+            };
         },
     ]);
 };
