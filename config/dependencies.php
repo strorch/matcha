@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Migration\MigrationInterface;
 use App\Infrastructure\DB\DB;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
@@ -35,6 +36,9 @@ return static function (ContainerBuilder $containerBuilder): void {
         },
         DB::class => function (SettingsProviderInterface $settingsProvider) {
             return DB::get($settingsProvider->getSettingByName('dbParams'));
+        },
+        MigrationInterface::class => function (ContainerInterface $c): MigrationInterface {
+//            TODO
         },
     ]);
 };

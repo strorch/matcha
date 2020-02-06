@@ -45,6 +45,14 @@ final class DB
     }
 
     /**
+     * @return PDO
+     */
+    public function getPDO()
+    {
+        return $this->connection;
+    }
+
+    /**
      * @param string $command
      * @param string[]|null $params
      */

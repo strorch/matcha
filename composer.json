@@ -22,11 +22,12 @@
   "autoload": {
     "psr-4": {
       "App\\": "src/",
+      "App\\migrations\\": "migrations/",
       "tests\\": "tests/"
     }
   },
   "scripts": {
-    "start": "php -S localhost:8080 -t public public/index.php",
+    "serve": "php -S localhost:8080 -t public public/index.php",
     "test": "./vendor/bin/phpunit tests"
   }
 }
