@@ -1,19 +1,17 @@
 {
-  "name": "hiqdev/rdap-server",
+  "name": "mstorcha/matcha-api",
+  "license": "proprietary",
   "type": "project",
-  "description": "Rdap Server",
-  "keywords": [
-    "rdap",
-    "server"
-  ],
+  "description": "Matcha educational project API",
+  "keywords": ["api", "server", "json", "matcha", "42"],
   "require": {
+    "php": ">=7.1",
     "ext-json": "*",
     "ext-pdo": "*",
-    "monolog/monolog": "^1.24",
-    "php": ">=7.1",
-    "php-di/php-di": "^6.0",
-    "slim/psr7": "^0.5",
     "slim/slim": "^4.1",
+    "slim/psr7": "^0.5",
+    "php-di/php-di": "^6.0",
+    "monolog/monolog": "^1.24",
     "vlucas/phpdotenv": "^3.6"
   },
   "require-dev": {

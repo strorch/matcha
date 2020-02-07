@@ -54,9 +54,9 @@ final class DB
 
     /**
      * @param string $command
-     * @param string[]|null $params
+     * @param array $params
      */
-    public function exec(string $command, array $params = null): void
+    public function exec(string $command, array $params = []): void
     {
         if (empty($params)) {
             $this->connection->exec($command);
@@ -68,10 +68,10 @@ final class DB
 
     /**
      * @param string $command
-     * @param array|null $params
+     * @param array $params
      * @return array|null
      */
-    public function query(string $command, array $params = null): ?array
+    public function query(string $command, array $params = []): ?array
     {
         if (empty($params)) {
             $res = $this->connection->query($command);
