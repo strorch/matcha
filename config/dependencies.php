@@ -54,7 +54,7 @@ return static function (ContainerBuilder $containerBuilder): void {
                     foreach ($regex as $item) {
                         $className = "\\App\\migrations\\" . basename(reset($item), '.php');
                         if (!class_exists($className, true)) {
-                            throw new \Dotenv\Exception\InvalidFileException("File {$className} does not exists");
+                            throw new \Dotenv\Exception\InvalidFileException("Class '{$className}' does not exists");
                         }
                         /** @var MigrationInterface $migration */
                         $migration = $this->container->get($className);
