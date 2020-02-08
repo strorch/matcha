@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
 
-final class SignUpAction
+final class LoginAction
 {
     /**
      * @var StreamFactoryInterface
