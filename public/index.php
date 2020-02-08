@@ -18,9 +18,6 @@ require __DIR__ . '/../vendor/autoload.php';
     // Instantiate the app
     AppFactory::setContainer($container);
     $app = AppFactory::create();
-    /**
-     * TODO: change resolver to https://github.com/bnf/slim3-psr15/
-     */
     $callableResolver = $app->getCallableResolver();
 
     // Register routes
