@@ -20,6 +20,7 @@ final class LoginAction
      */
     public function __construct(StreamFactoryInterface $streamFactory)
     {
+        $this->streamFactory = $streamFactory;
     }
 
     public function __invoke(Request $request, Response $response, array $args): Response
