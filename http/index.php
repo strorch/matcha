@@ -10,7 +10,7 @@ use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(static function () {
+(static function (): void {
     /** @var \Psr\Container\ContainerInterface $container */
     $container = (require __DIR__ . '/../config/bootstrap.php')();
 

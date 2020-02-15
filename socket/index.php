@@ -1,20 +1,14 @@
 <?php
 declare(strict_types=1);
 
-use App\Infrastructure\Provider\SettingsProviderInterface;
-use App\Socket\ChatManager;
-use App\Socket\NotificationManager;
+use Ratchet\Server\IoServer;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(static function () {
+(static function (): void {
     /** @var \Psr\Container\ContainerInterface $container */
     $container = (require __DIR__ . '/../config/bootstrap.php')();
 
-    $settingsProvider = $container->get(SettingsProviderInterface::class);
-    $socketParams = $settingsProvider->getSettingByName('socket');
-
-
-    $chatManager = $container->get(ChatManager::class);
-    $notificationManager = $container->get(NotificationManager::class);
+    $server = $container->get(IoServer::class);
+    $server->run();
 })();
