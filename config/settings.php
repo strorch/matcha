@@ -23,6 +23,10 @@ return static function (ContainerBuilder $containerBuilder): void {
                 'user' => getenv('DB_USER'),
                 'password' => getenv('DB_PASSWORD'),
             ],
+            'socket' => [
+                'host' => getenv('SOCKET_HOST'),
+                'port' => getenv('SOCKET_PORT'),
+            ],
         ],
     ]);
 };

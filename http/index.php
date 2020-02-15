@@ -11,7 +11,6 @@ use Slim\Factory\ServerRequestCreatorFactory;
 require __DIR__ . '/../vendor/autoload.php';
 
 (static function () {
-
     /** @var \Psr\Container\ContainerInterface $container */
     $container = (require __DIR__ . '/../config/bootstrap.php')();
 

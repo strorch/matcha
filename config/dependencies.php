@@ -5,6 +5,8 @@ use App\Application\Migration\MigrationInterface;
 use App\Infrastructure\DB\DB;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
+use App\Socket\ChatManager;
+use App\Socket\NotificationManager;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -13,10 +15,18 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\StreamFactory;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
+        ChatManager::class => DI\autowire(ChatManager::class),
+        NotificationManager::class => DI\autowire(NotificationManager::class),
+        SessionInterface::class => DI\autowire(Session::class),
+        /**
+         * Classes definitions
+         */
         LoggerInterface::class => function (ContainerInterface $c): LoggerInterface {
             $settings = $c->get('settings');
 
