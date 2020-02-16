@@ -12,25 +12,19 @@ class Client
 
     private $password;
 
-    /** @var Contact */
+    /** @var Contact|null */
     private $contact;
+
+    public function __construct(Contact $contact)
+    {
+        $this->contact = $contact;
+    }
 
     /**
      * @return Contact
      */
-    public function getContact(): Contact
+    public function getContact(): ?Contact
     {
         return $this->contact;
-    }
-
-    /**
-     * @param Contact $contact
-     * @return Client
-     */
-    public function setContact(Contact $contact): self
-    {
-        $this->contact = $contact;
-
-        return $this;
     }
 }

@@ -11,8 +11,8 @@ return static function (ContainerBuilder $containerBuilder): void {
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
-                'name' => 'matcha-api',
-                'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../runtime/logs/app.log',
+                'name' => 'matcha',
+                'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../runtime/app.log',
                 'level' => Logger::DEBUG,
             ],
             'dbParams' => [

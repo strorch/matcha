@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 use App\Application\Migration\MigrationInterface;
+use App\Domain\Repository\ClientRepository;
+use App\Domain\Repository\Interfaces\ClientRepositoryInterface;
 use App\Infrastructure\DB\DB;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
@@ -38,6 +40,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         NotificationManager::class => DI\autowire(NotificationManager::class),
         ChatServer::class => DI\autowire(ChatServer::class),
         NotificationServer::class => DI\autowire(NotificationServer::class),
+        ClientRepositoryInterface::class => DI\autowire(ClientRepository::class),
 
         /**
          * Classes definitions
