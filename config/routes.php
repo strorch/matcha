@@ -29,6 +29,10 @@ return static function (App $app): void {
        $group->get('/{entities}', function (Request $request, Response $response, array $params): Response {
            return $response;
        });
+//        $group->get('/client', function (Request $request, Response $response, array $params): Response {
+//            return $response;
+//        });
+//        $app->get('/', \HomeController::class . ':home');
     })
         ->addMiddleware(new CheckAuthMiddleware())
         ->addMiddleware(new JSONSerializeMiddleware());
