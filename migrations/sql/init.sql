@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
   id SERIAL PRIMARY KEY NOT NULL,
   login text NOT NULL,
   password text NOT NULL,
@@ -58,14 +58,8 @@ CREATE TABLE likes (
     post_id INTEGER NOT NULL
 );
 
-DROP TABLE IF EXISTS stickers;
-CREATE TABLE stickers (
-  id SERIAL PRIMARY KEY NOT NULL,
-  pict text NOT NULL
-);
-
 CREATE OR REPLACE FUNCTION user_id (a_login text) RETURNS integer AS $$
-    SELECT id FROM users WHERE login=a_login;
+    SELECT id FROM user WHERE login=a_login;
 $$ LANGUAGE sql IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION set_like (a_post_id integer, a_user_id integer) RETURNS VOID AS $$
