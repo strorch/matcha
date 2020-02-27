@@ -4,7 +4,7 @@
 namespace App\Domain\DTO;
 
 
-final class ClientSearch
+final class UserSearch
 {
     /** @var string[] */
     private $logins = [];
@@ -14,7 +14,7 @@ final class ClientSearch
 
     /**
      * @param string $login
-     * @return ClientSearch
+     * @return UserSearch
      */
     public function addLogin(string $login): self
     {
@@ -25,7 +25,7 @@ final class ClientSearch
 
     /**
      * @param string $location
-     * @return ClientSearch
+     * @return UserSearch
      */
     public function setLocation(string $location): self
     {

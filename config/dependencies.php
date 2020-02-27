@@ -2,11 +2,12 @@
 declare(strict_types=1);
 
 use App\Application\Migration\MigrationInterface;
-use App\Domain\Repository\ClientRepository;
-use App\Domain\Repository\Interfaces\ClientRepositoryInterface;
+use App\Domain\Repository\UserRepository;
+use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\DB\DB;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
+use App\Socket\Client\SocketClient;
 use App\Socket\Managers\ChatManager;
 use App\Socket\Managers\NotificationManager;
 use App\Socket\Servers\ChatServer;
@@ -40,7 +41,8 @@ return static function (ContainerBuilder $containerBuilder): void {
         NotificationManager::class => DI\autowire(NotificationManager::class),
         ChatServer::class => DI\autowire(ChatServer::class),
         NotificationServer::class => DI\autowire(NotificationServer::class),
-        ClientRepositoryInterface::class => DI\autowire(ClientRepository::class),
+        UserRepositoryInterface::class => DI\autowire(UserRepository::class),
+        SocketClient::class => DI\autowire(SocketClient::class),
 
         /**
          * Classes definitions

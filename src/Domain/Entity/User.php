@@ -6,7 +6,7 @@ namespace App\Domain\Repository;
 
 use App\Domain\ValueObject\Contact;
 
-class Client
+class User
 {
     private $login;
 

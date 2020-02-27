@@ -4,11 +4,11 @@
 namespace App\Domain\Repository;
 
 
-use App\Domain\DTO\ClientSearch;
-use App\Domain\Repository\Interfaces\ClientRepositoryInterface;
+use App\Domain\DTO\UserSearch;
+use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\DB\DB;
 
-class ClientRepository implements ClientRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * @var DB
@@ -20,12 +20,12 @@ class ClientRepository implements ClientRepositoryInterface
         $this->db = $db;
     }
 
-    public function create(Client $client): bool
+    public function create(User $client): bool
     {
         return true;
     }
 
-    public function search(ClientSearch $search): array
+    public function search(UserSearch $search): array
     {
         return [];
     }
