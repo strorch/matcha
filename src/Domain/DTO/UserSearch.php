@@ -6,8 +6,11 @@ namespace App\Domain\DTO;
 
 final class UserSearch
 {
-    /** @var string[] */
-    private $logins = [];
+    /** @var string|null */
+    private $login;
+
+    /** @var string|null */
+    private $password;
 
     /** @var string|null */
     private $location;
@@ -16,9 +19,20 @@ final class UserSearch
      * @param string $login
      * @return UserSearch
      */
-    public function addLogin(string $login): self
+    public function setLogin(string $login): self
     {
-        $this->logins[] = $login;
+        $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return UserSearch
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
@@ -35,11 +49,11 @@ final class UserSearch
     }
 
     /**
-     * @return string[]
+     * @return string
      */
-    public function getLogins(): array
+    public function getLogin(): string
     {
-        return $this->logins;
+        return $this->login;
     }
 
     /**

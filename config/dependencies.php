@@ -42,7 +42,6 @@ return static function (ContainerBuilder $containerBuilder): void {
         ChatServer::class => DI\autowire(ChatServer::class),
         NotificationServer::class => DI\autowire(NotificationServer::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
-        SocketClient::class => DI\autowire(SocketClient::class),
 
         /**
          * Classes definitions
