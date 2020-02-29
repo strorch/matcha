@@ -14,13 +14,15 @@ services:
   socket:
     image: php:7.1-cli
     working_dir: /var/www
-    command: php -S 0.0.0.0:8080 -t http http/index.php
+    command: php socket/index.php
     environment:
       docker: "true"
     ports:
       - 80:8080
     volumes:
       - .:/var/www
+    links:
+      - pgsql
   pgsql:
     image: postgres:latest
     ports:

@@ -35,4 +35,12 @@ class UserRepository implements UserRepositoryInterface
     {
         return [];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(int $userId, User $client): bool
+    {
+        return true;
+    }
 }

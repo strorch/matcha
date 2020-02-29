@@ -20,6 +20,12 @@ class User
     /** @var Contact */
     private $contact;
 
+    /** @var int */
+    private $rating;
+
+    /** @var User[] */
+    private $blockedUsers;
+
     /**
      * @return int
      */

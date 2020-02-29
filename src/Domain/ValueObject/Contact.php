@@ -27,6 +27,9 @@ class Contact
     /** @var string[] */
     private $pictures;
 
+    /** @var string */
+    private $location;
+
     /**
      * @return string
      */
