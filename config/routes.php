@@ -41,6 +41,6 @@ return static function (App $app): void {
 //        });
 //        $app->get('/', \HomeController::class . ':home');
     })
-        ->addMiddleware(new CheckAuthMiddleware())
-        ->addMiddleware(new JSONSerializeMiddleware());
+        ->add(CheckAuthMiddleware::class)
+        ->add(JSONSerializeMiddleware::class);
 };

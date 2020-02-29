@@ -23,6 +23,14 @@ return static function (ContainerBuilder $containerBuilder): void {
                 'user' => getenv('DB_USER'),
                 'password' => getenv('DB_PASSWORD'),
             ],
+            'mail' => [
+                'login'         => getenv('MAIL_LOGIN'),
+                'password'      => getenv('MAIL_PASSWORD'),
+                'host'          => getenv('MAIL_HOST'),
+                'port'          => getenv('MAIL_PORT'),
+                'from_email'    => getenv('MAIL_FROM_EMAIL'),
+                'from_fname'    => getenv('MAIL_FROM_FNAME'),
+            ],
             'socket' => [
                 'host' => getenv('SOCKET_HOST'),
                 'port' => getenv('SOCKET_PORT'),
