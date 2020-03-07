@@ -6,7 +6,6 @@ import AppRouter from 'AppRouter';
 
 import store from 'store/configureStore';
 
-import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 
 export default () => (
