@@ -5,9 +5,9 @@ use App\Application\Migration\MigrationInterface;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\DB\DB;
+use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
-use App\Socket\Client\SocketClient;
 use App\Socket\Managers\ChatManager;
 use App\Socket\Managers\NotificationManager;
 use App\Socket\Servers\ChatServer;
@@ -42,10 +42,20 @@ return static function (ContainerBuilder $containerBuilder): void {
         ChatServer::class => DI\autowire(ChatServer::class),
         NotificationServer::class => DI\autowire(NotificationServer::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
+        CustomMessageFactory::class => DI\autowire(CustomMessageFactory::class),
 
         /**
          * Classes definitions
          */
+        Swift_Mailer::class => function (SettingsProviderInterface $settingsProvider): Swift_Mailer {
+            $settings = $settingsProvider->getSettingByName('mail');
+
+            $transport = (new Swift_SmtpTransport($settings['host'], $settings['port']))
+                ->setUsername($settings['login'])
+                ->setPassword($settings['password']);
+
+            return new Swift_Mailer($transport);
+        },
         LoggerInterface::class => function (ContainerInterface $c): LoggerInterface {
             $settings = $c->get('settings');
 

@@ -6,24 +6,42 @@ namespace App\Application\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CheckAuthMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var SessionInterface
+     */
+    private $session;
+
+    /**
+     * @var StreamFactoryInterface
+     */
+    private $streamFactory;
+
+    public function __construct(SessionInterface $session, StreamFactoryInterface $streamFactory)
+    {
+        $this->session = $session;
+        $this->streamFactory = $streamFactory;
+    }
+
     /**
      * @inheritDoc
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $oldResponse = (string)$handler->handle($request)->getBody();
+        if (empty($this->session->get('user'))) {
+            return (new Response())
+                ->withBody($this->streamFactory->createStream('not allowed'))
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(403);
+        }
 
-        $response = new Response();
-        $response->getBody()->write('aga');
-        $response->getBody()->write($oldResponse);
-        $response->getBody()->write('kakaka');
-
-        return $response;
+        return $handler->handle($request);
     }
 }

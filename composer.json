@@ -13,6 +13,7 @@
 		"php-di/php-di": "^6.0",
 		"monolog/monolog": "^1.24",
 		"cboden/ratchet": "^0.4.2",
+		"swiftmailer/swiftmailer": "^6.0",
 		"vlucas/phpdotenv": "^3.6"
 	},
 	"require-dev": {
@@ -26,7 +27,8 @@
 		}
 	},
 	"scripts": {
-		"serve": "php -S localhost:8080 -t public public/index.php",
+		"http": "php -S 0.0.0.0:8080 -t http http/index.php",
+		"socket": "php socket/index.php",
 		"test": "./vendor/bin/phpunit tests"
 	}
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use App\Application\Actions\Auth\LoginAction;
 use App\Application\Actions\Auth\SignUpAction;
-use App\Socket\Client\SocketClient;
+//use App\Socket\Client\SocketClient;
 use Slim\App;
 use App\Application\Middleware\CheckAuthMiddleware;
 use App\Application\Middleware\JSONSerializeMiddleware;
@@ -16,9 +16,9 @@ return static function (App $app): void {
 
     $app->get('/', function (Request $request, Response $response) use ($c): Response {
 
-        $client = $c->get(SocketClient::class);
+//        $client = $c->get(SocketClient::class);
 
-        $client->sendNotify();
+//        $client->sendNotify();
 
         $response->getBody()->write('Hello! It\'s Matcha API version 1.0!');
         return $response;
@@ -41,6 +41,6 @@ return static function (App $app): void {
 //        });
 //        $app->get('/', \HomeController::class . ':home');
     })
-        ->addMiddleware(new CheckAuthMiddleware())
-        ->addMiddleware(new JSONSerializeMiddleware());
+        ->add(CheckAuthMiddleware::class)
+        ->add(JSONSerializeMiddleware::class);
 };

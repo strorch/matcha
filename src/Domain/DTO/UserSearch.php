@@ -13,6 +13,9 @@ final class UserSearch
     private $password;
 
     /** @var string|null */
+    private $additionalPassword;
+
+    /** @var string|null */
     private $location;
 
     /**
@@ -62,5 +65,24 @@ final class UserSearch
     public function getLocation(): ?string
     {
         return $this->location;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAdditionalPassword(): ?string
+    {
+        return $this->additionalPassword;
+    }
+
+    /**
+     * @param string $additionalPassword
+     * @return UserSearch
+     */
+    public function setAdditionalPassword(string $additionalPassword): self
+    {
+        $this->additionalPassword = $additionalPassword;
+
+        return $this;
     }
 }

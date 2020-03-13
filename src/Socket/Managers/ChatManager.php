@@ -51,6 +51,7 @@ class ChatManager implements MessageComponentInterface
      */
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        // TODO: Implement onMessage() method.
+        print "Message recieved: " . (string)$msg;
+        $from->send('Your message: ' . (string)$msg);
     }
 }

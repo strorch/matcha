@@ -20,13 +20,27 @@ class UserRepository implements UserRepositoryInterface
         $this->db = $db;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(User $client): bool
     {
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function search(UserSearch $search): array
     {
         return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(int $userId, User $client): bool
+    {
+        return true;
     }
 }

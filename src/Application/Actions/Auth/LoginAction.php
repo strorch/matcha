@@ -49,6 +49,7 @@ final class LoginAction
                     ->setLogin($args['login'])
                     ->setPassword($args['password']);
 
+        /** @var \App\Domain\Repository\User[] $res */
         $res = $this->userRepository->search($search);
         if (empty($res)) {
             return $response
