@@ -21,7 +21,7 @@ final class BaseSocketManager implements MessageComponentInterface
     private $handler;
 
     /**
-     * @var string[]
+     * @var ConnectionInterface[]
      */
     private $connections = [];
 
@@ -36,8 +36,7 @@ final class BaseSocketManager implements MessageComponentInterface
      */
     function onOpen(ConnectionInterface $conn)
     {
-        echo 'opened';
-        $conn->send('opened');
+        $this->connections[$conn->resourceId] = $conn;
     }
 
     /**
@@ -45,7 +44,7 @@ final class BaseSocketManager implements MessageComponentInterface
      */
     function onClose(ConnectionInterface $conn)
     {
-        // TODO: Implement onClose() method.
+        unset($this->connections[$conn->resourceId]);
     }
 
     /**
@@ -67,7 +66,7 @@ final class BaseSocketManager implements MessageComponentInterface
     {
         echo $msg;
 
-        $this->handler->handle($msg);
+//        $this->handler->handle($msg);
 
         $from->send($msg);
     }
