@@ -6,20 +6,9 @@ namespace App\Domain\Repository;
 
 use App\Domain\DTO\UserSearch;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
-use App\Infrastructure\DB\DB;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
-    /**
-     * @var DB
-     */
-    private $db;
-
-    public function __construct(DB $db)
-    {
-        $this->db = $db;
-    }
-
     /**
      * @inheritDoc
      */

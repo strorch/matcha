@@ -8,10 +8,8 @@ use App\Infrastructure\DB\DB;
 use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
-use App\Socket\Managers\ChatManager;
-use App\Socket\Managers\NotificationManager;
-use App\Socket\Servers\ChatServer;
-use App\Socket\Servers\NotificationServer;
+use App\Socket\BaseSocketManager;
+use App\Socket\SocketMessageHandler;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -20,15 +18,11 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Ratchet\Http\HttpServer;
-use Ratchet\Http\Router;
+use Ratchet\WebSocket\WsServer;
 use Ratchet\Server\IoServer;
 use Slim\Psr7\Factory\StreamFactory;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
@@ -37,12 +31,10 @@ return static function (ContainerBuilder $containerBuilder): void {
          */
         SessionInterface::class => DI\autowire(Session::class),
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
-        ChatManager::class => DI\autowire(ChatManager::class),
-        NotificationManager::class => DI\autowire(NotificationManager::class),
-        ChatServer::class => DI\autowire(ChatServer::class),
-        NotificationServer::class => DI\autowire(NotificationServer::class),
+        BaseSocketManager::class => DI\autowire(BaseSocketManager::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
         CustomMessageFactory::class => DI\autowire(CustomMessageFactory::class),
+        SocketMessageHandler::class => DI\autowire(SocketMessageHandler::class),
 
         /**
          * Classes definitions
@@ -76,17 +68,10 @@ return static function (ContainerBuilder $containerBuilder): void {
         DB::class => function (SettingsProviderInterface $settingsProvider): DB {
             return DB::get($settingsProvider->getSettingByName('dbParams'));
         },
-        IoServer::class => function (SettingsProviderInterface $settingsProvider, ChatServer $chat, NotificationServer $notification): IoServer {
+        IoServer::class => function (SettingsProviderInterface $settingsProvider, BaseSocketManager $baseSocketManager): IoServer {
             $socketParams = $settingsProvider->getSettingByName('socket');
 
-            $collection = new RouteCollection();
-            $collection->add('notify', new Route('/notify', ['_controller' => $notification]));
-            $collection->add('chat', new Route('/chat', ['_controller' => $chat]));
-
-            $urlMatcher = new UrlMatcher($collection, new RequestContext());
-            $router = new Router($urlMatcher);
-
-            return IoServer::factory(new HttpServer($router), $socketParams['port'], $socketParams['host']);
+            return IoServer::factory(new HttpServer(new WsServer($baseSocketManager)), $socketParams['port'], $socketParams['host']);
         },
         MigrationInterface::class => function (ContainerInterface $c): MigrationInterface {
             return new class($c) implements MigrationInterface {
