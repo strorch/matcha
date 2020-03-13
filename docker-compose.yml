@@ -8,9 +8,12 @@ services:
     environment:
       docker: "true"
     ports:
-      - 80:8080
+      - 127.0.1.127:8080:8080
     volumes:
       - .:/var/www
+    links:
+      - pgsql
+
   socket:
     image: php:7.1-cli
     working_dir: /var/www
@@ -18,12 +21,13 @@ services:
     environment:
       docker: "true"
     ports:
-      - 80:8080
+      - 127.0.1.127:8000:8000
     volumes:
       - .:/var/www
     links:
       - pgsql
+
   pgsql:
     image: postgres:latest
     ports:
-      - 5432:5432
+      - 127.0.1.127:5432:5432
