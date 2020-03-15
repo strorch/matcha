@@ -9,6 +9,8 @@ use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Socket\BaseSocketManager;
+use App\Socket\ChatHandler;
+use App\Socket\NotificationHandler;
 use App\Socket\SocketMessageHandler;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
@@ -35,6 +37,8 @@ return static function (ContainerBuilder $containerBuilder): void {
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
         CustomMessageFactory::class => DI\autowire(CustomMessageFactory::class),
         SocketMessageHandler::class => DI\autowire(SocketMessageHandler::class),
+        ChatHandler::class => DI\autowire(ChatHandler::class),
+        NotificationHandler::class => DI\autowire(NotificationHandler::class),
 
         /**
          * Classes definitions

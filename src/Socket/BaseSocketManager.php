@@ -34,7 +34,7 @@ final class BaseSocketManager implements MessageComponentInterface
     /**
      * @inheritDoc
      */
-    function onOpen(ConnectionInterface $conn)
+    public function onOpen(ConnectionInterface $conn)
     {
         $this->connections[$conn->resourceId] = $conn;
     }
@@ -42,7 +42,7 @@ final class BaseSocketManager implements MessageComponentInterface
     /**
      * @inheritDoc
      */
-    function onClose(ConnectionInterface $conn)
+    public function onClose(ConnectionInterface $conn)
     {
         unset($this->connections[$conn->resourceId]);
     }
@@ -50,24 +50,20 @@ final class BaseSocketManager implements MessageComponentInterface
     /**
      * @inheritDoc
      */
-    function onError(ConnectionInterface $conn, \Exception $e)
+    public function onError(ConnectionInterface $conn, \Exception $e)
     {
         $this->logger->error($e->getMessage());
-
         $conn->send(json_encode(['error' => $e->getMessage()]));
-
         $conn->close();
     }
 
     /**
      * @inheritDoc
      */
-    function onMessage(ConnectionInterface $from, $msg)
+    public function onMessage(ConnectionInterface $from, $msg)
     {
-        echo $msg;
+        $message = IoMessage::create($from, $msg);
 
-//        $this->handler->handle($msg);
-
-        $from->send($msg);
+        $this->handler->handle($message, $this->connections);
     }
 }
