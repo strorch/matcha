@@ -1,15 +1,6 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
-import { GeneralRoutes } from 'routes';
+import { SignInForm } from 'components/Forms';
 
-const SignIn = () => (
-  <>
-    <h1>SignIn!</h1>
-    <Link to={GeneralRoutes.Main}>
-      <Button>Main</Button>
-    </Link>
-  </>
-);
+const SignIn = () => <SignInForm />;
 
 export default SignIn;
