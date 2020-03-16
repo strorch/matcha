@@ -10,7 +10,7 @@ services:
     environment:
       docker: "true"
     ports:
-      - {SITE_HOST}:8080:8080
+      - "${SITE_HOST}:8080:8080"
     volumes:
       - .:/var/www
     links:
@@ -25,7 +25,7 @@ services:
     environment:
       docker: "true"
     ports:
-      - {SITE_HOST}:8000:8000
+      - "${SITE_HOST}:8000:8000"
     volumes:
       - .:/var/www
     links:
@@ -36,4 +36,4 @@ services:
     env_file:
       - .env
     ports:
-      - {SITE_HOST}:5432:5432
+      - "${SITE_HOST}:5432:5432"
