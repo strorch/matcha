@@ -5,6 +5,8 @@ import { GeneralRoutes } from 'routes';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));
+const SignIn = lazy(() => import('containers/SignIn'));
+const SignUp = lazy(() => import('containers/SignUp'));
 
 // TODO: add loader
 const AppRouter = () => (
@@ -12,6 +14,8 @@ const AppRouter = () => (
     <Switch>
       <Route exact path={GeneralRoutes.Main} component={Main} />
       <Route path={GeneralRoutes.Chat} component={Chat} />
+      <Route path={GeneralRoutes.SignIn} component={SignIn} />
+      <Route path={GeneralRoutes.SignUp} component={SignUp} />
     </Switch>
   </Suspense>
 );

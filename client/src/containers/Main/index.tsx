@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Button } from 'semantic-ui-react';
@@ -15,10 +15,10 @@ interface IMainProps {
 }
 
 const Main = ({ actions }: IMainProps) => {
-  useEffect(() => {
-    actions.socketChannelStart();
-    actions.sendMessage('test');
-  }, [actions]);
+  // useEffect(() => {
+  //   actions.socketChannelStart();
+  //   actions.sendMessage('test');
+  // }, [actions]);
   
   return (
     <div className="App">
@@ -26,6 +26,12 @@ const Main = ({ actions }: IMainProps) => {
         <img src={logo} className="App-logo" alt="logo" />
         <Link to={GeneralRoutes.Chat}>
           <Button>Chat</Button>
+        </Link>
+        <Link to={GeneralRoutes.SignIn}>
+          <Button>Sign in</Button>
+        </Link>
+        <Link to={GeneralRoutes.SignUp}>
+          <Button>Sign up</Button>
         </Link>
       </header>
     </div>

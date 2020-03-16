@@ -1,11 +1,7 @@
 export enum GeneralRoutes {
   Main = '/',
-  Chat = '/chat'
+  Chat = '/chat',
+  SignIn = '/sign-in',
+  SignUp = '/sign-up'
 };
 
-// export default {
-//   general: {
-//     [GeneralRoutes.Main]: '/',
-//     [GeneralRoutes.Chat]: '/chat'
-//   }
-// };

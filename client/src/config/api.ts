@@ -1,1 +1,1 @@
-export const socketURL = 'wss://test-api';
+export const socketURL = 'ws://localhost:8000/';
