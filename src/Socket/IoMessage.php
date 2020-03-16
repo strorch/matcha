@@ -29,7 +29,7 @@ class IoMessage
         $static = new static();
 
         $messageBody = json_decode($message, true);
-        if (!is_array($messageBody) || !is_string($messageBody[0]) || !is_array($messageBody[1])) {
+        if (!is_array($messageBody) || !is_string($messageBody[0] ?? null) || !is_array($messageBody[1] ?? null)) {
             throw new InvalidArgumentException("Invalid message body");
         }
 

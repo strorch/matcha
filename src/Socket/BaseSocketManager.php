@@ -54,7 +54,6 @@ final class BaseSocketManager implements MessageComponentInterface
     {
         $this->logger->error($e->getMessage());
         $conn->send(json_encode(['error' => $e->getMessage()]));
-        $conn->close();
     }
 
     /**
