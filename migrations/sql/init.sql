@@ -58,12 +58,6 @@ CREATE TABLE likes (
     post_id INTEGER NOT NULL
 );
 
-DROP TABLE IF EXISTS stickers;
-CREATE TABLE stickers (
-  id SERIAL PRIMARY KEY NOT NULL,
-  pict text NOT NULL
-);
-
 CREATE OR REPLACE FUNCTION user_id (a_login text) RETURNS integer AS $$
     SELECT id FROM users WHERE login=a_login;
 $$ LANGUAGE sql IMMUTABLE STRICT;
@@ -83,12 +77,12 @@ BEGIN
 END
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION create_user (a_login text, a_password text, a_email text, a_salt text, a_log_stat integer) RETURNS VOID AS $$
-BEGIN
-    INSERT INTO users (login, password, email, salt, notifications, log_stat) VALUES
-    (a_login, a_password, a_email, a_salt, 1, a_log_stat);
-END
-$$ LANGUAGE 'plpgsql';
-
-SELECT create_user('testuser', 'random', 'test@email.com', '1111', 1);
-SELECT create_user('usrrrrrr', 'random', 'test@email.com', '1010', 1);
+-- CREATE OR REPLACE FUNCTION create_user (a_login text, a_password text, a_email text, a_salt text, a_log_stat integer) RETURNS VOID AS $$
+-- BEGIN
+--     INSERT INTO users (login, password, email, salt, notifications, log_stat) VALUES
+--     (a_login, a_password, a_email, a_salt, 1, a_log_stat);
+-- END
+-- $$ LANGUAGE 'plpgsql';
+--
+-- SELECT create_user('testuser', 'random', 'test@email.com', '1111', 1);
+-- SELECT create_user('usrrrrrr', 'random', 'test@email.com', '1010', 1);

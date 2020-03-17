@@ -27,7 +27,8 @@
 		}
 	},
 	"scripts": {
-		"serve": "php -S localhost:8080 -t public public/index.php",
+		"http": "php -S 0.0.0.0:8080 -t http http/index.php",
+		"socket": "php socket/index.php",
 		"test": "./vendor/bin/phpunit tests"
 	}
 }

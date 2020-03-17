@@ -30,8 +30,7 @@ To run websocket server you need to run command:
 
     php socket/index.php
 
-Now you have 2 routes to connect in `0.0.0.0:8000/chat` and `0.0.0.0:8000/notify`.
-Soon you will need just to connect to `0.0.0.0:8000`.
+Now you need just to connect to `ws://0.0.0.0:8000`.
 
 Host and port of socket connection are configured in .env file.
 
@@ -45,6 +44,19 @@ Now you can check `localhost:8080`.
 
 This will work for auth and client actions.
 
-### DB
+### Docker
 
-Not configured yet. After configuring will run with `docker-compose`.
+Also you can run whole application with docker. Use ``dc up -d``.
+Websocket, http and database will work on `SITE_HOST` param from `.env` file.
+
+### Database
+
+To configure migration you have to run next command:
+
+   1. In local environment:
+   
+            ./migrate.php
+            
+   2. Docker environment (after changing of db host in .env file):
+   
+            dc exec http ./migrate.php
