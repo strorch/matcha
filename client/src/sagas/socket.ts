@@ -4,6 +4,8 @@ import {
   call,
   fork,
   take,
+  cancel,
+  cancelled,
   actionChannel
 } from 'redux-saga/effects';
 import { Actions } from 'actions';
@@ -21,10 +23,7 @@ const createWebSocketConnection = () =>
 
 const createWebSocketChannel = (socket: WebSocket) =>
   eventChannel(emit => {
-    const onMessage = (event: MessageEvent) => {
-      console.log('onMessage: ', event);
-      emit(event.data);
-    };
+    const onMessage = (event: MessageEvent) => emit(event.data);;
 
     socket.addEventListener('message', onMessage);
 
@@ -36,24 +35,49 @@ const createWebSocketChannel = (socket: WebSocket) =>
     };
   });
 
-function* listenForMessages(socket: WebSocket) {
-  const socketChannel = yield call(createWebSocketChannel, socket);
-  while (true) {
+function* listenForMessages() {
+  let socket;
+  let socketChannel;
+  
+  try {
+    socket        = yield call(createWebSocketConnection);
+    socketChannel = yield call(createWebSocketChannel, socket);
 
     // tell the application that we have a connection
-    yield put(Actions.socketConnectionOn());
+    yield put(Actions.wsStatusOn());
 
+    yield fork(sendMessage, socket);
+
+    while (true) {
+      // wait for a message from the channel
+      const payload = yield take(socketChannel);
+      console.log('Received message: ', payload);
+    }
+  } catch (error) {
+    console.error(`Error while connecting to the: ${socketURL}`);
+  } finally {
+    console.warn('WebSocket disconnected!');
+    if (yield cancelled()) {
+      socketChannel && socketChannel.close();
+    }
+    yield disconnect();
   }
+}
+
+function* disconnect() {
+  yield put(Actions.wsStatusOff());
 }
 
 function* sendMessage(socket: WebSocket) {
   const sendMessageChannel = yield actionChannel(types.SEND_MESSAGE);
   while (true) {
     try {
-      const temp = yield take(sendMessageChannel);
+      const { payload } = yield take(sendMessageChannel);
+      const message = JSON.stringify({
+        ...payload
+      });
 
-      console.log('sendMessage: ', temp);
-
+      yield socket.send(message);
       yield put({ type: types.SEND_MESSAGE_DONE });
     } catch (error) {
       yield put({ type: types.SEND_MESSAGE_FAIL });
@@ -61,9 +85,12 @@ function* sendMessage(socket: WebSocket) {
   }
 }
 
+
 export default function* socketSaga() {
-  yield take(types.CHANNEL_START);
-  const socket = yield call(createWebSocketConnection);
-  yield fork(listenForMessages, socket);
-  yield fork(sendMessage, socket);
+  // starts the task in the background
+  const socketTask = yield fork(listenForMessages);
+
+  // when DISCONNECT action is dispatched, we cancel the socket task
+  yield take(types.WS_CHANNEL_STOP);
+  yield cancel(socketTask);
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Button } from 'semantic-ui-react';
@@ -15,10 +15,11 @@ interface IMainProps {
 }
 
 const Main = ({ actions }: IMainProps) => {
-  // useEffect(() => {
-  //   actions.socketChannelStart();
-  //   actions.sendMessage('test');
-  // }, [actions]);
+  useEffect(() => {
+    actions.wsChannelStart();
+    actions.sendMessage({test: 'test'});
+    actions.wsChannelStop();
+  }, [actions]);
   
   return (
     <div className="App">

@@ -8,9 +8,9 @@ const initState: IGeneralState = {
 
 const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
   switch (action.type) {
-    case types.CONNECTION_ON:
+    case types.WS_STATUS_ON:
       return { ...state, socketStatus: SocketConnectionStatus.On };
-    case types.CONNECTION_OFF:
+    case types.WS_STATUS_OFF:
       return { ...state, socketStatus: SocketConnectionStatus.Off };
     default:
       return state;
