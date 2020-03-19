@@ -9,7 +9,7 @@ import {
   actionChannel
 } from 'redux-saga/effects';
 import { Actions } from 'actions';
-import * as types from 'actions/types'
+import * as types from 'actions/types';
 import { socketURL } from 'config/api';
 
 const createWebSocketConnection = () =>
