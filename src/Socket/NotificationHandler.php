@@ -12,6 +12,6 @@ class NotificationHandler implements IoHandlerInterface
      */
     public function handle(IoMessage $message, array $connections)
     {
-        var_dump($message->getBody());
+        var_dump($message->getAuthor()->resourceId);
     }
 }
