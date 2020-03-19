@@ -8,7 +8,9 @@ export const Actions = {
   wsStatusOn: () => ({ type: types.WS_STATUS_ON }),
   wsStatusOff: () => ({ type: types.WS_STATUS_OFF }),
 
-  sendMessage: <T extends object>(payload) => ({ type: types.SEND_MESSAGE, payload })
+  sendMessage: <T extends object>(payload) => ({ type: types.SEND_MESSAGE, payload }),
   // <-- End of Sockets
+
+  sendTestChatMessage: (name: string, message: string) => ({ type: types.SEND_TEST_CHAT_MESSAGE, payload: { name, message } })
 
 };

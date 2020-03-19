@@ -85,7 +85,6 @@ function* sendMessage(socket: WebSocket) {
   }
 }
 
-
 export default function* socketSaga() {
   // starts the task in the background
   const socketTask = yield fork(listenForMessages);
