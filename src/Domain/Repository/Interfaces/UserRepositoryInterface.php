@@ -4,7 +4,7 @@
 namespace App\Domain\Repository\Interfaces;
 
 
-use App\Domain\DTO\UserSearch;
+use App\Domain\ValueObject\UserSearch;
 use App\Domain\Repository\User;
 
 interface UserRepositoryInterface

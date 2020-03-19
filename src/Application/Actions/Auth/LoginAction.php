@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Auth;
 
-use App\Domain\DTO\UserSearch;
+use App\Domain\ValueObject\UserSearch;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;

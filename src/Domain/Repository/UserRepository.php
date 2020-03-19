@@ -4,7 +4,7 @@
 namespace App\Domain\Repository;
 
 
-use App\Domain\DTO\UserSearch;
+use App\Domain\ValueObject\UserSearch;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
