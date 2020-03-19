@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { Button, Form } from 'semantic-ui-react';
 import { Field, withFormik, FormikProps } from 'formik';
+import { Actions } from 'actions';
 import { GeneralRoutes } from 'routes';
 import { LabeledInput, LabeledTextarea } from 'components/Forms';
-import { bindActionCreators } from 'redux';
-import { Actions } from 'actions';
 
 interface FormValues {
   name: string;
