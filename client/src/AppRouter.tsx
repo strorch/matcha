@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { GeneralRoutes } from 'routes';
-import { Header, Footer } from 'containers';
+import { Header } from 'containers';
+import { Footer } from 'components';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));

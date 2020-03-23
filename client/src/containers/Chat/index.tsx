@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Button, Form } from 'semantic-ui-react';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Actions } from 'actions';
-import { LabeledInput, LabeledTextarea } from 'components/Forms';
+import { FormikElements } from 'components';
 
 interface IFormValues {
   sender_id: string;
@@ -18,6 +18,9 @@ interface IOuterProps {
 type IChat = IOuterProps & FormikProps<IFormValues>;
 
 const Chat = ({ handleSubmit }: IChat) => {
+  
+  const { LabeledInput, LabeledTextarea } = FormikElements;
+  
   return (
     <>
       <h1>Chat!</h1>

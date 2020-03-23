@@ -1,4 +1,4 @@
-export { default as SignUpForm } from './SignUp';
-export { default as SignInForm } from './SignIn';
+import SignUpForm from './SignUp';
+import SignInForm from './SignIn';
 
-export { LabeledInput, LabeledTextarea } from './FormikElements';
+export default { SignUpForm, SignInForm };
