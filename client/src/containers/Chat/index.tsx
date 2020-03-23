@@ -1,22 +1,21 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Button, Form } from 'semantic-ui-react';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Actions } from 'actions';
-import { GeneralRoutes } from 'routes';
 import { LabeledInput, LabeledTextarea } from 'components/Forms';
 
-interface FormValues {
-  name: string;
+interface IFormValues {
+  sender_id: string;
+  receiver_id: string;
   message: string;
 }
-interface OuterProps {
+interface IOuterProps {
   actions: typeof Actions;
 }
 
-type IChat = OuterProps & FormikProps<FormValues>;
+type IChat = IOuterProps & FormikProps<IFormValues>;
 
 const Chat = ({ handleSubmit }: IChat) => {
   return (
@@ -25,36 +24,39 @@ const Chat = ({ handleSubmit }: IChat) => {
       
       <Form onSubmit={handleSubmit}>
         <Field
-          name="name"
-          label="Name"
-          placeholder="Your name"
+          name="sender_id"
+          label="Sender id:"
+          placeholder="Sender id"
+          component={LabeledInput}
+        />
+        <Field
+          name="receiver_id"
+          label="Receiver id:"
+          placeholder="Receiver id"
           component={LabeledInput}
         />
         <Field
           name="message"
-          label="Message"
-          placeholder="Your message"
+          label="Message:"
+          placeholder="Message"
           component={LabeledTextarea}
         />
         <Button type='submit'>Send</Button>
       </Form>
-
-      <Link to={GeneralRoutes.Main}>
-        <Button>Main</Button>
-      </Link>
     </>
   );
 }
 
-const WithFormik = withFormik<OuterProps, FormValues>({
+const WithFormik = withFormik<IOuterProps, IFormValues>({
   mapPropsToValues: () => ({
-    name: '',
+    sender_id: '',
+    receiver_id: '',
     message: ''
   }),
   handleSubmit: (values, { props: { actions }, ...formikBag }) => {
     console.log('values', values);
     console.log('formikBag', formikBag);
-    actions.sendChatMessage(values.name, values.message);
+    actions.sendChatMessage(values.sender_id, values.receiver_id, values.message);
   }
 })(Chat);
 

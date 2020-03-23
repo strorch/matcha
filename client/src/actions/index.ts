@@ -11,6 +11,6 @@ export const Actions = {
   sendMessage: <T extends object>(payload) => ({ type: types.SEND_MESSAGE, payload }),
   // <-- End of Sockets
 
-  sendChatMessage: (name: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { name, message } })
+  sendChatMessage: (sender_id: string, receiver_id: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { sender_id, receiver_id, message } })
 
 };
