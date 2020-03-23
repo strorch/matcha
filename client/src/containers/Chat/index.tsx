@@ -53,10 +53,11 @@ const WithFormik = withFormik<IOuterProps, IFormValues>({
     receiver_id: '',
     message: ''
   }),
-  handleSubmit: (values, { props: { actions }, ...formikBag }) => {
+  handleSubmit: (values, { props: { actions }, resetForm, ...formikBag }) => {
     console.log('values', values);
     console.log('formikBag', formikBag);
     actions.sendChatMessage(values.sender_id, values.receiver_id, values.message);
+    resetForm();
   }
 })(Chat);
 

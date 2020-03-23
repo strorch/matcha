@@ -11,6 +11,7 @@ import {
 import { Actions } from 'actions';
 import * as types from 'actions/types';
 import { socketURL } from 'config/api';
+import { getMessageType } from 'services/socketHelpers';
 
 const createWebSocketConnection = () =>
   new Promise((resolve, reject) => {
@@ -34,15 +35,6 @@ const createWebSocketChannel = (socket: WebSocket) =>
       socket.close();
     };
   });
-
-const getMessageType = type => {
-  switch (type) {
-    case types.SEND_CHAT_MESSAGE:
-      return 'chat';
-    default:
-      return 'message';
-  }
-};
 
 function* listenForMessages() {
   let socket;
@@ -81,7 +73,8 @@ function* sendMessage(socket: WebSocket) {
   const sendMessageChannel = yield actionChannel(types.SEND_MESSAGE);
   while (true) {
     try {
-      const { type, payload } = yield take(sendMessageChannel);
+      const { payload: { type, payload } } = yield take(sendMessageChannel);
+
       const message = JSON.stringify([getMessageType(type), {
         ...payload
       }]);
