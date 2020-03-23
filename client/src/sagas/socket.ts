@@ -35,6 +35,15 @@ const createWebSocketChannel = (socket: WebSocket) =>
     };
   });
 
+const getMessageType = type => {
+  switch (type) {
+    case types.SEND_CHAT_MESSAGE:
+      return 'chat';
+    default:
+      return 'message';
+  }
+};
+
 function* listenForMessages() {
   let socket;
   let socketChannel;
@@ -72,10 +81,10 @@ function* sendMessage(socket: WebSocket) {
   const sendMessageChannel = yield actionChannel(types.SEND_MESSAGE);
   while (true) {
     try {
-      const { payload } = yield take(sendMessageChannel);
-      const message = JSON.stringify({
+      const { type, payload } = yield take(sendMessageChannel);
+      const message = JSON.stringify([getMessageType(type), {
         ...payload
-      });
+      }]);
 
       yield socket.send(message);
       yield put({ type: types.SEND_MESSAGE_DONE });

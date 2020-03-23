@@ -54,7 +54,7 @@ const WithFormik = withFormik<OuterProps, FormValues>({
   handleSubmit: (values, { props: { actions }, ...formikBag }) => {
     console.log('values', values);
     console.log('formikBag', formikBag);
-    actions.sendTestChatMessage(values.name, values.message);
+    actions.sendChatMessage(values.name, values.message);
   }
 })(Chat);
 
