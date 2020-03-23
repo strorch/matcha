@@ -41,11 +41,8 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
-      - "${SITE_HOST}:3000:3000"
-    volumes:
-      - ./client:/app
-      - /app/node_modules/
+      - "${SITE_HOST}:80:80"
 
-# docker-compose up -d --build
+# docker-compose -f docker-compose.prod.yml up -d --build

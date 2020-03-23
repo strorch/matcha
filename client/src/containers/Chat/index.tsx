@@ -1,15 +1,75 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
-import { GeneralRoutes } from 'routes';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Button, Form } from 'semantic-ui-react';
+import { Field, withFormik, FormikProps } from 'formik';
+import { Actions } from 'actions';
+import { FormikElements } from 'components';
 
-const Chat = () => (
-  <>
-    <h1>Chat!</h1>
-    <Link to={GeneralRoutes.Main}>
-      <Button>Main</Button>
-    </Link>
-  </>
-);
+interface IFormValues {
+  sender_id: string;
+  receiver_id: string;
+  message: string;
+}
+interface IOuterProps {
+  actions: typeof Actions;
+}
 
-export default Chat;
+type IChat = IOuterProps & FormikProps<IFormValues>;
+
+const Chat = ({ handleSubmit }: IChat) => {
+  
+  const { LabeledInput, LabeledTextarea } = FormikElements;
+  
+  return (
+    <>
+      <h1>Chat!</h1>
+      
+      <Form onSubmit={handleSubmit}>
+        <Field
+          name="sender_id"
+          label="Sender id:"
+          placeholder="Sender id"
+          component={LabeledInput}
+        />
+        <Field
+          name="receiver_id"
+          label="Receiver id:"
+          placeholder="Receiver id"
+          component={LabeledInput}
+        />
+        <Field
+          name="message"
+          label="Message:"
+          placeholder="Message"
+          component={LabeledTextarea}
+        />
+        <Button type='submit'>Send</Button>
+      </Form>
+    </>
+  );
+}
+
+const WithFormik = withFormik<IOuterProps, IFormValues>({
+  mapPropsToValues: () => ({
+    sender_id: '',
+    receiver_id: '',
+    message: ''
+  }),
+  handleSubmit: (values, { props: { actions }, resetForm, ...formikBag }) => {
+    console.log('values', values);
+    console.log('formikBag', formikBag);
+    actions.sendChatMessage(values.sender_id, values.receiver_id, values.message);
+    resetForm();
+  }
+})(Chat);
+
+const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithFormik);

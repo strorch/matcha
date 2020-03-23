@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { GeneralRoutes } from 'routes';
-import { Header, Footer } from 'containers';
+import { Footer } from 'components';
+import { MainHeader } from 'containers';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));
@@ -12,7 +13,7 @@ const SignUp = lazy(() => import('containers/SignUp'));
 // TODO: add loader
 const AppRouter = () => (
   <div className="global-app-container">
-    <Header />
+    <MainHeader />
     <div className="app-container">
       <Suspense fallback={<div>Loading..</div>}>
         <Switch>

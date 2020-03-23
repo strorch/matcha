@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { SignInForm } from 'components/Forms';
+import { Forms } from 'components';
 
-const SignIn = () => <SignInForm />;
+const SignIn = () => <Forms.SignInForm />;
 
 export default SignIn;

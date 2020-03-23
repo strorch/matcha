@@ -17,8 +17,6 @@ interface IMainProps {
 const Main = ({ actions }: IMainProps) => {
   useEffect(() => {
     actions.wsChannelStart();
-    actions.sendMessage({test: 'test'});
-    actions.wsChannelStop();
   }, [actions]);
   
   return (

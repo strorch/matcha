@@ -2,7 +2,27 @@
   margin: 0
   padding: 0
 
+$porcelain: #F3F4F5
+
+header
+  min-height: 58px
+  
+footer
+  min-height: 90px 
+  display: flex !important
+  align-items: center
+  justify-content: center
+  background-color: $porcelain
+
 .global-app-container
   height: 100vh
   .app-container
-    height: calc(100vh - 38px)
+    height: calc(100vh - 58px - 90px)
+
+
+// single classes
+.centered-text
+  text-align: center
+.no-wrap
+  white-space: nowrap
+    

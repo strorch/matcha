@@ -1,0 +1,23 @@
+# build environment
+FROM node:10.15.3-alpine as build
+
+# set working directory
+WORKDIR /app
+
+COPY package.json /app/package.json
+COPY . /app
+
+RUN yarn install
+RUN yarn build
+
+# production environment
+FROM nginx:1.16.0-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+# start server
+CMD ["nginx", "-g", "daemon off;"]
+
+# docker build -f Dockerfile.prod -t matcha-client

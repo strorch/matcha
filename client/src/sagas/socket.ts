@@ -9,8 +9,9 @@ import {
   actionChannel
 } from 'redux-saga/effects';
 import { Actions } from 'actions';
-import * as types from 'actions/types'
+import * as types from 'actions/types';
 import { socketURL } from 'config/api';
+import { getMessageType } from 'services/socketHelpers';
 
 const createWebSocketConnection = () =>
   new Promise((resolve, reject) => {
@@ -72,10 +73,11 @@ function* sendMessage(socket: WebSocket) {
   const sendMessageChannel = yield actionChannel(types.SEND_MESSAGE);
   while (true) {
     try {
-      const { payload } = yield take(sendMessageChannel);
-      const message = JSON.stringify({
+      const { payload: { type, payload } } = yield take(sendMessageChannel);
+
+      const message = JSON.stringify([getMessageType(type), {
         ...payload
-      });
+      }]);
 
       yield socket.send(message);
       yield put({ type: types.SEND_MESSAGE_DONE });
@@ -84,7 +86,6 @@ function* sendMessage(socket: WebSocket) {
     }
   }
 }
-
 
 export default function* socketSaga() {
   // starts the task in the background
