@@ -11,10 +11,14 @@ export enum SocketConnectionStatus {
 
 export enum MainHeaderItems {
   Home = 'home',
-  Chat = 'chat'
+  Chat = 'chat',
+  SignUp = 'sign-up',
+  SignIn = 'sign-in'
 }
 
 export const routeByHeaderItem = {
   [MainHeaderItems.Home]: GeneralRoutes.Main,
-  [MainHeaderItems.Chat]: GeneralRoutes.Chat
+  [MainHeaderItems.Chat]: GeneralRoutes.Chat,
+  [MainHeaderItems.SignUp]: GeneralRoutes.SignUp,
+  [MainHeaderItems.SignIn]: GeneralRoutes.SignIn
 };
