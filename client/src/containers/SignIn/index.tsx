@@ -1,11 +1,35 @@
 import * as React from 'react';
-import { Forms } from 'components';
 import { Segment } from 'semantic-ui-react';
+import { withFormik, FormikProps } from 'formik';
+import { Forms } from 'components';
 
-const SignIn = () => (
+interface IFormValues {
+  username: string;
+  password: string;
+}
+
+interface IOuterProps {
+  temp?: string;
+}
+
+type ISignIn = IOuterProps & FormikProps<IFormValues>;
+
+const SignIn = ({ handleSubmit }: ISignIn) => (
   <Segment vertical padded>
-    <Forms.SignInForm />
+    <Forms.SignInForm
+      handleSubmit={handleSubmit}
+    />
   </Segment>
 );
 
-export default SignIn;
+export default withFormik<IOuterProps, IFormValues>({
+  handleSubmit: (values, { props, resetForm }) => {
+    console.log('values: ', values);
+    console.log('props: ', props);
+    resetForm();
+  },
+  mapPropsToValues: () => ({
+    username: '',
+    password: ''
+  }),
+})(SignIn);

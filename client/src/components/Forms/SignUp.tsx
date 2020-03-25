@@ -1,56 +1,69 @@
 import * as React from 'react';
+import { Field } from 'formik';
+import { Link } from 'react-router-dom';
 import { Button, Form, Icon, Message, Grid } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
+import LabeledInput from 'components/FormikElements/LabeledInput';
 
 interface ISignUpForm {
-  temp?: string;
+  handleSubmit(): void;
 }
 
-const SignUpForm = (props: ISignUpForm) => (
+const SignUpForm = ({ handleSubmit }: ISignUpForm) => (
   <Grid centered columns={2} doubling>
     <Grid.Column>
       <Message
         attached
         header='Welcome to Matcha!'
       />
-      <Form className='attached fluid segment'>
-        <Form.Input
-          fluid
-          label='First Name'
+      <Form className='attached fluid segment' onSubmit={handleSubmit}>
+        <Field
+          name='first_name'
+          label="First name:"
           placeholder='First Name'
-          type='text'
+          component={LabeledInput}
         />
-        <Form.Input
-          fluid
-          label='Last Name'
+        <Field
+          name='last_name'
+          label="Last name:"
           placeholder='Last Name'
-          type='text'
+          component={LabeledInput}
         />
-        <Form.Input
-          fluid
-          label='Username'
-          placeholder='Username'
-          type='text'
+        <Field
+          name="username"
+          label="Username:"
+          placeholder="Username"
+          component={LabeledInput}
         />
-        <Form.Input
-          fluid
-          label="Password"
-          placeholder="Password"
+        <Field
           type="password"
-        />
-        <Form.Input
-          fluid
-          label="Confirm Password"
+          name="password"
+          label="Password:"
           placeholder="Password"
-          type="password"
+          component={LabeledInput}
         />
-        <Button color='blue' fluid>
+        <Field
+          type="password"
+          name="password_confirm"
+          label="Confirm password:"
+          placeholder="Confirm password"
+          component={LabeledInput}
+        />
+        <Button
+          fluid
+          color="blue"
+          type="submit"
+        >
           Sign Up
         </Button>
       </Form>
       <Message attached='bottom' warning>
         <Icon name='help' />
-        Already signed up?&nbsp;<a href={GeneralRoutes.SignIn}>Sign In</a>&nbsp;instead.
+        Already signed up?&nbsp;
+        {
+          <Link to={GeneralRoutes.SignIn}>Sign In</Link>
+        }
+        &nbsp;instead.
       </Message>
     </Grid.Column>
   </Grid>
