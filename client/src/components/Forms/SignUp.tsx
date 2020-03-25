@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Form, Icon, Message } from 'semantic-ui-react';
+import { Button, Form, Icon, Message, Grid } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
 
 interface ISignUpForm {
@@ -7,14 +7,13 @@ interface ISignUpForm {
 }
 
 const SignUpForm = (props: ISignUpForm) => (
-  <>
-    <Message
-      attached
-      header='Welcome to Matcha!'
-      content='Fill out the form below to sign up for a new account.'
-    />
-    <Form className='attached fluid segment'>
-      <Form.Group widths='equal'>
+  <Grid centered columns={2} doubling>
+    <Grid.Column>
+      <Message
+        attached
+        header='Welcome to Matcha!'
+      />
+      <Form className='attached fluid segment'>
         <Form.Input
           fluid
           label='First Name'
@@ -27,16 +26,34 @@ const SignUpForm = (props: ISignUpForm) => (
           placeholder='Last Name'
           type='text'
         />
-      </Form.Group>
-      <Form.Input label='Username' placeholder='Username' type='text' />
-      <Form.Input label='Password' type='password' />
-      <Button color='blue'>Submit</Button>
-    </Form>
-    <Message attached='bottom' warning>
-      <Icon name='help' />
-      Already signed up?&nbsp;<a href={GeneralRoutes.SignIn}>Sign in</a>&nbsp;instead.
-    </Message>
-  </>
+        <Form.Input
+          fluid
+          label='Username'
+          placeholder='Username'
+          type='text'
+        />
+        <Form.Input
+          fluid
+          label="Password"
+          placeholder="Password"
+          type="password"
+        />
+        <Form.Input
+          fluid
+          label="Confirm Password"
+          placeholder="Password"
+          type="password"
+        />
+        <Button color='blue' fluid>
+          Sign Up
+        </Button>
+      </Form>
+      <Message attached='bottom' warning>
+        <Icon name='help' />
+        Already signed up?&nbsp;<a href={GeneralRoutes.SignIn}>Sign In</a>&nbsp;instead.
+      </Message>
+    </Grid.Column>
+  </Grid>
 );
 
 export default SignUpForm;
