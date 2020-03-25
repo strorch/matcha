@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection PhpUndefinedFieldInspection */
 
 namespace App\Socket;
 
