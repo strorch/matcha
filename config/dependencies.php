@@ -25,6 +25,10 @@ use Ratchet\Server\IoServer;
 use Slim\Psr7\Factory\StreamFactory;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
@@ -52,10 +56,15 @@ return static function (ContainerBuilder $containerBuilder): void {
 
             return new Swift_Mailer($transport);
         },
-        LoggerInterface::class => function (ContainerInterface $c): LoggerInterface {
-            $settings = $c->get('settings');
+        SerializerInterface::class => function (): SerializerInterface {
+            $encoders = [new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
 
-            $loggerSettings = $settings['logger'];
+            return new Serializer($normalizers, $encoders);
+        },
+        LoggerInterface::class => function (SettingsProviderInterface $settingsProvider): LoggerInterface {
+            $loggerSettings = $settingsProvider->getSettingByName('logger');
+
             $logger = new Logger($loggerSettings['name']);
 
             $processor = new UidProcessor();
