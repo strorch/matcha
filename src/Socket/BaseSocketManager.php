@@ -4,6 +4,7 @@
 namespace App\Socket;
 
 
+use App\Domain\Entity\IoMessage;
 use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;

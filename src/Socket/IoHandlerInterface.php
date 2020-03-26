@@ -4,6 +4,7 @@
 namespace App\Socket;
 
 
+use App\Domain\Entity\IoMessage;
 use Ratchet\ConnectionInterface;
 
 interface IoHandlerInterface
