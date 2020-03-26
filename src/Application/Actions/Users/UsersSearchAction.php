@@ -1,14 +1,14 @@
 <?php
-declare(strict_types=1);
 
-namespace App\Application\Actions\Auth;
+
+namespace App\Application\Actions\Users;
 
 use App\Application\Actions\AbstractUsersAction;
 use App\Domain\ValueObject\UserSearch;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Request;
 
-final class LoginAction extends AbstractUsersAction
+class UsersSearchAction extends AbstractUsersAction
 {
     /**
      * @inheritDoc
@@ -20,14 +20,6 @@ final class LoginAction extends AbstractUsersAction
         $search->password = $args['password'] ?? null;
 
         /** @var \App\Domain\Entity\User[] $res */
-        $res = $this->userRepository->search($search);
-        if (empty($res)) {
-            return 'error';
-        }
-
-        $res = reset($res);
-        $this->session->set('user', $res);
-
-        return $res;
+        return $this->userRepository->search($search);
     }
 }
