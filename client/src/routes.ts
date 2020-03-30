@@ -3,5 +3,6 @@ export enum GeneralRoutes {
   Chat = '/chat',
   SignIn = '/sign-in',
   SignUp = '/sign-up',
-  Forgot = '/forgot'
+  Forgot = '/forgot',
+  Message = '/message'
 };

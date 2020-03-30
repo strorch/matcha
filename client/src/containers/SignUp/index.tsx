@@ -9,6 +9,7 @@ import { Forms } from 'components';
 import { Actions } from 'actions';
 import { IUser } from 'models';
 import { GeneralRoutes } from 'routes';
+import { IMessagePageLocationState } from 'components/MessagePage';
 
 export interface ISignUpFormValues {
   first_name: string;
@@ -39,13 +40,14 @@ const SignUp = ({
   }, [isAuthenticated, history]);
 
   // Show message page after successful sign up
-  // useEffect(() => {
-  //   if (user) return history.push(GeneralRoutes.Message, {
-  //     isSuccess: true,
-  //     header: 'Signed up!',
-  //     message: `You did it, ${user.username}! Confirmation email sent to ${user.email}, follow the instructions to validate your account ;)`
-  //   });
-  // }, [user]);
+  useEffect(() => {
+    if (user) return history.push(GeneralRoutes.Message, {
+      isSuccess: true,
+      icon: 'inbox',
+      header: 'Signed up!',
+      content: `You did it, ${user.username}! Confirmation email was sent to ${user.email}, follow the instructions to validate your account ;)`
+    } as IMessagePageLocationState);
+  }, [user, history]);
   
   return (
     <Segment vertical padded>
