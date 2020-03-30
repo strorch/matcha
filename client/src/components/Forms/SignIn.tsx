@@ -21,6 +21,7 @@ const SignInForm = ({ handleSubmit }: ISignInForm) => (
           name="username"
           label="Username:"
           placeholder="Username"
+          autoComplete="username"
           component={LabeledInput}
         />
         <Field
@@ -28,6 +29,7 @@ const SignInForm = ({ handleSubmit }: ISignInForm) => (
           name="password"
           label="Password:"
           placeholder="Password"
+          autoComplete="current-password"
           component={LabeledInput}
         />
         <Button
@@ -40,11 +42,15 @@ const SignInForm = ({ handleSubmit }: ISignInForm) => (
       </Form>
       <Message attached='bottom' warning>
         <Icon name='help' />
-        Not registered yet?&nbsp;
+        Forgot your password? Click&nbsp;
+        {
+          <Link to={GeneralRoutes.Forgot}>here</Link>
+        }
+        &nbsp;to restore or&nbsp;
         {
           <Link to={GeneralRoutes.SignUp}>Sign Up</Link>
         }
-        &nbsp;instead.
+        &nbsp;.
       </Message>
     </Grid.Column>
   </Grid>

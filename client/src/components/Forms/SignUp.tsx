@@ -33,6 +33,7 @@ const SignUpForm = ({ handleSubmit }: ISignUpForm) => (
           name="username"
           label="Username:"
           placeholder="Username"
+          autoComplete="username"
           component={LabeledInput}
         />
         <Field
@@ -40,12 +41,14 @@ const SignUpForm = ({ handleSubmit }: ISignUpForm) => (
           name="password"
           label="Password:"
           placeholder="Password"
+          autoComplete="new-password"
           component={LabeledInput}
         />
         <Field
           type="password"
           name="password_confirm"
           label="Confirm password:"
+          autoComplete="new-password"
           placeholder="Confirm password"
           component={LabeledInput}
         />
