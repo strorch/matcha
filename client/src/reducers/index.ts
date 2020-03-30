@@ -3,7 +3,13 @@ import { SocketConnectionStatus, IGeneralState } from "models";
 import * as types from 'actions/types';
 
 const initState: IGeneralState = {
-  socketStatus: SocketConnectionStatus.Off
+  socketStatus: SocketConnectionStatus.Off,
+  user: {
+    isAuthenticated: false,
+    isFetching: false,
+    data: null,
+    error: null
+  }
 }
 
 const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
@@ -12,6 +18,50 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
       return { ...state, socketStatus: SocketConnectionStatus.On };
     case types.WS_STATUS_OFF:
       return { ...state, socketStatus: SocketConnectionStatus.Off };
+
+    case types.SIGN_UP:
+    case types.SIGN_IN:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isFetching: true
+        }
+      };
+    case types.SIGN_UP_DONE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isFetching: false,
+          data: {
+            ...state.user.data,
+            username: action.payload.username,
+            email: action.payload.email
+          }
+        }
+      };
+    case types.SIGN_IN_DONE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isAuthenticated: true,
+          isFetching: false,
+          data: action.payload
+        }
+      };
+    case types.SIGN_OUT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isAuthenticated: false,
+          isFetching: false,
+          data: null,
+          error: null
+        }
+      };
     default:
       return state;
   }

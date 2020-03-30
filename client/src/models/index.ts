@@ -2,6 +2,19 @@ import { GeneralRoutes } from "routes";
 
 export interface IGeneralState {
   socketStatus: SocketConnectionStatus;
+  user: {
+    isAuthenticated: boolean;
+    isFetching: boolean;
+    data: IUser;
+    error: any;
+  }
+}
+
+export interface IUser {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
 }
 
 export enum SocketConnectionStatus {

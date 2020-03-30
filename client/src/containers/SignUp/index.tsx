@@ -1,9 +1,16 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
+import { bindActionCreators } from 'redux';
 import { withFormik, FormikProps } from 'formik';
+import { RouteComponentProps } from 'react-router';
 import { Forms } from 'components';
+import { Actions } from 'actions';
+import { IUser } from 'models';
+import { GeneralRoutes } from 'routes';
 
-interface IFormValues {
+export interface ISignUpFormValues {
   first_name: string;
   last_name: string;
   username: string;
@@ -11,27 +18,50 @@ interface IFormValues {
   password_confirm: string;
 }
 
-interface IOuterProps {
-  temp?: string;
+interface IOuterProps extends RouteComponentProps {
+  actions: typeof Actions;
+  user: {
+    isFetching: boolean;
+    isAuthenticated: boolean;
+    data: IUser;
+  };
 }
 
-type ISignUp = IOuterProps & FormikProps<IFormValues>;
+type ISignUp = IOuterProps & FormikProps<ISignUpFormValues>;
 
-const SignUp = ({ handleSubmit }: ISignUp) => (
-  <Segment vertical padded>
-    <Forms.SignUp
-      handleSubmit={handleSubmit}
-    />
-  </Segment>
-);
+const SignUp = ({
+  history,
+  handleSubmit, 
+  user: { data: user, isFetching, isAuthenticated }
+}: ISignUp) => {
+  useEffect(() => {
+    if (isAuthenticated) history.push(GeneralRoutes.Main);
+  }, [isAuthenticated, history]);
 
-export default withFormik<IOuterProps, IFormValues>({
-  handleSubmit: (values, { props, resetForm }) => {
-    console.log('values: ', values);
-    console.log('props: ', props);
-    resetForm();
+  // Show message page after successful sign up
+  // useEffect(() => {
+  //   if (user) return history.push(GeneralRoutes.Message, {
+  //     isSuccess: true,
+  //     header: 'Signed up!',
+  //     message: `You did it, ${user.username}! Confirmation email sent to ${user.email}, follow the instructions to validate your account ;)`
+  //   });
+  // }, [user]);
+  
+  return (
+    <Segment vertical padded>
+      <Forms.SignUp
+        isFetching={isFetching}
+        handleSubmit={handleSubmit}
+      />
+    </Segment>
+  );
+}
+
+const WithFormik = withFormik<IOuterProps, ISignUpFormValues>({
+  handleSubmit: (values, { props: { actions } }) => {
+    actions.signUp(values);
   },
-  mapPropsToValues: () => ({
+mapPropsToValues: () => ({
     first_name: '',
     last_name: '',
     username: '',
@@ -39,3 +69,15 @@ export default withFormik<IOuterProps, IFormValues>({
     password_confirm: ''
   }),
 })(SignUp);
+
+const mapStateToProps = state => ({
+  user: state.general.user
+});
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithFormik);

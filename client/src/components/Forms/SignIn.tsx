@@ -6,10 +6,11 @@ import { GeneralRoutes } from 'routes';
 import LabeledInput from 'components/FormikElements/LabeledInput';
 
 interface ISignInForm {
+  isFetching: boolean;
   handleSubmit(): void;
 }
 
-const SignInForm = ({ handleSubmit }: ISignInForm) => (
+const SignInForm = ({ isFetching, handleSubmit }: ISignInForm) => (
   <Grid centered columns={2} doubling>
     <Grid.Column>
       <Message
@@ -36,6 +37,7 @@ const SignInForm = ({ handleSubmit }: ISignInForm) => (
           fluid
           color="blue"
           type="submit"
+          loading={isFetching}
         >
           Sign In
         </Button>
