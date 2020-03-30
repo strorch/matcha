@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
 import { Footer } from 'components';
 import { MainHeader } from 'containers';
-import { Container } from 'semantic-ui-react';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));
 const SignIn = lazy(() => import('containers/SignIn'));
 const SignUp = lazy(() => import('containers/SignUp'));
+const Forgot = lazy(() => import('containers/Forgot'));
 
 // TODO: add loader
 const AppRouter = () => (
@@ -22,6 +23,7 @@ const AppRouter = () => (
           <Route path={GeneralRoutes.Chat} component={Chat} />
           <Route path={GeneralRoutes.SignIn} component={SignIn} />
           <Route path={GeneralRoutes.SignUp} component={SignUp} />
+          <Route path={GeneralRoutes.Forgot} component={Forgot} />
         </Switch>
       </Suspense>
     </Container>

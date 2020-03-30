@@ -4,19 +4,18 @@ import { withFormik, FormikProps } from 'formik';
 import { Forms } from 'components';
 
 interface IFormValues {
-  username: string;
-  password: string;
+  email: string;
 }
 
 interface IOuterProps {
   temp?: string;
 }
 
-type ISignIn = IOuterProps & FormikProps<IFormValues>;
+type IForgot = IOuterProps & FormikProps<IFormValues>;
 
-const SignIn = ({ handleSubmit }: ISignIn) => (
+const Forgot = ({ handleSubmit }: IForgot) => (
   <Segment vertical padded>
-    <Forms.SignIn
+    <Forms.Forgot
       handleSubmit={handleSubmit}
     />
   </Segment>
@@ -29,7 +28,6 @@ export default withFormik<IOuterProps, IFormValues>({
     resetForm();
   },
   mapPropsToValues: () => ({
-    username: '',
-    password: ''
+    email: ''
   }),
-})(SignIn);
+})(Forgot);

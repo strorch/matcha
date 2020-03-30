@@ -19,7 +19,7 @@ type ISignUp = IOuterProps & FormikProps<IFormValues>;
 
 const SignUp = ({ handleSubmit }: ISignUp) => (
   <Segment vertical padded>
-    <Forms.SignUpForm
+    <Forms.SignUp
       handleSubmit={handleSubmit}
     />
   </Segment>
