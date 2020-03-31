@@ -28,7 +28,8 @@ final class CustomMessageFactory
         $settings = $this->settingsProvider->getSettingByName('mail');
 
         return (new Swift_Message($subject))
-            ->setFrom([$settings['MAIL_FROM_EMAIL'] => $settings['MAIL_FROM_FNAME']])
+            ->setContentType('text/html')
+            ->setFrom([$settings['from_email'] => $settings['from_fname']])
         ;
     }
 }

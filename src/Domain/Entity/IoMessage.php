@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Socket;
+namespace App\Domain\Entity;
 
 
 use InvalidArgumentException;

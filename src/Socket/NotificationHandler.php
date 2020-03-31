@@ -4,6 +4,8 @@
 namespace App\Socket;
 
 
+use App\Domain\Entity\IoMessage;
+
 class NotificationHandler implements IoHandlerInterface
 {
 

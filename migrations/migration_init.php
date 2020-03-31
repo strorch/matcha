@@ -11,6 +11,9 @@ final class migration_init extends AbstractMigration
      * @inheritDoc
      */
     public static $files = [
+        'create.sql',
+        'alter.sql',
+        'functions.sql',
         'init.sql',
     ];
 
