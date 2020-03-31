@@ -4,6 +4,7 @@
 namespace App\Domain\Entity;
 
 
+use App\Domain\ValueObject\IoMessageBody;
 use InvalidArgumentException;
 use Ratchet\ConnectionInterface;
 
@@ -24,17 +25,20 @@ class IoMessage
      */
     private $author;
 
-    public static function create(ConnectionInterface $author, string $message): self
+    public static function create(ConnectionInterface $author, string $messageString): self
     {
         $static = new static();
 
-        $messageBody = json_decode($message, true);
-        if (!is_array($messageBody) || !is_string($messageBody[0] ?? null) || !is_array($messageBody[1] ?? null)) {
+        $messageArray = json_decode($messageString, true);
+        if (!is_array($messageArray) || !is_string($messageArray[0] ?? null) || !is_array($messageArray[1] ?? null)) {
             throw new InvalidArgumentException("Invalid message body");
         }
 
-        $static->setType($messageBody[0]);
-        $static->setBody($messageBody[1]);
+        $ioMessageBody = new IoMessageBody();
+//        $ioMessageBody->message = $messageArray[]
+
+        $static->setType($messageArray[0]);
+        $static->setBody($messageArray[1]);
         $static->setAuthor($author);
 
         return $static;

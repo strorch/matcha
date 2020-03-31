@@ -2,9 +2,14 @@
 declare(strict_types=1);
 
 use App\Application\Migration\MigrationInterface;
+use App\Domain\Entity\IoMessage;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
+use App\Domain\ValueObject\IoMessageBody;
 use App\Infrastructure\DB\DB;
+use App\Infrastructure\Hydrator\ConfigurableAggregateHydrator;
+use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
+use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
@@ -31,6 +36,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Zend\Hydrator\HydratorInterface;
 
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
@@ -44,6 +50,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         SocketMessageHandler::class => DI\autowire(SocketMessageHandler::class),
         ChatHandler::class => DI\autowire(ChatHandler::class),
         NotificationHandler::class => DI\autowire(NotificationHandler::class),
+        HydratorInterface::class => DI\autowire(ConfigurableAggregateHydrator::class),
 
         /**
          * Classes definitions
@@ -70,6 +77,12 @@ return static function (ContainerBuilder $containerBuilder): void {
                 ->setPassword($settings['password']);
 
             return new Swift_Mailer($transport);
+        },
+        ConfigurableAggregateHydrator::class => function (ContainerInterface $c): ConfigurableAggregateHydrator {
+            return new ConfigurableAggregateHydrator($c, [
+                IoMessage::class => IoMessageHydrator::class,
+                IoMessageBody::class => IoMessageBodyHydrator::class,
+            ]);
         },
         SerializerInterface::class => function (): SerializerInterface {
             $encoders = [new JsonEncoder()];
