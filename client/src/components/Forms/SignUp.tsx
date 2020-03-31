@@ -38,6 +38,13 @@ const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
           component={LabeledInput}
         />
         <Field
+          name="email"
+          label="Email:"
+          placeholder="Email"
+          autoComplete="none"
+          component={LabeledInput}
+        />
+        <Field
           type="password"
           name="password"
           label="Password:"

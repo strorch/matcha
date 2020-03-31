@@ -1,5 +1,7 @@
 import { put, takeLatest, delay } from 'redux-saga/effects';
 import * as types from 'actions/types';
+import { GeneralRoutes } from 'routes';
+import { IMessagePageLocationState } from 'components/MessagePage';
 
 function* callSignIn(action) {
   console.log('SignIn: ', action);
@@ -22,13 +24,15 @@ function* callSignUp(action) {
 
   yield delay(1000);
 
-  yield put({
-    type: types.SIGN_UP_DONE,
-    payload: {
-      username: 'alexsmith',
-      email: 'alexsmith@email.com'
-    }
-  });
+  const { payload: { history, username, email } } = action;
+  history.push(GeneralRoutes.Message, {
+    isSuccess: true,
+    icon: 'inbox',
+    header: 'Signed up!',
+    content: `You did it, ${username}! Confirmation email was sent to ${email}, follow the instructions to validate your account ;)`
+  } as IMessagePageLocationState);
+
+  yield put({ type: types.SIGN_UP_DONE });
 }
 
 export default function* auth() {

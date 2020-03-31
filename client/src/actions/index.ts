@@ -1,3 +1,4 @@
+import { History } from 'history';
 import * as types from './types';
 import { ISignUpFormValues } from 'containers/SignUp';
 import { ISignInFormValues } from 'containers/SignIn';
@@ -14,7 +15,7 @@ export const Actions = {
   // <-- End of Sockets
 
   // Auth -->
-  signUp: (payload: ISignUpFormValues) => ({type: types.SIGN_UP, payload }),
+  signUp: (payload: ISignUpFormValues, history: History) => ({type: types.SIGN_UP, payload: { ...payload, history } }),
   signIn: (payload: ISignInFormValues) => ({ type: types.SIGN_IN, payload }),
   signOut: () => ({ type: types.SIGN_OUT }),
   // <-- End of Auth

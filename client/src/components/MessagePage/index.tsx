@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Message, Segment, Button } from 'semantic-ui-react';
+import { Message, Segment, Button, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { GeneralRoutes } from 'routes';
 
@@ -16,6 +16,14 @@ type IMessagePageProps = RouteComponentProps<void, any, IMessagePageLocationStat
 const MessagePage = ({
   location
 }: IMessagePageProps) => {
+  if (!location.state) {
+    return (
+      <Segment textAlign='center' vertical padded>
+        <Header as="h2">No messages for u ;(</Header>
+      </Segment>
+    );
+  }
+  
   const { isSuccess, ...messageProps } = location.state;
 
   return (

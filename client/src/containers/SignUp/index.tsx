@@ -9,12 +9,12 @@ import { Forms } from 'components';
 import { Actions } from 'actions';
 import { IUser } from 'models';
 import { GeneralRoutes } from 'routes';
-import { IMessagePageLocationState } from 'components/MessagePage';
 
 export interface ISignUpFormValues {
   first_name: string;
   last_name: string;
   username: string;
+  email: string;
   password: string;
   password_confirm: string;
 }
@@ -33,22 +33,12 @@ type ISignUp = IOuterProps & FormikProps<ISignUpFormValues>;
 const SignUp = ({
   history,
   handleSubmit, 
-  user: { data: user, isFetching, isAuthenticated }
+  user: { isFetching, isAuthenticated }
 }: ISignUp) => {
   useEffect(() => {
     if (isAuthenticated) history.push(GeneralRoutes.Main);
   }, [isAuthenticated, history]);
 
-  // Show message page after successful sign up
-  useEffect(() => {
-    if (user) return history.push(GeneralRoutes.Message, {
-      isSuccess: true,
-      icon: 'inbox',
-      header: 'Signed up!',
-      content: `You did it, ${user.username}! Confirmation email was sent to ${user.email}, follow the instructions to validate your account ;)`
-    } as IMessagePageLocationState);
-  }, [user, history]);
-  
   return (
     <Segment vertical padded>
       <Forms.SignUp
@@ -60,13 +50,14 @@ const SignUp = ({
 }
 
 const WithFormik = withFormik<IOuterProps, ISignUpFormValues>({
-  handleSubmit: (values, { props: { actions } }) => {
-    actions.signUp(values);
+  handleSubmit: (values, { props: { actions, history } }) => {
+    actions.signUp(values, history);  // Not the best decision but the easiest one
   },
 mapPropsToValues: () => ({
     first_name: '',
     last_name: '',
     username: '',
+    email: '',
     password: '',
     password_confirm: ''
   }),

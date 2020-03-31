@@ -33,12 +33,7 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         ...state,
         user: {
           ...state.user,
-          isFetching: false,
-          data: {
-            ...state.user.data,
-            username: action.payload.username,
-            email: action.payload.email
-          }
+          isFetching: false
         }
       };
     case types.SIGN_IN_DONE:
