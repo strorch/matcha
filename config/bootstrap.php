@@ -2,11 +2,12 @@
 declare(strict_types=1);
 
 use DI\ContainerBuilder;
+use Dotenv\Dotenv;
 use Psr\Container\ContainerInterface;
 
 return static function (): ContainerInterface {
 
-    Dotenv\Dotenv::create(__DIR__ . '/../')->load();
+    Dotenv::create(__DIR__ . '/../')->load();
 
     $containerBuilder = new ContainerBuilder();
 

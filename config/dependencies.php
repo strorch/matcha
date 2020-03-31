@@ -18,6 +18,7 @@ use App\Socket\ChatHandler;
 use App\Socket\NotificationHandler;
 use App\Socket\SocketMessageHandler;
 use DI\ContainerBuilder;
+use Dotenv\Exception\InvalidFileException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -131,7 +132,7 @@ return static function (ContainerBuilder $containerBuilder): void {
                     foreach ($regex as $item) {
                         $className = "\\App\\migrations\\" . basename(reset($item), '.php');
                         if (!class_exists($className, true)) {
-                            throw new \Dotenv\Exception\InvalidFileException("Class '{$className}' does not exists");
+                            throw new InvalidFileException("Class '{$className}' does not exists");
                         }
                         /** @var MigrationInterface $migration */
                         $migration = $this->container->get($className);

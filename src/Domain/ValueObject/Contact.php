@@ -6,6 +6,9 @@ namespace App\Domain\ValueObject;
 
 class Contact
 {
+    /** @var int */
+    public $userId;
+
     /** @var string */
     public $gender;
 

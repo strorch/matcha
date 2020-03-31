@@ -7,7 +7,7 @@ namespace App\Domain\Repository;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\DB\DB;
 
-abstract class AbstractRepository implements UserRepositoryInterface
+abstract class AbstractRepository
 {
     /**
      * @var DB

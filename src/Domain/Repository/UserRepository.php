@@ -5,9 +5,10 @@ namespace App\Domain\Repository;
 
 
 use App\Domain\Entity\User;
+use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\UserSearch;
 
-class UserRepository extends AbstractRepository
+class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     /**
      * @inheritDoc
