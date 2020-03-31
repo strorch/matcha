@@ -25,6 +25,8 @@ use Ratchet\Server\IoServer;
 use Slim\Psr7\Factory\StreamFactory;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -35,7 +37,6 @@ return static function (ContainerBuilder $containerBuilder): void {
         /**
          * Autowiring
          */
-        SessionInterface::class => DI\autowire(Session::class),
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
         BaseSocketManager::class => DI\autowire(BaseSocketManager::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
@@ -47,6 +48,20 @@ return static function (ContainerBuilder $containerBuilder): void {
         /**
          * Classes definitions
          */
+        SessionInterface::class => function (Memcached $memcached): SessionInterface {
+            $sessionStorage = new NativeSessionStorage([], new MemcachedSessionHandler($memcached));
+
+            return new Session($sessionStorage);
+        },
+        Memcached::class => function (SettingsProviderInterface $provider): Memcached {
+            $memData = $provider->getSettingByName('memcached');
+
+            $memcached = new \Memcached;
+            $memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
+            $memcached->addServer($memData['host'], $memData['port']);
+
+            return $memcached;
+        },
         Swift_Mailer::class => function (SettingsProviderInterface $settingsProvider): Swift_Mailer {
             $settings = $settingsProvider->getSettingByName('mail');
 

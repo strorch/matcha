@@ -35,6 +35,10 @@ return static function (ContainerBuilder $containerBuilder): void {
                 'host' => getenv('SOCKET_HOST'),
                 'port' => getenv('SOCKET_PORT'),
             ],
+            'memcached' => [
+                'host' => getenv('MEMCACHE_HOST'),
+                'port' => (int)getenv('MEMCACHE_PORT'),
+            ],
         ],
     ]);
 };
