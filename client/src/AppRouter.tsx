@@ -5,6 +5,7 @@ import { Container } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
 import { Footer } from 'components';
 import { MainHeader } from 'containers';
+import { ProtectedRoute } from 'HOC';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));
@@ -21,7 +22,7 @@ const AppRouter = () => (
       <Suspense fallback={<div>Loading..</div>}>
         <Switch>
           <Route exact path={GeneralRoutes.Main} component={Main} />
-          <Route path={GeneralRoutes.Chat} component={Chat} />
+          <ProtectedRoute path={GeneralRoutes.Chat} component={Chat} />
           <Route path={GeneralRoutes.SignIn} component={SignIn} />
           <Route path={GeneralRoutes.SignUp} component={SignUp} />
           <Route path={GeneralRoutes.Forgot} component={Forgot} />
