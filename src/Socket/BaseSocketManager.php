@@ -66,6 +66,7 @@ final class BaseSocketManager implements MessageComponentInterface
         /** @var Session $session */
         $session = $from->Session;
         var_dump($session->getIterator()->current());
+        //TODO: fix sessions
 
         $message = IoMessage::create($from, $msg);
 

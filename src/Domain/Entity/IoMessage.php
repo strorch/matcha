@@ -33,7 +33,7 @@ class IoMessage
         if (!is_array($messageArray) || !is_string($messageArray[0] ?? null) || !is_array($messageArray[1] ?? null)) {
             throw new InvalidArgumentException("Invalid message body");
         }
-
+        // TODO: refactor with hydrator
         $ioMessageBody = new IoMessageBody();
 //        $ioMessageBody->message = $messageArray[]
 
