@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Menu, Container, Button } from 'semantic-ui-react';
 import logo from 'assets/logo.svg';
 import { MainHeaderItems, IUserState } from 'models';
-import { Menu, Container, Button } from 'semantic-ui-react';
 
 interface IHeader {
   currentItem: string;
@@ -17,7 +17,10 @@ const Header = ({
   onSignOutClick,
   onMenuItemClick
 }: IHeader) => {
-  const [activeItem, setActiveItem] = useState(currentItem || '');
+  const [activeItem, setActiveItem] = useState('');
+  useEffect(() => {
+    setActiveItem(currentItem);
+  }, [currentItem]);
 
   const clickHandler = (item: MainHeaderItems, isSetItem?: boolean) => {
     setActiveItem(isSetItem ? item : '');

@@ -19,7 +19,7 @@ const App = ({ actions }: IApp) => {
 
     // start websocket channel
     actions.wsChannelStart();
-  }, []);
+  }, [actions]);
   
   return <AppRouter />;
 };
