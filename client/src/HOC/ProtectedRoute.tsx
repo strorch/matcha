@@ -1,18 +1,21 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { FunctionComponent } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
+import { GeneralRoutes } from 'routes';
 
 interface IProtectedRoute {
   component: FunctionComponent;
+  isAuthenticated: boolean;
   path: string;
 }
 
-const ProtectedRoute = ({ component: Component, ...props }: IProtectedRoute) => {
-  console.log('ProtectedRouteProps: ', props);
+const ProtectedRoute = ({ component: Component, isAuthenticated, ...props }: IProtectedRoute) => (
+  isAuthenticated ? <Route {...props} component={Component} /> : <Redirect to={GeneralRoutes.SignIn} />
+);
 
-  return (
-    <Route {...props} component={Component} />
-  );
-};
-
-export default ProtectedRoute;
+export default connect(
+  state => ({
+    isAuthenticated: state.general.user.isAuthenticated
+  })
+)(ProtectedRoute);

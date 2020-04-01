@@ -13,7 +13,7 @@ function* callSignIn(action) {
   const user = {
     first_name: 'Alex',
     last_name: 'Smith',
-    username: 'alexsmith',
+    username: action.payload.username,
     email: 'alexsmith@email.com'
   };
 
@@ -48,10 +48,12 @@ function* callSignOut() {
 function* callCheckForSignedInUser() {
   const activeUser = yield call(getLocalStorageItem, LocalStorageKeys.User);
 
-  yield put({
-    type: types.SIGN_IN_DONE,
-    payload: JSON.parse(activeUser)
-  })
+  if (activeUser) {
+    yield put({
+      type: types.SIGN_IN_DONE,
+      payload: JSON.parse(activeUser)
+    });
+  }
 }
 
 export default function* auth() {
