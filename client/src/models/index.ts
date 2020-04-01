@@ -2,12 +2,14 @@ import { GeneralRoutes } from "routes";
 
 export interface IGeneralState {
   socketStatus: SocketConnectionStatus;
-  user: {
-    isAuthenticated: boolean;
-    isFetching: boolean;
-    data: IUser;
-    error: any;
-  }
+  user: IUserState
+}
+
+export interface IUserState {
+  isAuthenticated: boolean;
+  isFetching: boolean;
+  data: IUser;
+  error: any;
 }
 
 export interface IUser {

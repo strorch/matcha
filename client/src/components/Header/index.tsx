@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { useState } from 'react';
 import logo from 'assets/logo.svg';
-import { MainHeaderItems } from 'models';
+import { MainHeaderItems, IUserState } from 'models';
 import { Menu, Container, Button } from 'semantic-ui-react';
 
 interface IHeader {
   currentItem: string;
+  currentUser: IUserState;
+  onSignOutClick(): void;
   onMenuItemClick(item: MainHeaderItems): void;
 }
 
 const Header = ({
+  currentUser,
   currentItem,
+  onSignOutClick,
   onMenuItemClick
 }: IHeader) => {
   const [activeItem, setActiveItem] = useState(currentItem || '');
@@ -33,17 +37,33 @@ const Header = ({
             onClick={() => clickHandler(MainHeaderItems.Chat, true)}
           />
           <Menu.Menu position='right'>
-            <Menu.Item>
-              <Button
-                primary
-                onClick={() => clickHandler(MainHeaderItems.SignUp)}
-              >
-                Sign Up
-              </Button>
-            </Menu.Item>
-            <Menu.Item>
-              <Button onClick={() => clickHandler(MainHeaderItems.SignIn)}>Sign In</Button>
-            </Menu.Item>
+            {
+              currentUser.isAuthenticated
+                ? (
+                  <Menu.Item>
+                    <Button
+                      primary
+                      onClick={onSignOutClick}
+                    >
+                      Sign Out
+                    </Button>
+                  </Menu.Item>
+                ) : (
+                  <>
+                    <Menu.Item>
+                      <Button
+                        primary
+                        onClick={() => clickHandler(MainHeaderItems.SignUp)}
+                      >
+                        Sign Up
+                      </Button>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Button onClick={() => clickHandler(MainHeaderItems.SignIn)}>Sign In</Button>
+                    </Menu.Item>
+                  </>
+                )
+            }
           </Menu.Menu>
         </Container>
       </Menu>
