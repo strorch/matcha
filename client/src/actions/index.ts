@@ -18,6 +18,8 @@ export const Actions = {
   signUp: (payload: ISignUpFormValues, history: History) => ({type: types.SIGN_UP, payload: { ...payload, history } }),
   signIn: (payload: ISignInFormValues) => ({ type: types.SIGN_IN, payload }),
   signOut: () => ({ type: types.SIGN_OUT }),
+
+  checkForSignedInUser: () => ({ type: types.CHECK_FOR_SIGNED_IN_USER }),
   // <-- End of Auth
 
   sendChatMessage: (sender_id: string, receiver_id: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { sender_id, receiver_id, message } })

@@ -20,6 +20,8 @@ export const SIGN_IN_DONE = 'SIGN_IN_DONE';
 // export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
 
 export const SIGN_OUT = 'SIGN_OUT';
+
+export const CHECK_FOR_SIGNED_IN_USER = 'CHECK_FOR_SIGNED_IN_USER';
 // <-- End of Auth
 
 // Chat -->

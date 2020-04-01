@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Actions } from 'actions';
@@ -8,14 +7,10 @@ import logo from 'assets/logo.svg';
 import './styles.css';  // FIXME: remove custom styles
 
 interface IMainProps {
-  actions: typeof Actions;
+  temp?: string;
 }
 
-const Main = ({ actions }: IMainProps) => {
-  useEffect(() => {
-    actions.wsChannelStart();
-  }, [actions]);
-  
+const Main = ({ temp }: IMainProps) => {  
   return (
     <div className="App">
       <header className="App-header">

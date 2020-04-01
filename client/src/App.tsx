@@ -1,18 +1,32 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import AppRouter from 'AppRouter';
-
-import store from 'store/configureStore';
+import { Actions } from 'actions';
 
 import './styles.sass';
 import 'semantic-ui-css/semantic.min.css';
 
-export default () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
-  </Provider>
-);
+interface IApp {
+  actions: typeof Actions;
+}
+
+const App = ({ actions }: IApp) => {
+  useEffect(() => {
+    // get user from localStorage if previously signed in
+    actions.checkForSignedInUser();
+
+    // start websocket channel
+    actions.wsChannelStart();
+  }, []);
+  
+  return <AppRouter />;
+};
+
+export default connect(
+  null,
+  dispatch => ({
+    actions: bindActionCreators(Actions, dispatch)
+  })
+)(App);

@@ -1,6 +1,6 @@
 import { combineReducers, Reducer } from "redux";
-import { SocketConnectionStatus, IGeneralState } from "models";
 import * as types from 'actions/types';
+import { SocketConnectionStatus, IGeneralState } from "models";
 
 const initState: IGeneralState = {
   socketStatus: SocketConnectionStatus.Off,
