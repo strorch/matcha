@@ -19,7 +19,8 @@ return static function (App $app): void {
 
     $app->get('/', function (Request $request, Response $response) use ($c): Response {
         $session = $c->get(SessionInterface::class);
-        $response->getBody()->write($session->get('user') ?? 'empty');
+        $kek = $session->getIterator()->current();
+        $response->getBody()->write($kek ?? 'empty');
         return $response;
     });
     $app->get('/testCacheSet', function (Request $request, Response $response) use ($c): Response {
@@ -40,11 +41,15 @@ return static function (App $app): void {
                 return $response;
             })
             ->add(CheckAuthMiddleware::class);
+
+//        TODO: $group->get('/confirm-email', 'ConfirmEmail::class');
     });
 
     $app->group('/api', function (Group $group) {
         $group->get('/users', UsersSearchAction::class);
         $group->patch('/user',  UserUpdateAction::class);
+
+//        TODO: $group->put('/change-email', 'ChangeEmail::class');
     })->add(CheckAuthMiddleware::class);
 
     $app->add(JSONSerializeMiddleware::class);

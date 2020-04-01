@@ -26,6 +26,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Ratchet\Http\HttpServer;
+use Ratchet\Session\SessionProvider;
 use Ratchet\WebSocket\WsServer;
 use Ratchet\Server\IoServer;
 use Slim\Psr7\Factory\StreamFactory;
@@ -110,10 +111,23 @@ return static function (ContainerBuilder $containerBuilder): void {
         DB::class => function (SettingsProviderInterface $settingsProvider): DB {
             return DB::get($settingsProvider->getSettingByName('dbParams'));
         },
-        IoServer::class => function (SettingsProviderInterface $settingsProvider, BaseSocketManager $baseSocketManager): IoServer {
+        IoServer::class => function (
+            SettingsProviderInterface $settingsProvider,
+            BaseSocketManager $baseSocketManager,
+            Memcached $memcached
+        ): IoServer {
             $socketParams = $settingsProvider->getSettingByName('socket');
 
-            return IoServer::factory(new HttpServer(new WsServer($baseSocketManager)), $socketParams['port'], $socketParams['host']);
+            return IoServer::factory(
+                new HttpServer(
+                    new SessionProvider(
+                        new WsServer($baseSocketManager),
+                        new MemcachedSessionHandler($memcached)
+                    )
+                ),
+                $socketParams['port'],
+                $socketParams['host']
+            );
         },
         MigrationInterface::class => function (ContainerInterface $c): MigrationInterface {
             return new class($c) implements MigrationInterface {

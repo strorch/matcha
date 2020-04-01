@@ -4,7 +4,6 @@ declare(strict_types=1);
 use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
-use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 

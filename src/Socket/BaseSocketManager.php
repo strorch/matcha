@@ -38,6 +38,7 @@ final class BaseSocketManager implements MessageComponentInterface
      */
     public function onOpen(ConnectionInterface $conn)
     {
+        $conn->Session->start();
         $this->connections[$conn->resourceId] = $conn;
     }
 
@@ -65,8 +66,7 @@ final class BaseSocketManager implements MessageComponentInterface
     {
         /** @var Session $session */
         $session = $from->Session;
-        var_dump($session->getIterator()->current());
-        //TODO: fix sessions
+        var_dump($session->get('user'));
 
         $message = IoMessage::create($from, $msg);
 
