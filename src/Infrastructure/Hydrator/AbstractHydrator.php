@@ -12,7 +12,7 @@ abstract class AbstractHydrator implements HydratorInterface
     /**
      * @var HydratorInterface
      */
-    private $hydrator;
+    protected $hydrator;
 
     /**
      * @var HydratorInterface[]

@@ -52,7 +52,6 @@ return static function (ContainerBuilder $containerBuilder): void {
         SocketMessageHandler::class => DI\autowire(SocketMessageHandler::class),
         ChatHandler::class => DI\autowire(ChatHandler::class),
         NotificationHandler::class => DI\autowire(NotificationHandler::class),
-        HydratorInterface::class => DI\autowire(ConfigurableAggregateHydrator::class),
 
         /**
          * Classes definitions
@@ -80,7 +79,7 @@ return static function (ContainerBuilder $containerBuilder): void {
 
             return new Swift_Mailer($transport);
         },
-        ConfigurableAggregateHydrator::class => function (ContainerInterface $c): ConfigurableAggregateHydrator {
+        HydratorInterface::class => function (ContainerInterface $c): HydratorInterface {
             return new ConfigurableAggregateHydrator($c, [
                 IoMessage::class => IoMessageHydrator::class,
                 IoMessageBody::class => IoMessageBodyHydrator::class,

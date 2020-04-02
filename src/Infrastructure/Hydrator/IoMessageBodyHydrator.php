@@ -4,10 +4,15 @@
 namespace App\Infrastructure\Hydrator;
 
 
+use App\Domain\ValueObject\IoMessageBody;
+
 class IoMessageBodyHydrator extends AbstractHydrator
 {
     /**
      * @inheritDoc
+     * @param string|IoMessageBody $object
+     *
+     * @return IoMessageBody|object
      */
     public function hydrate(array $data, $object)
     {

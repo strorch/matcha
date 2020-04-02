@@ -12,7 +12,7 @@ class ConfigurableAggregateHydrator implements HydratorInterface
     /**
      * @var HydrationInterface[]
      */
-    public $hydrators = []; // TODO: make private after composer-config-plugin merging fix
+    private $hydrators = [];
 
     /**
      * @var ContainerInterface
@@ -45,9 +45,10 @@ class ConfigurableAggregateHydrator implements HydratorInterface
     /**
      * Create new object of given class with the provided $data.
      * When given $data is object just returns it.
-     * @param  object|array $data
-     * @param  string $class class name
+     * @param object|array $data
+     * @param string $class class name
      * @return object
+     * @throws \Exception
      */
     public function create($data, $class)
     {
@@ -57,9 +58,10 @@ class ConfigurableAggregateHydrator implements HydratorInterface
     /**
      * Hydrate $object with the provided $data.
      *
-     * @param  array $data
-     * @param  object|string $object object or class name
+     * @param array $data
+     * @param object|string $object object or class name
      * @return object
+     * @throws \Exception
      */
     public function hydrate(array $data, $object)
     {
@@ -76,8 +78,9 @@ class ConfigurableAggregateHydrator implements HydratorInterface
     /**
      * Extract values from an object.
      *
-     * @param  object $object
+     * @param object $object
      * @return array
+     * @throws \Exception
      */
     public function extract($object)
     {
@@ -86,8 +89,10 @@ class ConfigurableAggregateHydrator implements HydratorInterface
 
     /**
      * Extract multiple objects.
-     * @param  array $array
+     * @param array $array
+     * @param int $depth
      * @return array
+     * @throws \Exception
      */
     public function extractAll(array $array, int $depth = 1)
     {

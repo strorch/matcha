@@ -18,9 +18,8 @@ return static function (App $app): void {
     $c = $app->getContainer();
 
     $app->get('/', function (Request $request, Response $response) use ($c): Response {
-        $session = $c->get(SessionInterface::class);
-        $kek = $session->getIterator()->current();
-        $response->getBody()->write($kek ?? 'empty');
+        $response->getBody()->write('hello api');
+
         return $response;
     });
     $app->get('/testCacheSet', function (Request $request, Response $response) use ($c): Response {
