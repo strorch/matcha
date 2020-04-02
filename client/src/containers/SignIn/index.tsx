@@ -28,6 +28,7 @@ type ISignIn = IOuterProps & FormikProps<ISignInFormValues>;
 
 const SignIn = ({
   errors,
+  touched,
   history,
   handleSubmit,
   user: { isFetching, isAuthenticated }
@@ -40,6 +41,7 @@ const SignIn = ({
     <Segment vertical padded>
       <Forms.SignIn
         errors={errors}
+        touched={touched}
         isFetching={isFetching}
         handleSubmit={handleSubmit}
       />

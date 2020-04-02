@@ -6,11 +6,11 @@ import { GeneralRoutes } from 'routes';
 import { ISignInFormValues } from 'containers/SignIn';
 import LabeledInput from 'components/FormikElements/LabeledInput';
 
-interface ISignInForm extends Pick<FormikProps<ISignInFormValues>, 'errors' | 'handleSubmit'> {
+interface ISignInForm extends Pick<FormikProps<ISignInFormValues>, 'errors' | 'touched' | 'handleSubmit'> {
   isFetching: boolean;
 }
 
-const SignInForm = ({ errors, isFetching, handleSubmit }: ISignInForm) => (
+const SignInForm = ({ errors, touched, isFetching, handleSubmit }: ISignInForm) => (
   <Grid centered columns={2} doubling>
     <Grid.Column>
       <Message
@@ -24,7 +24,7 @@ const SignInForm = ({ errors, isFetching, handleSubmit }: ISignInForm) => (
           placeholder="Username"
           autoComplete="username"
           component={LabeledInput}
-          error={errors.username}
+          error={touched.username && errors.username}
         />
         <Field
           type="password"
@@ -33,7 +33,7 @@ const SignInForm = ({ errors, isFetching, handleSubmit }: ISignInForm) => (
           placeholder="Password"
           autoComplete="current-password"
           component={LabeledInput}
-          error={errors.password}
+          error={touched.password && errors.password}
         />
         <Button
           fluid
