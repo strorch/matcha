@@ -12,18 +12,16 @@ const LabeledInput = ({
   label,
   ...props
 }: ILabeledInput) => (
-  <Form.Field>
-    <label>{label}</label>
-    <input
-      type="text"
-      name={name}
-      value={value}
-      onChange={event => {
-        setFieldValue(name, event.target.value);
-      }}
-      {...props}
-    />
-  </Form.Field>
+  <Form.Input
+    type="text"
+    name={name}
+    label={label}
+    value={value}
+    onChange={event => {
+      setFieldValue(name, event.target.value);
+    }}
+    {...props}
+  />
 );
 
 export default LabeledInput;

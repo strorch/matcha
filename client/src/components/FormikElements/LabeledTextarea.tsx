@@ -12,17 +12,15 @@ const LabeledTextarea = ({
   label,
   ...props
 }: ILabeledTextarea) => (
-  <Form.Field>
-    <label>{label}</label>
-    <textarea
-      name={name}
-      value={value}
-      onChange={event => {
-        setFieldValue(name, event.target.value);
-      }}
-      {...props}
-    />
-  </Form.Field>
+  <Form.TextArea
+    name={name}
+    label={label}
+    value={value}
+    onChange={event => {
+      setFieldValue(name, (event.target as HTMLInputElement).value);
+    }}
+    {...props}
+  />
 );
 
 export default LabeledTextarea;
