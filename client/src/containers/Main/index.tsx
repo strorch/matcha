@@ -12,11 +12,9 @@ interface IMainProps {
 
 const Main = ({ temp }: IMainProps) => {  
   return (
-    <div className="App">
-      <header className="App-header">
+      <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <img src={logo} className="App-logo" alt="logo" />
-      </header>
-    </div>
+      </div>
   );
 };
 
