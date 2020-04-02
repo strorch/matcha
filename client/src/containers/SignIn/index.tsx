@@ -5,6 +5,8 @@ import { Segment } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { withFormik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router';
+import * as Yup from 'yup';
+import * as validators from 'services/yupValidationHelpers';
 import { Forms } from 'components';
 import { Actions } from 'actions';
 import { GeneralRoutes } from 'routes';
@@ -25,8 +27,9 @@ interface IOuterProps extends RouteComponentProps {
 type ISignIn = IOuterProps & FormikProps<ISignInFormValues>;
 
 const SignIn = ({
+  errors,
   history,
-  handleSubmit, 
+  handleSubmit,
   user: { isFetching, isAuthenticated }
 }: ISignIn) => {
   useEffect(() => {
@@ -36,6 +39,7 @@ const SignIn = ({
   return (
     <Segment vertical padded>
       <Forms.SignIn
+        errors={errors}
         isFetching={isFetching}
         handleSubmit={handleSubmit}
       />
@@ -51,6 +55,11 @@ const WithFormik = withFormik<IOuterProps, ISignInFormValues>({
     username: '',
     password: ''
   }),
+  validationSchema: () =>
+    Yup.object().shape({
+      username: validators.username,
+      password: validators.password
+    })
 })(SignIn);
 
 const mapStateToProps = state => ({

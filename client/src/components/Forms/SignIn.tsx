@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import { Grid, Form, Button, Message, Icon } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
+import { ISignInFormValues } from 'containers/SignIn';
 import LabeledInput from 'components/FormikElements/LabeledInput';
 
-interface ISignInForm {
+interface ISignInForm extends Pick<FormikProps<ISignInFormValues>, 'errors' | 'handleSubmit'> {
   isFetching: boolean;
-  handleSubmit(): void;
 }
 
-const SignInForm = ({ isFetching, handleSubmit }: ISignInForm) => (
+const SignInForm = ({ errors, isFetching, handleSubmit }: ISignInForm) => (
   <Grid centered columns={2} doubling>
     <Grid.Column>
       <Message
@@ -24,6 +24,7 @@ const SignInForm = ({ isFetching, handleSubmit }: ISignInForm) => (
           placeholder="Username"
           autoComplete="username"
           component={LabeledInput}
+          error={errors.username}
         />
         <Field
           type="password"
@@ -32,6 +33,7 @@ const SignInForm = ({ isFetching, handleSubmit }: ISignInForm) => (
           placeholder="Password"
           autoComplete="current-password"
           component={LabeledInput}
+          error={errors.password}
         />
         <Button
           fluid
