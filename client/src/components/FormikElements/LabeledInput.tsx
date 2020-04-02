@@ -7,8 +7,8 @@ interface ILabeledInput extends FieldProps {
 }
 
 const LabeledInput = ({
-  form: { setFieldValue },
-  field: { name, value },
+  form: { getFieldProps },
+  field: { name },
   label,
   ...props
 }: ILabeledInput) => (
@@ -16,10 +16,7 @@ const LabeledInput = ({
     type="text"
     name={name}
     label={label}
-    value={value}
-    onChange={event => {
-      setFieldValue(name, event.target.value);
-    }}
+    {...getFieldProps(name)}
     {...props}
   />
 );
