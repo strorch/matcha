@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Grid, Message, Form, Button } from 'semantic-ui-react';
+import { Field, FormikProps } from 'formik';
+import { IForgotFormValues } from 'containers/Forgot';
 import LabeledInput from 'components/FormikElements/LabeledInput';
-import { Field } from 'formik';
 
-interface IForgotForm {
-  handleSubmit(): void;
-}
+type IForgotForm = Pick<FormikProps<IForgotFormValues>, 'errors' | 'touched' | 'handleSubmit'>;
 
-const ForgotForm = ({ handleSubmit }: IForgotForm) => (
+const ForgotForm = ({ errors, touched, handleSubmit }: IForgotForm) => (
   <Grid centered columns={2} doubling>
     <Grid.Column>
       <Message
@@ -20,6 +19,7 @@ const ForgotForm = ({ handleSubmit }: IForgotForm) => (
           label="Email:"
           placeholder="Email"
           component={LabeledInput}
+          error={touched.email && errors.email}
         />
         <Button
           fluid

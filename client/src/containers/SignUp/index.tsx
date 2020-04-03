@@ -5,6 +5,8 @@ import { Segment } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { withFormik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router';
+import * as Yup from 'yup';
+import * as validators from 'services/yupValidationHelpers';
 import { Forms } from 'components';
 import { Actions } from 'actions';
 import { IUser } from 'models';
@@ -31,6 +33,8 @@ interface IOuterProps extends RouteComponentProps {
 type ISignUp = IOuterProps & FormikProps<ISignUpFormValues>;
 
 const SignUp = ({
+  errors,
+  touched,
   history,
   handleSubmit, 
   user: { isFetching, isAuthenticated }
@@ -42,6 +46,8 @@ const SignUp = ({
   return (
     <Segment vertical padded>
       <Forms.SignUp
+        errors={errors}
+        touched={touched}
         isFetching={isFetching}
         handleSubmit={handleSubmit}
       />
@@ -53,14 +59,23 @@ const WithFormik = withFormik<IOuterProps, ISignUpFormValues>({
   handleSubmit: (values, { props: { actions, history } }) => {
     actions.signUp(values, history);  // Not the best decision but the easiest one
   },
-mapPropsToValues: () => ({
-    first_name: '',
-    last_name: '',
-    username: '',
-    email: '',
-    password: '',
-    password_confirm: ''
-  }),
+  mapPropsToValues: () => ({
+      first_name: '',
+      last_name: '',
+      username: '',
+      email: '',
+      password: '',
+      password_confirm: ''
+    }),
+  validationSchema: () =>
+    Yup.object().shape({
+      first_name: validators.firstName,
+      last_name: validators.lastName,
+      username: validators.username,
+      email: validators.email,
+      password: validators.password,
+      password_confirm: validators.passwordConfirm
+    })
 })(SignUp);
 
 const mapStateToProps = state => ({

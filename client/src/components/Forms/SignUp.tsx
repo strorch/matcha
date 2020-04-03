@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import { Button, Form, Icon, Message, Grid } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
+import { ISignUpFormValues } from 'containers/SignUp';
 import LabeledInput from 'components/FormikElements/LabeledInput';
 
-interface ISignUpForm {
+interface ISignUpForm extends Pick<FormikProps<ISignUpFormValues>, 'errors' | 'touched' | 'handleSubmit' > {
   isFetching: boolean;
-  handleSubmit(): void;
 }
 
-const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
+const SignUpForm = ({ errors, touched, isFetching, handleSubmit }: ISignUpForm) => (
   <Grid centered columns={2} doubling>
     <Grid.Column>
       <Message
@@ -23,12 +23,14 @@ const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
           label="First name:"
           placeholder='First Name'
           component={LabeledInput}
+          error={touched.first_name && errors.first_name}
         />
         <Field
           name='last_name'
           label="Last name:"
           placeholder='Last Name'
           component={LabeledInput}
+          error={touched.last_name && errors.last_name}
         />
         <Field
           name="username"
@@ -36,6 +38,7 @@ const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
           placeholder="Username"
           autoComplete="username"
           component={LabeledInput}
+          error={touched.username && errors.username}
         />
         <Field
           name="email"
@@ -43,6 +46,7 @@ const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
           placeholder="Email"
           autoComplete="none"
           component={LabeledInput}
+          error={touched.email && errors.email}
         />
         <Field
           type="password"
@@ -51,6 +55,7 @@ const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
           placeholder="Password"
           autoComplete="new-password"
           component={LabeledInput}
+          error={touched.password && errors.password}
         />
         <Field
           type="password"
@@ -59,6 +64,7 @@ const SignUpForm = ({ isFetching, handleSubmit }: ISignUpForm) => (
           autoComplete="new-password"
           placeholder="Confirm password"
           component={LabeledInput}
+          error={touched.password_confirm && errors.password_confirm}
         />
         <Button
           fluid
