@@ -141,7 +141,10 @@ return static function (ContainerBuilder $containerBuilder): void {
                 }
                 public function up(): void
                 {
-                    $directory = new \DirectoryIterator('migrations');
+                    $projectDir = $this->container->get(SettingsProviderInterface::class)
+                        ->getSettingByName('projectDir');
+
+                    $directory = new \DirectoryIterator($projectDir . '/migrations');
                     $regex = new \RegexIterator($directory, '/^.+\.php$/i', \RecursiveRegexIterator::GET_MATCH);
 
                     foreach ($regex as $item) {

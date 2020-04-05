@@ -7,7 +7,7 @@ use Monolog\Logger;
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
         'settings' => [
-            'projectDir' => __DIR__ . '/../',
+            'projectDir' => __DIR__ . '/..',
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
