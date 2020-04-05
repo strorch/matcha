@@ -19,13 +19,22 @@ return static function (App $app): void {
 
     $app->get('/', function (Request $request, Response $response) use ($c): Response {
         $response->getBody()->write('hello api');
-
         return $response;
     });
     $app->get('/testCacheSet', function (Request $request, Response $response) use ($c): Response {
         $session = $c->get(SessionInterface::class);
         $session->set('user', 'kekekekkke');
         $response->getBody()->write($session->get('user') ?? 'empty');
+        return $response;
+    });
+    $app->get('/testSendMail', function (Request $request, Response $response) use ($c): Response {
+        $message = $c->get(\App\Infrastructure\Mail\CustomMessageFactory::class)
+            ->create('Wonderful Subject')
+            ->setTo(['smy980807@ukr.net' => 'smy980807@ukr.net'])
+            ->setBody('Here is the message itself', 'text/html');
+        $mailer = $c->get(\Swift_Mailer::class);
+        $res = $mailer->send($message);
+        $response->getBody()->write('hello api: ' . $res);
         return $response;
     });
 

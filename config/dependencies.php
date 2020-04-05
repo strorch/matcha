@@ -75,7 +75,9 @@ return static function (ContainerBuilder $containerBuilder): void {
 
             $transport = (new Swift_SmtpTransport($settings['host'], $settings['port']))
                 ->setUsername($settings['login'])
-                ->setPassword($settings['password']);
+                ->setPassword($settings['password'])
+                ->setEncryption('TLS')
+            ;
 
             return new Swift_Mailer($transport);
         },
