@@ -48,8 +48,8 @@ const SignIn = ({
 }
 
 const WithFormik = withFormik<IOuterProps, ISignInFormValues>({
-  handleSubmit: (values, { props: { actions } }) => {
-    actions.signIn(values);
+  handleSubmit: (values, { props: { actions, history } }) => {
+    actions.signIn(values, history);  // Not the best decision but the easiest one
   },
   mapPropsToValues: () => ({
     username: '',

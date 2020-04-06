@@ -16,7 +16,7 @@ export const Actions = {
 
   // Auth -->
   signUp: (payload: ISignUpFormValues, history: History) => ({type: types.SIGN_UP, payload: { ...payload, history } }),
-  signIn: (payload: ISignInFormValues) => ({ type: types.SIGN_IN, payload }),
+  signIn: (payload: ISignInFormValues, history: History) => ({ type: types.SIGN_IN, payload: { ...payload, history } }),
   signOut: () => ({ type: types.SIGN_OUT }),
 
   checkForSignedInUser: () => ({ type: types.CHECK_FOR_SIGNED_IN_USER }),

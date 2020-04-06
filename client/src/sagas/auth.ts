@@ -10,19 +10,30 @@ function* callSignIn(action) {
 
   yield delay(1000);
 
+  const { payload: { history, username } } = action;
   const user = {
     first_name: 'Alex',
     last_name: 'Smith',
-    username: action.payload.username,
+    username,
     email: 'alexsmith@email.com'
   };
 
-  yield call(setLocalStorageItem, LocalStorageKeys.User, user as IUser);
+  // check isConfirmed user's email
+  if (false) {
+    history.push(GeneralRoutes.Message, {
+      isSuccess: false,
+      icon: 'exclamation circle',
+      header: 'Not Signed In!',
+      content: `You have to confirm your email first! Confirmation email was sent to ${user.email}, follow the instructions to validate your account..`
+    } as IMessagePageLocationState);
+  } else {
+    yield call(setLocalStorageItem, LocalStorageKeys.User, user as IUser);
 
-  yield put({
-    type: types.SIGN_IN_DONE,
-    payload: user
-  });
+    yield put({
+      type: types.SIGN_IN_DONE,
+      payload: user
+    }); 
+  }
 }
 
 function* callSignUp(action) {
@@ -34,7 +45,7 @@ function* callSignUp(action) {
   history.push(GeneralRoutes.Message, {
     isSuccess: true,
     icon: 'inbox',
-    header: 'Signed up!',
+    header: 'Signed Up!',
     content: `You did it, ${username}! Confirmation email was sent to ${email}, follow the instructions to validate your account ;)`
   } as IMessagePageLocationState);
 
