@@ -5,7 +5,7 @@
 	"description": "Matcha educational project",
 	"keywords": ["server", "json", "matcha", "42"],
 	"require": {
-		"php": ">=7.1",
+		"php": ">=7.3",
 		"ext-json": "*",
 		"ext-pdo": "*",
 		"ext-memcached": "*",
@@ -27,7 +27,11 @@
 	"autoload": {
 		"psr-4": {
 			"App\\": "src/",
-			"App\\migrations\\": "migrations/",
+			"App\\migrations\\": "migrations/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
 			"tests\\": "tests/"
 		}
 	},

@@ -29,7 +29,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     /**
      * @inheritDoc
      */
-    public function update(int $userId, User $client): bool
+    public function update(User $client): bool
     {
         return true;
     }

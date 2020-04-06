@@ -10,6 +10,7 @@ return static function (ContainerBuilder $containerBuilder): void {
             'projectDir' => __DIR__ . '/..',
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
+            'clientUrl' => getenv('CLIENT_URL'),
             'logger' => [
                 'name' => 'matcha',
                 'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../runtime/app.log',

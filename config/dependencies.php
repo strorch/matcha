@@ -13,6 +13,8 @@ use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
+use App\Infrastructure\Provider\TokenProvider;
+use App\Infrastructure\Provider\TokenProviderInterface;
 use App\Socket\BaseSocketManager;
 use App\Socket\ChatHandler;
 use App\Socket\NotificationHandler;
@@ -52,6 +54,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         SocketMessageHandler::class => DI\autowire(SocketMessageHandler::class),
         ChatHandler::class => DI\autowire(ChatHandler::class),
         NotificationHandler::class => DI\autowire(NotificationHandler::class),
+        TokenProviderInterface::class => DI\autowire(TokenProvider::class),
 
         /**
          * Classes definitions

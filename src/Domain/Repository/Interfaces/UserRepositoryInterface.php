@@ -27,9 +27,8 @@ interface UserRepositoryInterface
     public function search(UserSearch $search): array;
 
     /**
-     * @param int $userId
      * @param User $client
      * @return bool
      */
-    public function update(int $userId, User $client): bool;
+    public function update(User $client): bool;
 }
