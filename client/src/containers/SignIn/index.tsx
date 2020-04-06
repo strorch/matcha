@@ -10,6 +10,7 @@ import * as validators from 'services/yupValidationHelpers';
 import { Forms } from 'components';
 import { Actions } from 'actions';
 import { GeneralRoutes } from 'routes';
+import { IUserState } from 'models';
 
 export interface ISignInFormValues {
   username: string;
@@ -18,10 +19,7 @@ export interface ISignInFormValues {
 
 interface IOuterProps extends RouteComponentProps {
   actions: typeof Actions;
-  user: {
-    isFetching: boolean;
-    isAuthenticated: boolean;
-  }
+  user: IUserState;
 }
 
 type ISignIn = IOuterProps & FormikProps<ISignInFormValues>;
