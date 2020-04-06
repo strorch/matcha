@@ -36,6 +36,7 @@ const MessagePage = ({
       />
       <Link to={GeneralRoutes.Main}>
         <Button
+          fluid
           color="blue"
         >
           to Main Page
