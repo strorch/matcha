@@ -8,6 +8,7 @@ use App\Domain\Entity\IoMessage;
 use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 final class BaseSocketManager implements MessageComponentInterface
 {
@@ -24,7 +25,7 @@ final class BaseSocketManager implements MessageComponentInterface
     /**
      * @var ConnectionInterface[]
      */
-    private $connections = [];
+    private $connections = []; // TODO: change to [SplObjectStorage]
 
     public function __construct(LoggerInterface $logger, SocketMessageHandler $handler)
     {
@@ -37,6 +38,7 @@ final class BaseSocketManager implements MessageComponentInterface
      */
     public function onOpen(ConnectionInterface $conn)
     {
+        $conn->Session->start();
         $this->connections[$conn->resourceId] = $conn;
     }
 
@@ -62,6 +64,10 @@ final class BaseSocketManager implements MessageComponentInterface
      */
     public function onMessage(ConnectionInterface $from, $msg)
     {
+        /** @var Session $session */
+        $session = $from->Session;
+        var_dump($session->get('user'));
+
         $message = IoMessage::create($from, $msg);
 
         $this->handler->handle($message, $this->connections);

@@ -13,13 +13,28 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 return static function (App $app): void {
     $c = $app->getContainer();
 
-    $app->get('/', function (Request $request, Response $response): Response {
-        $response->getBody()->write('Hello! It\'s Matcha API version 1.0!');
+    $app->get('/', function (Request $request, Response $response) use ($c): Response {
+        $response->getBody()->write('hello api');
+        return $response;
+    });
+    $app->get('/testCacheSet', function (Request $request, Response $response) use ($c): Response {
+        $session = $c->get(SessionInterface::class);
+        $session->set('user', 'kekekekkke');
+        $response->getBody()->write($session->get('user') ?? 'empty');
+        return $response;
+    });
+    $app->get('/testSendMail', function (Request $request, Response $response) use ($c): Response {
+        $message = $c->get(\App\Infrastructure\Mail\CustomMessageFactory::class)
+            ->create('Wonderful Subject')
+            ->setTo(['smy980807@ukr.net' => 'smy980807@ukr.net'])
+            ->setBody('Here is the message itself', 'text/html');
+        $mailer = $c->get(\Swift_Mailer::class);
+        $res = $mailer->send($message);
+        $response->getBody()->write('hello api: ' . $res);
         return $response;
     });
 
@@ -34,11 +49,15 @@ return static function (App $app): void {
                 return $response;
             })
             ->add(CheckAuthMiddleware::class);
+
+//        TODO: $group->get('/confirm-email', 'ConfirmEmail::class');
     });
 
     $app->group('/api', function (Group $group) {
         $group->get('/users', UsersSearchAction::class);
         $group->patch('/user',  UserUpdateAction::class);
+
+//        TODO: $group->put('/change-email', 'ChangeEmail::class');
     })->add(CheckAuthMiddleware::class);
 
     $app->add(JSONSerializeMiddleware::class);

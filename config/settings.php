@@ -7,7 +7,7 @@ use Monolog\Logger;
 return static function (ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
         'settings' => [
-            'projectDir' => __DIR__ . '/../',
+            'projectDir' => __DIR__ . '/..',
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'logger' => [
@@ -34,6 +34,10 @@ return static function (ContainerBuilder $containerBuilder): void {
             'socket' => [
                 'host' => getenv('SOCKET_HOST'),
                 'port' => getenv('SOCKET_PORT'),
+            ],
+            'memcached' => [
+                'host' => getenv('MEMCACHE_HOST'),
+                'port' => (int)getenv('MEMCACHE_PORT'),
             ],
         ],
     ]);

@@ -8,6 +8,8 @@
 		"php": ">=7.1",
 		"ext-json": "*",
 		"ext-pdo": "*",
+		"ext-memcached": "*",
+
 		"slim/slim": "^4.1",
 		"slim/psr7": "^0.5",
 		"php-di/php-di": "^6.0",
@@ -16,6 +18,7 @@
 		"symfony/serializer": "^5.0",
 		"symfony/property-access": "^5.0",
 		"swiftmailer/swiftmailer": "^6.0",
+		"ocramius/generated-hydrator": "^3.1",
 		"vlucas/phpdotenv": "^3.6"
 	},
 	"require-dev": {

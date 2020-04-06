@@ -1,0 +1,36 @@
+# memcached logs
+sess*
+
+# local config
+/.env
+/docker-compose.yml
+
+# IDE & OS files
+.*.swp
+.DS_Store
+.buildpath
+.idea
+.project
+.settings
+Thumbs.db
+nbproject
+
+# composer internals
+/composer.lock
+/vendor
+
+# php-cs-fixer cache
+.php_cs.cache
+
+# phpunit generated files
+.phpunit.result.cache
+coverage.clover
+
+# Binaries
+chkipper.phar
+composer.phar
+ocular.phar
+php-cs-fixer.phar
+phpstan.phar
+phpunit-skelgen.phar
+phpunit.phar
