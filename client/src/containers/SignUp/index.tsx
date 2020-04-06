@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import * as validators from 'services/yupValidationHelpers';
 import { Forms } from 'components';
 import { Actions } from 'actions';
-import { IUser, IUserState } from 'models';
+import { IUserState } from 'models';
 import { GeneralRoutes } from 'routes';
 
 export interface ISignUpFormValues {
