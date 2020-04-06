@@ -9,6 +9,7 @@ import { ProtectedRoute } from 'HOC';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));
+const Profile = lazy(() => import('containers/Profile'));
 const SignIn = lazy(() => import('containers/SignIn'));
 const SignUp = lazy(() => import('containers/SignUp'));
 const Forgot = lazy(() => import('containers/Forgot'));
@@ -24,6 +25,7 @@ const AppRouter = () => (
         <Switch>
           <Route exact path={GeneralRoutes.Main} component={Main} />
           <ProtectedRoute path={GeneralRoutes.Chat} component={Chat} />
+          <ProtectedRoute path={GeneralRoutes.Profile} component={Profile} />
           <Route path={GeneralRoutes.SignIn} component={SignIn} />
           <Route path={GeneralRoutes.SignUp} component={SignUp} />
           <Route path={GeneralRoutes.Forgot} component={Forgot} />

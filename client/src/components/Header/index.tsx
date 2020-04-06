@@ -35,6 +35,11 @@ const Header = ({
             <img src={logo} alt="logo" />
           </Menu.Item>
           <Menu.Item
+            name={MainHeaderItems.Profile}
+            active={activeItem === MainHeaderItems.Profile}
+            onClick={() => clickHandler(MainHeaderItems.Profile, true)}
+          />
+          <Menu.Item
             name={MainHeaderItems.Chat}
             active={activeItem === MainHeaderItems.Chat}
             onClick={() => clickHandler(MainHeaderItems.Chat, true)}

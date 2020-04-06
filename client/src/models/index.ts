@@ -7,6 +7,8 @@ export interface IGeneralState {
 
 export interface IUserState {
   isAuthenticated: boolean;
+  isConfirmed: boolean;
+  isInfoAdded: boolean;
   isFetching: boolean;
   data: IUser;
   error: any;
@@ -26,6 +28,7 @@ export enum SocketConnectionStatus {
 
 export enum MainHeaderItems {
   Home = 'home',
+  Profile = 'profile',
   Chat = 'chat',
   SignUp = 'sign-up',
   SignIn = 'sign-in'
@@ -33,6 +36,7 @@ export enum MainHeaderItems {
 
 export const routeByHeaderItem = {
   [MainHeaderItems.Home]: GeneralRoutes.Main,
+  [MainHeaderItems.Profile]: GeneralRoutes.Profile,
   [MainHeaderItems.Chat]: GeneralRoutes.Chat,
   [MainHeaderItems.SignUp]: GeneralRoutes.SignUp,
   [MainHeaderItems.SignIn]: GeneralRoutes.SignIn

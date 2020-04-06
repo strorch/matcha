@@ -6,6 +6,8 @@ const initState: IGeneralState = {
   socketStatus: SocketConnectionStatus.Off,
   user: {
     isAuthenticated: false,
+    isConfirmed: false,
+    isInfoAdded: false,
     isFetching: false,
     data: null,
     error: null
