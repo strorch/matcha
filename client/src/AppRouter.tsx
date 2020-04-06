@@ -13,6 +13,7 @@ const SignIn = lazy(() => import('containers/SignIn'));
 const SignUp = lazy(() => import('containers/SignUp'));
 const Forgot = lazy(() => import('containers/Forgot'));
 const MessagePage = lazy(() => import('components/MessagePage'));
+const NotFoundPage = lazy(() => import('components/NotFoundPage'));
 
 // TODO: add loader
 const AppRouter = () => (
@@ -27,6 +28,7 @@ const AppRouter = () => (
           <Route path={GeneralRoutes.SignUp} component={SignUp} />
           <Route path={GeneralRoutes.Forgot} component={Forgot} />
           <Route path={GeneralRoutes.Message} component={MessagePage} />
+          <Route component={NotFoundPage} />
         </Switch>
       </Suspense>
     </Container>
