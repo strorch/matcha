@@ -11,7 +11,7 @@ import {
 import { Actions } from 'actions';
 import * as types from 'actions/types';
 import { socketURL } from 'config/api';
-import { getMessageType } from 'services/socketHelpers';
+import { getMessageType } from 'services/socketService';
 
 const createWebSocketConnection = () =>
   new Promise((resolve, reject) => {

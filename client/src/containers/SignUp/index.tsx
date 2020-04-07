@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { withFormik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router';
 import * as Yup from 'yup';
-import * as validators from 'services/yupValidationHelpers';
+import * as validators from 'services/yupValidationService';
 import { Forms } from 'components';
 import { Actions } from 'actions';
 import { IUserState } from 'models';

@@ -3,7 +3,7 @@ import * as types from 'actions/types';
 import { GeneralRoutes } from 'routes';
 import { IUser } from 'models';
 import { IMessagePageLocationState } from 'components/MessagePage';
-import { setLocalStorageItem, removeLocalStorageItem, LocalStorageKeys, getLocalStorageItem } from 'services/localStorage';
+import { setLocalStorageItem, removeLocalStorageItem, LocalStorageKeys, getLocalStorageItem } from 'services/localStorageService';
 
 function* callSignIn(action) {
   console.log('SignIn: ', action);

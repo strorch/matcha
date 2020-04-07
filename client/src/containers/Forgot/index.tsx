@@ -6,7 +6,7 @@ import { Segment } from 'semantic-ui-react';
 import { withFormik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router';
 import * as Yup from 'yup';
-import * as validators from 'services/yupValidationHelpers';
+import * as validators from 'services/yupValidationService';
 import { Actions } from 'actions';
 import { Forms } from 'components';
 import { IUserState } from 'models';
