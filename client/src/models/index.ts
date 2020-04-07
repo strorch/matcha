@@ -8,7 +8,7 @@ export interface IGeneralState {
 export interface IUserState {
   isAuthenticated: boolean;
   isConfirmed: boolean;
-  isInfoAdded: boolean;
+  isInitialInfoSet: boolean;
   isFetching: boolean;
   data: IUser;
   error: any;

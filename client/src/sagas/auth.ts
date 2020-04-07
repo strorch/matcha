@@ -15,11 +15,15 @@ function* callSignIn(action) {
     first_name: 'Alex',
     last_name: 'Smith',
     username,
-    email: 'alexsmith@email.com'
+    email: 'alexsmith@email.com',
+    isConfirmed: true,
+    isInitialInfoSet: false
   };
 
-  // check isConfirmed user's email
-  if (false) {
+  if (!user) {
+    //show failed message
+    console.log(user);
+  } else if (!user.isConfirmed) {
     history.push(GeneralRoutes.Message, {
       isSuccess: false,
       icon: 'exclamation circle',
@@ -32,7 +36,7 @@ function* callSignIn(action) {
     yield put({
       type: types.SIGN_IN_DONE,
       payload: user
-    }); 
+    });
   }
 }
 

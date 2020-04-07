@@ -13,6 +13,7 @@ const Profile = lazy(() => import('containers/Profile'));
 const SignIn = lazy(() => import('containers/SignIn'));
 const SignUp = lazy(() => import('containers/SignUp'));
 const Forgot = lazy(() => import('containers/Forgot'));
+const SetInitialInfo = lazy(() => import('containers/SetInitialInfo'));
 const MessagePage = lazy(() => import('components/MessagePage'));
 const NotFoundPage = lazy(() => import('components/NotFoundPage'));
 
@@ -26,6 +27,7 @@ const AppRouter = () => (
           <Route exact path={GeneralRoutes.Main} component={Main} />
           <ProtectedRoute path={GeneralRoutes.Chat} component={Chat} />
           <ProtectedRoute path={GeneralRoutes.Profile} component={Profile} />
+          <ProtectedRoute path={GeneralRoutes.SetInitialInfo} component={SetInitialInfo} />
           <Route path={GeneralRoutes.SignIn} component={SignIn} />
           <Route path={GeneralRoutes.SignUp} component={SignUp} />
           <Route path={GeneralRoutes.Forgot} component={Forgot} />

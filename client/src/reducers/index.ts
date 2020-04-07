@@ -7,7 +7,7 @@ const initState: IGeneralState = {
   user: {
     isAuthenticated: false,
     isConfirmed: false,
-    isInfoAdded: false,
+    isInitialInfoSet: false,
     isFetching: false,
     data: null,
     error: null

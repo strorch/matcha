@@ -5,5 +5,6 @@ export enum GeneralRoutes {
   SignIn = '/sign-in',
   SignUp = '/sign-up',
   Forgot = '/forgot',
-  Message = '/message'
+  Message = '/message',
+  SetInitialInfo = '/set-initial-info'
 };

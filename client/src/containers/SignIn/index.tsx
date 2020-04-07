@@ -29,11 +29,13 @@ const SignIn = ({
   touched,
   history,
   handleSubmit,
-  user: { isFetching, isAuthenticated }
+  user: { isFetching, isAuthenticated, isInitialInfoSet }
 }: ISignIn) => {
   useEffect(() => {
-    if (isAuthenticated) history.push(GeneralRoutes.Main);
-  }, [isAuthenticated, history]);
+    if (isAuthenticated) {
+      history.push(isInitialInfoSet ? GeneralRoutes.Main : GeneralRoutes.SetInitialInfo);
+    }
+  }, [isAuthenticated, isInitialInfoSet, history]);
   
   return (
     <Segment vertical padded>
