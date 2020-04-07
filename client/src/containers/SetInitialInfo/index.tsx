@@ -12,6 +12,9 @@ import { GeneralRoutes } from 'routes';
 
 export interface ISetInitialInfoFormValues {
   gender: Gender;
+  sexualPref: Gender;
+  bio: string;
+  interests: string[];
 }
 interface IOuterProps extends RouteComponentProps {
   actions: typeof Actions;
@@ -21,6 +24,8 @@ interface IOuterProps extends RouteComponentProps {
 type ISetInitialInfo = IOuterProps & FormikProps<ISetInitialInfoFormValues>;
 
 const SetInitialInfo = ({
+  errors,
+  touched,
   history,
   handleSubmit,
   user: { isFetching, isInitialInfoSet }
@@ -29,13 +34,18 @@ const SetInitialInfo = ({
     if (isInitialInfoSet) history.push(GeneralRoutes.Main);
   }, [isInitialInfoSet, history]);
 
+  const handleAddInterest = (interest: string) => {
+    console.log('Add: ', interest);
+  }
+
   return (
     <Segment vertical padded>
       <Forms.InitialInfo
-        errors={{}}
-        touched={{}}
+        errors={errors}
+        touched={touched}
         isFetching={isFetching}
         handleSubmit={handleSubmit}
+        onAddInterest={handleAddInterest}
       />
     </Segment>
   );
@@ -47,7 +57,10 @@ const WithFormik = withFormik<IOuterProps, ISetInitialInfoFormValues>({
     // actions.updateUser(values, history);  // Not the best decision but the easiest one
   },
   mapPropsToValues: () => ({
-      gender: Gender.Male
+      gender: Gender.Male,
+      sexualPref: Gender.Female,
+      bio: '',
+      interests: []
     })
 })(SetInitialInfo);
 

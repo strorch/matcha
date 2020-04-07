@@ -21,11 +21,6 @@ export interface IUser {
   email: string;
 }
 
-export enum Gender {
-  Male = 'male',
-  Female = 'female'
-}
-
 export enum SocketConnectionStatus {
   Off = 'OFF',
   On = 'ON'
@@ -46,3 +41,9 @@ export const routeByHeaderItem = {
   [MainHeaderItems.SignUp]: GeneralRoutes.SignUp,
   [MainHeaderItems.SignIn]: GeneralRoutes.SignIn
 };
+
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other'
+}
