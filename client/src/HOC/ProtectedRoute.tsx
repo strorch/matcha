@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { FunctionComponent } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { GeneralRoutes } from 'routes';
+import { IUserState } from 'models';
 
-interface IProtectedRoute {
-  component: FunctionComponent;
-  isAuthenticated: boolean;
+interface IProtectedRoute extends Pick<IUserState, 'isAuthenticated'> {
   path: string;
+  component: FunctionComponent;
 }
 
 const ProtectedRoute = ({ component: Component, isAuthenticated, ...props }: IProtectedRoute) => (
