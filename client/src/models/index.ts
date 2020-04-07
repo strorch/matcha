@@ -21,6 +21,11 @@ export interface IUser {
   email: string;
 }
 
+export enum Gender {
+  Male = 'male',
+  Female = 'female'
+}
+
 export enum SocketConnectionStatus {
   Off = 'OFF',
   On = 'ON'

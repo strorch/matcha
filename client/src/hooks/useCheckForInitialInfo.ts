@@ -9,7 +9,7 @@ const useCheckForInitialInfo = (
 ) => {
   useEffect(() => {
     if (!isInitialInfoSet) history.push(GeneralRoutes.SetInitialInfo);
-  }, [isInitialInfoSet]);
+  }, [isInitialInfoSet, history]);
 };
 
 export default useCheckForInitialInfo;
