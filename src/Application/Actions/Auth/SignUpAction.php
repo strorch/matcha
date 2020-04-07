@@ -34,18 +34,38 @@ final class SignUpAction extends AbstractUsersAction
         }
         $this->session->set('user', $user);
 
-        $this->sendNotifyEmail($user);
+        try {
+            $this->sendConfirmEmail($user);
+        } catch (\Exception $e) {
+            return 'error: ' . $e->getMessage();
+        }
 
         return $user;
     }
 
-    private function sendNotifyEmail(User $user): void
+    /**
+     * @param User $user
+     * @throws \Exception
+     */
+    private function sendConfirmEmail(User $user): void
     {
-        /** TODO: email templating */
+        $hash = $this->tokenProvider->saveUser($user);
+        $link = $this->prepareLink($hash);
+
         /** @var Swift_Message $message */
-        $message = $this->messageFactory->create('Wonderful Subject')
-            ->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
-            ->setBody('Here is the message itself');
-        $this->mailer->send($message);
+        $message = $this->messageFactory->create('Matcha: confirm your email!')
+            ->setTo([$user->getEmail() => $user->getEmail()])
+            ->setBody("Visit <a href='$link'>link</a> to confirm your email", 'text/html');
+
+        if (empty($this->mailer->send($message))) {
+            throw new \Exception('failed to send email');
+        }
+    }
+
+    private function prepareLink(string $hash): string
+    {
+        $clientUrl = $this->settingsProvider->getSettingByName('clientUrl');
+
+        return $clientUrl . '/confirm-email?token=' . $hash;
     }
 }

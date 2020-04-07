@@ -6,6 +6,8 @@ namespace App\Application\Actions;
 
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\Mail\CustomMessageFactory;
+use App\Infrastructure\Provider\SettingsProviderInterface;
+use App\Infrastructure\Provider\TokenProviderInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
@@ -46,6 +48,16 @@ abstract class AbstractUsersAction
     protected $messageFactory;
 
     /**
+     * @var TokenProviderInterface
+     */
+    protected $tokenProvider;
+
+    /**
+     * @var SettingsProviderInterface
+     */
+    protected $settingsProvider;
+
+    /**
      * GetDomainInfoAction constructor.
      * @param StreamFactoryInterface $streamFactory
      * @param UserRepositoryInterface $userRepository
@@ -53,6 +65,8 @@ abstract class AbstractUsersAction
      * @param SerializerInterface $serializer
      * @param Swift_Mailer $mailer
      * @param CustomMessageFactory $messageFactory
+     * @param TokenProviderInterface $tokenProvider
+     * @param SettingsProviderInterface $settingsProvider
      */
     public function __construct(
         StreamFactoryInterface $streamFactory,
@@ -60,7 +74,9 @@ abstract class AbstractUsersAction
         SessionInterface $session,
         SerializerInterface $serializer,
         Swift_Mailer $mailer,
-        CustomMessageFactory $messageFactory
+        CustomMessageFactory $messageFactory,
+        TokenProviderInterface $tokenProvider,
+        SettingsProviderInterface $settingsProvider
     ) {
         $this->streamFactory = $streamFactory;
         $this->userRepository = $userRepository;
@@ -68,6 +84,8 @@ abstract class AbstractUsersAction
         $this->serializer = $serializer;
         $this->mailer = $mailer;
         $this->messageFactory = $messageFactory;
+        $this->tokenProvider = $tokenProvider;
+        $this->settingsProvider = $settingsProvider;
     }
 
     /**

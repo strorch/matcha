@@ -38,6 +38,9 @@ class User
     /** @var string[] */
     private $fakeAccounts = [];
 
+    /** @var bool */
+    private $isConfirmed = false;
+
     /**
      * @return int|null
      */
@@ -185,6 +188,16 @@ class User
     public function addFakeAccounts(User $fakeAccounts): self
     {
         $this->fakeAccounts = $fakeAccounts;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setEmailConfirmed(): self
+    {
+        $this->isConfirmed = true;
 
         return $this;
     }

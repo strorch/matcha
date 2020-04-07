@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\Auth\ConfirmEmailAction;
 use App\Application\Actions\Auth\LoginAction;
 use App\Application\Actions\Auth\SignUpAction;
 use App\Application\Actions\Users\UsersSearchAction;
@@ -49,15 +50,12 @@ return static function (App $app): void {
                 return $response;
             })
             ->add(CheckAuthMiddleware::class);
-
-//        TODO: $group->get('/confirm-email', 'ConfirmEmail::class');
+        $group->patch('/confirm-email', ConfirmEmailAction::class);
     });
 
     $app->group('/api', function (Group $group) {
         $group->get('/users', UsersSearchAction::class);
-        $group->patch('/user',  UserUpdateAction::class);
-
-//        TODO: $group->put('/change-email', 'ChangeEmail::class');
+        $group->put('/user',  UserUpdateAction::class);
     })->add(CheckAuthMiddleware::class);
 
     $app->add(JSONSerializeMiddleware::class);

@@ -9,6 +9,9 @@
     src/        - project source code
     test/       - phpunit tests
 
+### Authors
+* [mstorcha](https://github.com/strorch)
+* [vlvereta](https://github.com/vlvereta/)
 
 # Run application
 
