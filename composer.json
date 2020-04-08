@@ -3,6 +3,7 @@
 	"license": "proprietary",
 	"type": "project",
 	"description": "Matcha educational project",
+	"minimum-stability": "dev",
 	"keywords": ["server", "json", "matcha", "42"],
 	"require": {
 		"php": ">=7.3",

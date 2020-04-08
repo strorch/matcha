@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   http:
-    image: php:7.1-cli
+    build:
+      context: .
     working_dir: /var/www
     command: php -S 0.0.0.0:8080 -t http http/index.php
     env_file:
@@ -15,9 +16,11 @@ services:
       - .:/var/www
     links:
       - pgsql
+      - memcached
 
   socket:
-    image: php:7.1-cli
+    build:
+      context: .
     working_dir: /var/www
     command: php socket/index.php
     env_file:
@@ -30,6 +33,7 @@ services:
       - .:/var/www
     links:
       - pgsql
+      - memcached
 
   pgsql:
     image: postgres:11.0
@@ -37,6 +41,13 @@ services:
       - .env
     ports:
       - "${SITE_HOST}:5432:5432"
+
+  memcached:
+    image: sameersbn/memcached:1.5.6-2
+    env_file:
+      - .env
+    ports:
+      - "${SITE_HOST}:11211:11211"
 
   client:
     build:
@@ -47,10 +58,3 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules/
-
-# docker-compose up -d --build
-
-#TODO: prepare memcached image with config
-#  docker run --name memcached -d --restart=always \
-#  --publish 11211:11211 \
-#  sameersbn/memcached:1.5.6-2
