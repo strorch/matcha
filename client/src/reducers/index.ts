@@ -1,5 +1,6 @@
 import { combineReducers, Reducer } from "redux";
 import * as types from 'actions/types';
+import formDataReducer from './formData';
 import { SocketConnectionStatus, IGeneralState } from "models";
 
 const initState: IGeneralState = {
@@ -67,5 +68,6 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
 // FIXME: fix any
 export default () =>
   combineReducers<IGeneralState & any /* Declare rest of reducers*/>({
-    general: GeneralReducer
+    general: GeneralReducer,
+    formData: formDataReducer
   });

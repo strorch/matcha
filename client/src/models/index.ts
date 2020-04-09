@@ -47,3 +47,11 @@ export enum Gender {
   Female = 'female',
   Other = 'other'
 }
+
+export interface IFormData {
+  interests: {
+    isFetching: boolean;
+    data: any;  // FIXME: fix any
+    error: any;
+  }
+}
