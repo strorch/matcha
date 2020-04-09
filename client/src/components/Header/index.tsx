@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import logo from 'assets/logo.svg';
 import { MainHeaderItems, IUserState } from 'models';
@@ -27,6 +27,11 @@ const Header = ({
     onMenuItemClick(item);
   };
 
+  const isUserReady = useMemo(() => {
+    const { isAuthenticated, isInitialInfoSet } = currentUser;
+    return !!(isAuthenticated && isInitialInfoSet);
+  }, [currentUser]);
+
   return (
     <header>
       <Menu size='large'>
@@ -35,7 +40,7 @@ const Header = ({
             <img src={logo} alt="logo" />
           </Menu.Item>
           {
-            currentUser.isAuthenticated && (
+            isUserReady && (
               <>
                 <Menu.Item
                   name={MainHeaderItems.Profile}
