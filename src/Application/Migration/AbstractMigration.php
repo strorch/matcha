@@ -18,22 +18,22 @@ abstract class AbstractMigration implements MigrationInterface
     /**
      * @var string[]
      */
-    protected static $files = [];
+    protected static array $files = [];
 
     /**
      * @var string|null
      */
-    protected static $filesDir;
+    protected static ?string $filesDir;
 
     /**
      * @var DB
      */
-    protected $db;
+    protected DB $db;
 
     /**
      * @var SettingsProviderInterface
      */
-    private $settingsProvider;
+    private SettingsProviderInterface $settingsProvider;
 
     public function __construct(DB $db, SettingsProviderInterface $settingsProvider)
     {

@@ -12,7 +12,7 @@ final class CustomMessageFactory
     /**
      * @var SettingsProviderInterface
      */
-    private $settingsProvider;
+    private SettingsProviderInterface $settingsProvider;
 
     public function __construct(SettingsProviderInterface $settingsProvider)
     {

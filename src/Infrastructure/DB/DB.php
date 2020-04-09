@@ -12,12 +12,12 @@ final class DB
     /**
      * @var string[]
      */
-    private $dbParams;
+    private array $dbParams;
 
     /**
      * @var PDO
      */
-    private $connection;
+    private PDO $connection;
 
     /**
      * DB constructor.

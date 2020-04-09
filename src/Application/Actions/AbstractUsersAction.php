@@ -20,42 +20,42 @@ abstract class AbstractUsersAction
     /**
      * @var StreamFactoryInterface
      */
-    protected $streamFactory;
+    protected StreamFactoryInterface $streamFactory;
 
     /**
      * @var UserRepositoryInterface
      */
-    protected $userRepository;
+    protected UserRepositoryInterface $userRepository;
 
     /**
      * @var SessionInterface
      */
-    protected $session;
+    protected SessionInterface $session;
 
     /**
      * @var SerializerInterface
      */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     /**
      * @var Swift_Mailer
      */
-    protected $mailer;
+    protected Swift_Mailer $mailer;
 
     /**
      * @var CustomMessageFactory
      */
-    protected $messageFactory;
+    protected CustomMessageFactory $messageFactory;
 
     /**
      * @var TokenProviderInterface
      */
-    protected $tokenProvider;
+    protected TokenProviderInterface $tokenProvider;
 
     /**
      * @var SettingsProviderInterface
      */
-    protected $settingsProvider;
+    protected SettingsProviderInterface $settingsProvider;
 
     /**
      * GetDomainInfoAction constructor.

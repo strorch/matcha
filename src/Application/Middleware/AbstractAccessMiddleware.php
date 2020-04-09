@@ -17,12 +17,12 @@ abstract class AbstractAccessMiddleware implements MiddlewareInterface
     /**
      * @var SessionInterface
      */
-    protected $session;
+    protected SessionInterface $session;
 
     /**
      * @var StreamFactoryInterface
      */
-    protected $streamFactory;
+    protected StreamFactoryInterface $streamFactory;
 
     public function __construct(SessionInterface $session, StreamFactoryInterface $streamFactory)
     {

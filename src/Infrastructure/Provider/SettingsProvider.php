@@ -14,7 +14,7 @@ class SettingsProvider implements SettingsProviderInterface
     /**
      * @var array
      */
-    private $settings;
+    private array $settings;
 
     /**
      * SettingsProvider constructor.
