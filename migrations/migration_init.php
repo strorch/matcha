@@ -14,6 +14,7 @@ final class migration_init extends AbstractMigration
         'create.sql',
         'alter.sql',
         'functions.sql',
+        'views.sql',
         'init.sql',
     ];
 
