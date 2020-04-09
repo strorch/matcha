@@ -21,6 +21,8 @@ const Header = ({
   useEffect(() => {
     setActiveItem(currentItem);
   }, [currentItem]);
+  
+  const { isAuthenticated, isInitialInfoSet } = currentUser;
 
   const clickHandler = (item: MainHeaderItems, isSetItem?: boolean) => {
     setActiveItem(isSetItem ? item : '');
@@ -28,7 +30,6 @@ const Header = ({
   };
 
   const isUserReady = useMemo(() => {
-    const { isAuthenticated, isInitialInfoSet } = currentUser;
     return !!(isAuthenticated && isInitialInfoSet);
   }, [currentUser]);
 
@@ -40,20 +41,27 @@ const Header = ({
             <img src={logo} alt="logo" />
           </Menu.Item>
           {
-            isUserReady && (
-              <>
+            isUserReady
+              ? (
+                <>
+                  <Menu.Item
+                    name={MainHeaderItems.Profile}
+                    active={activeItem === MainHeaderItems.Profile}
+                    onClick={() => clickHandler(MainHeaderItems.Profile, true)}
+                  />
+                  <Menu.Item
+                    name={MainHeaderItems.Chat}
+                    active={activeItem === MainHeaderItems.Chat}
+                    onClick={() => clickHandler(MainHeaderItems.Chat, true)}
+                  />
+                </>
+              ) : isAuthenticated && (
                 <Menu.Item
-                  name={MainHeaderItems.Profile}
-                  active={activeItem === MainHeaderItems.Profile}
-                  onClick={() => clickHandler(MainHeaderItems.Profile, true)}
+                  name={MainHeaderItems.SetInitialInfo}
+                  active={activeItem === MainHeaderItems.SetInitialInfo}
+                  onClick={() => clickHandler(MainHeaderItems.SetInitialInfo, true)}
                 />
-                <Menu.Item
-                  name={MainHeaderItems.Chat}
-                  active={activeItem === MainHeaderItems.Chat}
-                  onClick={() => clickHandler(MainHeaderItems.Chat, true)}
-                />
-              </>
-            )
+              )
           }
           <Menu.Menu position='right'>
             {

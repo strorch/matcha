@@ -31,7 +31,8 @@ export enum MainHeaderItems {
   Profile = 'profile',
   Chat = 'chat',
   SignUp = 'sign-up',
-  SignIn = 'sign-in'
+  SignIn = 'sign-in',
+  SetInitialInfo = 'set-initial-info'
 }
 
 export const routeByHeaderItem = {
@@ -39,7 +40,8 @@ export const routeByHeaderItem = {
   [MainHeaderItems.Profile]: GeneralRoutes.Profile,
   [MainHeaderItems.Chat]: GeneralRoutes.Chat,
   [MainHeaderItems.SignUp]: GeneralRoutes.SignUp,
-  [MainHeaderItems.SignIn]: GeneralRoutes.SignIn
+  [MainHeaderItems.SignIn]: GeneralRoutes.SignIn,
+  [MainHeaderItems.SetInitialInfo]: GeneralRoutes.SetInitialInfo
 };
 
 export enum Gender {
