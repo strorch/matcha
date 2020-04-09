@@ -29,3 +29,9 @@ export const SEND_CHAT_MESSAGE = 'SEND_CHAT_MESSAGE';
 export const SEND_CHAT_MESSAGE_DONE = 'SEND_CHAT_MESSAGE_DONE';
 export const SEND_CHAT_MESSAGE_FAIL = 'SEND_CHAT_MESSAGE_FAIL';
 // <-- End of Chat
+
+// Form data -->
+export const GET_INTERESTS_LIST = 'GET_INTERESTS_LIST';
+export const GET_INTERESTS_LIST_DONE = 'GET_INTERESTS_LIST_DONE';
+// export const GET_INTERESTS_LIST_FAIL = 'GET_INTERESTS_LIST_FAIL';
+// <-- End of Form data

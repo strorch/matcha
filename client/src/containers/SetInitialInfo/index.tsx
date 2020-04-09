@@ -7,7 +7,7 @@ import { withFormik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router';
 import { Actions } from 'actions';
 import { Forms } from 'components';
-import { IUserState, Gender } from 'models';
+import { IUserState, Gender, IInterestsState } from 'models';
 import { GeneralRoutes } from 'routes';
 
 export interface ISetInitialInfoFormValues {
@@ -19,20 +19,25 @@ export interface ISetInitialInfoFormValues {
 interface IOuterProps extends RouteComponentProps {
   actions: typeof Actions;
   user: IUserState;
+  interests: IInterestsState;
 }
 
 type ISetInitialInfo = IOuterProps & FormikProps<ISetInitialInfoFormValues>;
 
 const SetInitialInfo = ({
-  errors,
-  touched,
+  user,
+  actions,
   history,
-  handleSubmit,
-  user: { isFetching, isInitialInfoSet }
+  interests,
+  handleSubmit
 }: ISetInitialInfo) => {
   useEffect(() => {
-    if (isInitialInfoSet) history.push(GeneralRoutes.Main);
-  }, [isInitialInfoSet, history]);
+    if (user.isInitialInfoSet) {
+      history.push(GeneralRoutes.Main);
+    }
+
+    actions.getInterestsList();
+  }, [user.isInitialInfoSet, history, actions]);
 
   const handleAddInterest = (interest: string) => {
     console.log('Add: ', interest);
@@ -41,10 +46,9 @@ const SetInitialInfo = ({
   return (
     <Segment vertical padded>
       <Forms.InitialInfo
-        errors={errors}
-        touched={touched}
-        isFetching={isFetching}
+        interests={interests}
         handleSubmit={handleSubmit}
+        isFetching={user.isFetching}
         onAddInterest={handleAddInterest}
       />
     </Segment>
@@ -65,7 +69,8 @@ const WithFormik = withFormik<IOuterProps, ISetInitialInfoFormValues>({
 })(SetInitialInfo);
 
 const mapStateToProps = state => ({
-  user: state.general.user
+  user: state.general.user,
+  interests: state.formData.interests
 });
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch)

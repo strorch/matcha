@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import logo from 'assets/logo.svg';
 import { MainHeaderItems, IUserState } from 'models';
@@ -17,21 +17,15 @@ const Header = ({
   onSignOutClick,
   onMenuItemClick
 }: IHeader) => {
-  const [activeItem, setActiveItem] = useState('');
-  useEffect(() => {
-    setActiveItem(currentItem);
-  }, [currentItem]);
-  
   const { isAuthenticated, isInitialInfoSet } = currentUser;
 
   const clickHandler = (item: MainHeaderItems, isSetItem?: boolean) => {
-    setActiveItem(isSetItem ? item : '');
     onMenuItemClick(item);
   };
 
   const isUserReady = useMemo(() => {
     return !!(isAuthenticated && isInitialInfoSet);
-  }, [currentUser]);
+  }, [isAuthenticated, isInitialInfoSet]);
 
   return (
     <header>
@@ -46,19 +40,19 @@ const Header = ({
                 <>
                   <Menu.Item
                     name={MainHeaderItems.Profile}
-                    active={activeItem === MainHeaderItems.Profile}
+                    active={currentItem === MainHeaderItems.Profile}
                     onClick={() => clickHandler(MainHeaderItems.Profile, true)}
                   />
                   <Menu.Item
                     name={MainHeaderItems.Chat}
-                    active={activeItem === MainHeaderItems.Chat}
+                    active={currentItem === MainHeaderItems.Chat}
                     onClick={() => clickHandler(MainHeaderItems.Chat, true)}
                   />
                 </>
               ) : isAuthenticated && (
                 <Menu.Item
                   name={MainHeaderItems.SetInitialInfo}
-                  active={activeItem === MainHeaderItems.SetInitialInfo}
+                  active={currentItem === MainHeaderItems.SetInitialInfo}
                   onClick={() => clickHandler(MainHeaderItems.SetInitialInfo, true)}
                 />
               )

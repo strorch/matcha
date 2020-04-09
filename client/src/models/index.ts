@@ -50,10 +50,17 @@ export enum Gender {
   Other = 'other'
 }
 
-export interface IFormData {
-  interests: {
-    isFetching: boolean;
-    data: any;  // FIXME: fix any
-    error: any;
-  }
+export interface IFormDataState {
+  interests: IInterestsState;
+}
+
+export interface IInterestsState {
+  isFetching: boolean;
+  data: IInterest[];
+  error: any;  // FIXME: fix any
+}
+
+export interface IInterest {
+  id: number;
+  title: string;
 }

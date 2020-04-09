@@ -3,3 +3,9 @@ export const makeDropdownListFromObject = (obj: object) =>
     text: key,
     value: obj[key]
   }));
+
+export const makeDropdownListFromObjArr = (arr: Array<any>, textField: string, valueField: string | number) =>
+  arr && arr.map(el => ({
+    text: el[textField],
+    value: el[valueField]
+  }));

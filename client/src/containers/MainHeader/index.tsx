@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -17,13 +18,17 @@ const MainHeader = ({
   history,
   location
 }: IMainHeader) => {
-  const getCurrentItem = () => location.pathname.slice(1);
+  const [activeItem, setActiveItem] = useState('');
+  useEffect(() => {
+    setActiveItem(location.pathname.slice(1));
+  }, [location]);
+  
   const onMenuItemClick = (item: MainHeaderItems) => history.push(routeByHeaderItem[item]);
 
   return (
     <Header
       currentUser={user}
-      currentItem={getCurrentItem()}
+      currentItem={activeItem}
       onSignOutClick={actions.signOut}
       onMenuItemClick={onMenuItemClick}
     />

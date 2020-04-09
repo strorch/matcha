@@ -22,5 +22,9 @@ export const Actions = {
   checkForSignedInUser: () => ({ type: types.CHECK_FOR_SIGNED_IN_USER }),
   // <-- End of Auth
 
-  sendChatMessage: (sender_id: string, receiver_id: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { sender_id, receiver_id, message } })
+  sendChatMessage: (sender_id: string, receiver_id: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { sender_id, receiver_id, message } }),
+
+  // Form data -->
+  getInterestsList: () => ({ type: types.GET_INTERESTS_LIST })
+  // <-- End of Form data
 };
