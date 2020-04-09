@@ -1,5 +1,5 @@
-export const makeDropdownListFromEnum = (enumObj: object) =>
-  Object.keys(enumObj).map(key => ({
+export const makeDropdownListFromObject = (obj: object) =>
+  Object.keys(obj).map(key => ({
     text: key,
-    value: enumObj[key]
+    value: obj[key]
   }));
