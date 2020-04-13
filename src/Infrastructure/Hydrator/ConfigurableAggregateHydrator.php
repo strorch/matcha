@@ -12,12 +12,12 @@ class ConfigurableAggregateHydrator implements HydratorInterface
     /**
      * @var HydrationInterface[]
      */
-    private $hydrators = [];
+    private array $hydrators = [];
 
     /**
      * @var ContainerInterface
      */
-    private $di;
+    private ContainerInterface $di;
 
     public function __construct(ContainerInterface $di, array $hydrators = [])
     {

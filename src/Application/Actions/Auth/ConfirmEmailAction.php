@@ -27,6 +27,8 @@ final class ConfirmEmailAction extends AbstractUsersAction
 
         $this->userRepository->update($user);
 
+        $this->session->set('user', $user);
+
         return $user;
     }
 }

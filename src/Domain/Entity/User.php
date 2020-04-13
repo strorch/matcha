@@ -9,37 +9,37 @@ use App\Domain\ValueObject\Contact;
 class User
 {
     /** @var int|null */
-    private $id;
+    private ?int $id;
 
     /** @var string|null */
-    private $username;
+    private ?string $username;
 
     /** @var string|null */
-    private $email;
+    private ?string $email;
 
     /** @var string|null */
-    private $lastName;
+    private ?string $lastName;
 
     /** @var string|null */
-    private $firstName;
+    private ?string $firstName;
 
     /** @var string|null */
-    private $password;
-
-    /** @var Contact|null */
-    private $contact;
-
-    /** @var User[] */
-    private $blockedUsers = [];
-
-    /** @var int|null */
-    private $fameRate;
-
-    /** @var string[] */
-    private $fakeAccounts = [];
+    private ?string $password;
 
     /** @var bool */
-    private $isConfirmed = false;
+    private bool $isConfirmed = false;
+
+    /** @var Contact|null */
+    private ?Contact $contact;
+
+    /** @var User[] TODO: refactor with sql filter */
+    private array $blockedUsers = [];
+
+    /** @var int|null */
+    private ?int $fameRate;
+
+    /** @var string[] */
+    private array $fakeAccounts = [];
 
     /**
      * @return int|null

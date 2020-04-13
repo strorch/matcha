@@ -12,12 +12,12 @@ class TokenProvider implements TokenProviderInterface
     /**
      * @var SettingsProviderInterface
      */
-    private $provider;
+    private SettingsProviderInterface $provider;
 
     /**
      * @var SerializerInterface
      */
-    private $serializer;
+    private SerializerInterface $serializer;
 
     public function __construct(SettingsProviderInterface $provider, SerializerInterface $serializer)
     {

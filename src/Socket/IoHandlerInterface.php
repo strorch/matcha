@@ -11,8 +11,8 @@ interface IoHandlerInterface
 {
     /**
      * @param IoMessage $message
-     * @param ConnectionInterface[] $connections
+     * @param \SplObjectStorage|ConnectionInterface[] $connections
      * @return mixed
      */
-    public function handle(IoMessage $message, array $connections);
+    public function handle(IoMessage $message, \SplObjectStorage $connections);
 }

@@ -13,17 +13,17 @@ class IoMessage
     /**
      * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * @var array
      */
-    private $body;
+    private array $body;
 
     /**
      * @var ConnectionInterface
      */
-    private $author;
+    private ConnectionInterface $author;
 
     public static function create(ConnectionInterface $author, string $messageString): self
     {

@@ -12,7 +12,7 @@ class ChatHandler implements IoHandlerInterface
     /**
      * @inheritDoc
      */
-    public function handle(IoMessage $message, array $connections)
+    public function handle(IoMessage $message, \SplObjectStorage $connections)
     {
         var_dump($message->getBody());
     }

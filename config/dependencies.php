@@ -18,7 +18,7 @@ use App\Infrastructure\Provider\TokenProviderInterface;
 use App\Socket\BaseSocketManager;
 use App\Socket\ChatHandler;
 use App\Socket\NotificationHandler;
-use App\Socket\SocketMessageHandler;
+use App\Socket\IoMessageTypeResolver;
 use DI\ContainerBuilder;
 use Dotenv\Exception\InvalidFileException;
 use Monolog\Handler\StreamHandler;
@@ -51,7 +51,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         BaseSocketManager::class => DI\autowire(BaseSocketManager::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
         CustomMessageFactory::class => DI\autowire(CustomMessageFactory::class),
-        SocketMessageHandler::class => DI\autowire(SocketMessageHandler::class),
+        IoMessageTypeResolver::class => DI\autowire(IoMessageTypeResolver::class),
         ChatHandler::class => DI\autowire(ChatHandler::class),
         NotificationHandler::class => DI\autowire(NotificationHandler::class),
         TokenProviderInterface::class => DI\autowire(TokenProvider::class),
@@ -136,7 +136,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         MigrationInterface::class => function (ContainerInterface $c): MigrationInterface {
             return new class($c) implements MigrationInterface {
                 /** @var ContainerInterface */
-                private $container;
+                private ContainerInterface $container;
 
                 public function __construct(ContainerInterface $container)
                 {

@@ -8,12 +8,12 @@ use App\Domain\Entity\IoMessage;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
-class SocketMessageHandler implements IoHandlerInterface
+class IoMessageTypeResolver implements IoHandlerInterface
 {
     /**
      * @var ContainerInterface
      */
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -41,7 +41,7 @@ class SocketMessageHandler implements IoHandlerInterface
     /**
      * @inheritDoc
      */
-    public function handle(IoMessage $message, array $connections)
+    public function handle(IoMessage $message, \SplObjectStorage $connections)
     {
         $handler = $this->getHandler($message->getType());
 

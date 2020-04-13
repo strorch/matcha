@@ -4,7 +4,6 @@
 namespace App\Domain\Repository;
 
 
-use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\DB\DB;
 
 abstract class AbstractRepository
@@ -12,7 +11,7 @@ abstract class AbstractRepository
     /**
      * @var DB
      */
-    protected $db;
+    protected DB $db;
 
     public function __construct(DB $db)
     {

@@ -6,24 +6,21 @@ namespace App\Domain\ValueObject;
 
 class Contact
 {
-    /** @var int */
-    public $userId;
+    /** @var string */
+    public string $gender;
 
     /** @var string */
-    public $gender;
-
-    /** @var string */
-    public $biography;
+    public string $biography;
 
     /** @var string[] */
-    public $interests;
+    public array $interests;
 
     /** @var string[] */
-    public $pictures;
+    public array $pictures;
 
     /** @var string */
-    public $location;
+    public string $location;
 
     /** @var int */
-    public $age;
+    public int $age;
 }

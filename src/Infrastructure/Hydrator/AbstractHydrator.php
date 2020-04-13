@@ -12,12 +12,12 @@ abstract class AbstractHydrator implements HydratorInterface
     /**
      * @var HydratorInterface
      */
-    protected $hydrator;
+    protected HydratorInterface $hydrator;
 
     /**
      * @var HydratorInterface[]
      */
-    protected $generatedHydrators = [];
+    protected array $generatedHydrators = [];
 
     public function __construct(HydratorInterface $hydrator)
     {

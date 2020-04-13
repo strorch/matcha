@@ -9,28 +9,39 @@ use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Zend\Hydrator\HydratorInterface;
 
 final class BaseSocketManager implements MessageComponentInterface
 {
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
-     * @var SocketMessageHandler
+     * @var IoMessageTypeResolver
      */
-    private $handler;
+    private IoMessageTypeResolver $handler;
 
     /**
-     * @var ConnectionInterface[]
+     * @var \SplObjectStorage|ConnectionInterface[]
      */
-    private $connections = []; // TODO: change to [SplObjectStorage]
+    private $connections;
 
-    public function __construct(LoggerInterface $logger, SocketMessageHandler $handler)
-    {
+    /**
+     * @var HydratorInterface
+     */
+    private HydratorInterface $hydrator;
+
+    public function __construct(
+        LoggerInterface $logger,
+        IoMessageTypeResolver $handler,
+        HydratorInterface $hydrator
+    ) {
         $this->logger = $logger;
         $this->handler = $handler;
+        $this->hydrator = $hydrator;
+        $this->connections = new \SplObjectStorage();
     }
 
     /**
@@ -39,7 +50,7 @@ final class BaseSocketManager implements MessageComponentInterface
     public function onOpen(ConnectionInterface $conn)
     {
         $conn->Session->start();
-        $this->connections[$conn->resourceId] = $conn;
+        $this->connections->attach($conn);
     }
 
     /**
@@ -47,7 +58,7 @@ final class BaseSocketManager implements MessageComponentInterface
      */
     public function onClose(ConnectionInterface $conn)
     {
-        unset($this->connections[$conn->resourceId]);
+        $this->connections->detach($conn);
     }
 
     /**

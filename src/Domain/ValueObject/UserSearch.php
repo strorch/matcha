@@ -7,14 +7,14 @@ namespace App\Domain\ValueObject;
 final class UserSearch
 {
     /** @var string|null */
-    public $username;
+    public ?string $username;
 
     /** @var string|null */
-    public $password;
+    public ?string $password;
 
     /** @var string|null */
-    public $additionalPassword;
+    public ?string $additionalPassword;
 
     /** @var string|null */
-    public $location;
+    public ?string $location;
 }

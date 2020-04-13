@@ -7,14 +7,14 @@ namespace App\Domain\ValueObject;
 class IoMessageBody
 {
     /** @var string */
-    public $clientId;
+    public string $clientId;
 
     /** @var string */
-    public $receiverId;
+    public string $receiverId;
 
     /** @var string */
-    public $message;
+    public string $message;
 
     /** @var string */
-    public $secret;
+    public string $secret;
 }

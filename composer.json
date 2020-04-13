@@ -3,9 +3,10 @@
 	"license": "proprietary",
 	"type": "project",
 	"description": "Matcha educational project",
+	"minimum-stability": "dev",
 	"keywords": ["server", "json", "matcha", "42"],
 	"require": {
-		"php": ">=7.3",
+		"php": ">=7.4",
 		"ext-json": "*",
 		"ext-pdo": "*",
 		"ext-memcached": "*",
