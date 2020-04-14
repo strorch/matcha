@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use App\Application\Migration\MigrationInterface;
 use App\Domain\Entity\IoMessage;
+use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\IoMessageBody;
@@ -10,6 +11,7 @@ use App\Infrastructure\DB\DB;
 use App\Infrastructure\Hydrator\ConfigurableAggregateHydrator;
 use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
 use App\Infrastructure\Hydrator\IoMessageHydrator;
+use App\Infrastructure\Hydrator\UserHydrator;
 use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
@@ -88,6 +90,7 @@ return static function (ContainerBuilder $containerBuilder): void {
             return new ConfigurableAggregateHydrator($c, [
                 IoMessage::class => IoMessageHydrator::class,
                 IoMessageBody::class => IoMessageBodyHydrator::class,
+                User::class => UserHydrator::class,
             ]);
         },
         SerializerInterface::class => function (): SerializerInterface {

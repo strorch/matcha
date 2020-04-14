@@ -15,7 +15,7 @@ use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-abstract class AbstractUsersAction
+abstract class AbstractJsonProxyAction
 {
     /**
      * @var StreamFactoryInterface
@@ -92,7 +92,9 @@ abstract class AbstractUsersAction
      * @param Request $request
      * @param Response $response
      * @param array $args
+     *
      * @return mixed
+     * @throws \Throwable
      */
     abstract protected function doAction(Request $request, Response $response, array $args);
 
@@ -102,9 +104,17 @@ abstract class AbstractUsersAction
      * @param array $args
      * @return Response
      */
-    public function __invoke(Request $request, Response $response, array $args): Response
+    final public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $responseData = $this->doAction($request, $response, $args);
+        $responseData = [
+            'data'  => null,
+            'error' => null,
+        ];
+        try {
+            $responseData['data'] = $this->doAction($request, $response, $args);
+        } catch (\Throwable $e) {
+            $responseData['error'] = $e->getMessage();
+        }
         $serializedData = $this->serializer->serialize($responseData, 'json');
         $dataStream = $this->streamFactory->createStream($serializedData);
 

@@ -3,42 +3,39 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Auth;
 
-use App\Application\Actions\AbstractUsersAction;
+use App\Application\Actions\AbstractJsonProxyAction;
 use App\Domain\Entity\User;
 use App\Domain\ValueObject\UserSearch;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Request;
-use Swift_Message;
 
-final class SignUpAction extends AbstractUsersAction
+final class SignUpAction extends AbstractJsonProxyAction
 {
     /**
      * @inheritDoc
      */
     protected function doAction(Request $request, Response $response, array $args)
     {
+        ['user' => $body] = $request->getParsedBody();
+
         $search = new UserSearch();
-        $search->username = $args['username'] ?? null;
+        $search->username = $body['username'] ?? null;
 
         $res = $this->userRepository->search($search);
         if (!empty($res)) {
-            return 'error';
+            throw new \Exception("user '$body[username]' already exists");
         }
 
         $user = (new User())
-            ->setUsername($args['username'] ?? null)
-            ->setPassword($args['password'] ?? null);
+            ->setUsername($body['username'] ?? null)
+            ->setPassword($body['password'] ?? null);
 
         if (!$this->userRepository->create($user)) {
-            return 'error';
+            throw new \Exception('something went wrong while user creating');
         }
         $this->session->set('user', $user);
 
-        try {
-            $this->sendConfirmEmail($user);
-        } catch (\Exception $e) {
-            return 'error: ' . $e->getMessage();
-        }
+        $this->sendConfirmEmail($user);
 
         return $user;
     }
@@ -52,7 +49,6 @@ final class SignUpAction extends AbstractUsersAction
         $hash = $this->tokenProvider->saveUser($user);
         $link = $this->prepareLink($hash);
 
-        /** @var Swift_Message $message */
         $message = $this->messageFactory->create('Matcha: confirm your email!')
             ->setTo([$user->getEmail() => $user->getEmail()])
             ->setBody("Visit <a href='$link'>link</a> to confirm your email", 'text/html');

@@ -13,8 +13,10 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     /**
      * @inheritDoc
      */
-    public function create(User $client): bool
+    public function create(User $user): bool
     {
+
+
         return true;
     }
 
@@ -29,7 +31,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     /**
      * @inheritDoc
      */
-    public function update(User $client): bool
+    public function update(User $user): bool
     {
         return true;
     }
