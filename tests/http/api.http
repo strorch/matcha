@@ -3,8 +3,16 @@ Accept: application/json
 Content-Type: application/json
 
 ###
-POST http://localhost:8080/auth/login
+POST http://127.0.0.2:8080/auth/signUp?XDEBUG_SESSION_START=1
 Accept: application/json
 Content-Type: application/json
+Cookie: XDEBUG_SESSION=1
+
+{
+   "kek": {
+     "12": 12
+   },
+   "jest": [12, 1]
+}
 
 ###

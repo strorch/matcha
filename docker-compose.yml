@@ -2,9 +2,7 @@ version: '3.7'
 
 services:
   http:
-    build:
-      context: .
-    working_dir: /var/www
+    build: .
     command: php -S 0.0.0.0:8080 -t http http/index.php
     env_file:
       - .env
@@ -13,15 +11,13 @@ services:
     ports:
       - "${SITE_HOST}:8080:8080"
     volumes:
-      - .:/var/www
+      - .:/app
     links:
       - pgsql
       - memcached
 
   socket:
-    build:
-      context: .
-    working_dir: /var/www
+    build: .
     command: php socket/index.php
     env_file:
       - .env
@@ -30,7 +26,7 @@ services:
     ports:
       - "${SITE_HOST}:8000:8000"
     volumes:
-      - .:/var/www
+      - .:/app
     links:
       - pgsql
       - memcached
