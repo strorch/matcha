@@ -63,3 +63,15 @@ To configure migration you have to run next command:
    2. Docker environment (after changing of db host in .env file):
    
             dc exec http ./migrate.php
+
+HTTP manual:
+
+    GET /
+    GET /testCacheSet - проверка что то положить в сессию для проверки ее на вебсокетсервере
+    GET /testSendMail - проверка отправки емейла
+    POST /auth/login - можно если не залогинен
+    POST /auth/signUp - можно если не залогинен
+    POST /auth/logout - можно если залогинен
+    PATCH /auth/confirm-email
+    GET /api/users - поиск юзеров с параметрами, можно если залогинен
+    PUT /api/user - апдейт юзера, можно если залогинен
