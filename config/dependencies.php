@@ -5,6 +5,8 @@ use App\Application\Migration\MigrationInterface;
 use App\Domain\Entity\IoMessage;
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
+use App\Domain\Repository\ContactRepository;
+use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\IoMessageBody;
 use App\Infrastructure\DB\DB;
@@ -12,15 +14,11 @@ use App\Infrastructure\Hydrator\ConfigurableAggregateHydrator;
 use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
 use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Hydrator\UserHydrator;
-use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProvider;
 use App\Infrastructure\Provider\TokenProviderInterface;
 use App\Socket\BaseSocketManager;
-use App\Socket\ChatHandler;
-use App\Socket\NotificationHandler;
-use App\Socket\IoMessageTypeResolver;
 use DI\ContainerBuilder;
 use Dotenv\Exception\InvalidFileException;
 use Monolog\Handler\StreamHandler;
@@ -50,12 +48,8 @@ return static function (ContainerBuilder $containerBuilder): void {
          * Autowiring
          */
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
-        BaseSocketManager::class => DI\autowire(BaseSocketManager::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
-        CustomMessageFactory::class => DI\autowire(CustomMessageFactory::class),
-        IoMessageTypeResolver::class => DI\autowire(IoMessageTypeResolver::class),
-        ChatHandler::class => DI\autowire(ChatHandler::class),
-        NotificationHandler::class => DI\autowire(NotificationHandler::class),
+        ContactRepositoryInterface::class => DI\autowire(ContactRepository::class),
         TokenProviderInterface::class => DI\autowire(TokenProvider::class),
 
         /**

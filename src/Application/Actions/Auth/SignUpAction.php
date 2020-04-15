@@ -5,7 +5,6 @@ namespace App\Application\Actions\Auth;
 
 use App\Application\Actions\AbstractJsonProxyAction;
 use App\Domain\Entity\User;
-use App\Domain\ValueObject\UserSearch;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Request;
 
@@ -18,21 +17,11 @@ final class SignUpAction extends AbstractJsonProxyAction
     {
         ['user' => $body] = $request->getParsedBody();
 
-        $search = new UserSearch();
-        $search->username = $body['username'] ?? null;
+        /** @var User $user */
+        $user = $this->hydrator->hydrate($body, User::class);
 
-        $res = $this->userRepository->search($search);
-        if (!empty($res)) {
-            throw new \Exception("user '$body[username]' already exists");
-        }
+        $this->userRepository->create($user);
 
-        $user = (new User())
-            ->setUsername($body['username'] ?? null)
-            ->setPassword($body['password'] ?? null);
-
-        if (!$this->userRepository->create($user)) {
-            throw new \Exception('something went wrong while user creating');
-        }
         $this->session->set('user', $user);
 
         $this->sendConfirmEmail($user);
