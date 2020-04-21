@@ -3,26 +3,27 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Auth;
 
-use App\Application\Actions\AbstractUsersAction;
+use App\Application\Actions\AbstractJsonProxyAction;
 use App\Domain\ValueObject\UserSearch;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Request;
 
-final class LoginAction extends AbstractUsersAction
+final class LoginAction extends AbstractJsonProxyAction
 {
     /**
      * @inheritDoc
      */
     protected function doAction(Request $request, Response $response, array $args)
     {
-        $search = new UserSearch();
-        $search->username = $args['username'] ?? null;
-        $search->password = $args['password'] ?? null;
+        ['user' => $body] = $request->getParsedBody();
 
-        /** @var \App\Domain\Entity\User[] $res */
+        $search = new UserSearch();
+        $search->username = $body['username'] ?? null;
+        $search->password = $body['password'] ?? null;
+
         $res = $this->userRepository->search($search);
         if (empty($res)) {
-            return 'error';
+            throw new \Exception('user does not exists');
         }
 
         $res = reset($res);

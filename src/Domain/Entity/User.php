@@ -84,6 +84,14 @@ class User
     /**
      * @return string|null
      */
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
@@ -187,7 +195,7 @@ class User
      */
     public function addFakeAccounts(User $fakeAccounts): self
     {
-        $this->fakeAccounts = $fakeAccounts;
+        $this->fakeAccounts[] = $fakeAccounts;
 
         return $this;
     }

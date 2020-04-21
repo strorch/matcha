@@ -9,6 +9,5 @@ require __DIR__ . '/../vendor/autoload.php';
     /** @var \Psr\Container\ContainerInterface $container */
     $container = (require __DIR__ . '/../config/bootstrap.php')();
 
-    $server = $container->get(IoServer::class);
-    $server->run();
+    $container->get(IoServer::class)->run();
 })();

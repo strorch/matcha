@@ -12,10 +12,10 @@ interface UserRepositoryInterface
     /**
      * Returns boolean result of operation
      *
-     * @param User $client
+     * @param User $user
      * @return bool
      */
-    public function create(User $client): bool;
+    public function create(User $user): bool;
 
     /**
      * Returns a search result which is a array of [[User]] entities
@@ -27,8 +27,8 @@ interface UserRepositoryInterface
     public function search(UserSearch $search): array;
 
     /**
-     * @param User $client
+     * @param User $user
      * @return bool
      */
-    public function update(User $client): bool;
+    public function update(User $user): bool;
 }

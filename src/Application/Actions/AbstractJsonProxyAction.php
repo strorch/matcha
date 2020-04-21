@@ -14,8 +14,9 @@ use Slim\Psr7\Request;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Zend\Hydrator\HydratorInterface;
 
-abstract class AbstractUsersAction
+abstract class AbstractJsonProxyAction
 {
     /**
      * @var StreamFactoryInterface
@@ -58,6 +59,11 @@ abstract class AbstractUsersAction
     protected SettingsProviderInterface $settingsProvider;
 
     /**
+     * @var HydratorInterface
+     */
+    protected HydratorInterface $hydrator;
+
+    /**
      * GetDomainInfoAction constructor.
      * @param StreamFactoryInterface $streamFactory
      * @param UserRepositoryInterface $userRepository
@@ -66,6 +72,7 @@ abstract class AbstractUsersAction
      * @param Swift_Mailer $mailer
      * @param CustomMessageFactory $messageFactory
      * @param TokenProviderInterface $tokenProvider
+     * @param HydratorInterface $hydrator
      * @param SettingsProviderInterface $settingsProvider
      */
     public function __construct(
@@ -76,6 +83,7 @@ abstract class AbstractUsersAction
         Swift_Mailer $mailer,
         CustomMessageFactory $messageFactory,
         TokenProviderInterface $tokenProvider,
+        HydratorInterface $hydrator,
         SettingsProviderInterface $settingsProvider
     ) {
         $this->streamFactory = $streamFactory;
@@ -86,13 +94,16 @@ abstract class AbstractUsersAction
         $this->messageFactory = $messageFactory;
         $this->tokenProvider = $tokenProvider;
         $this->settingsProvider = $settingsProvider;
+        $this->hydrator = $hydrator;
     }
 
     /**
      * @param Request $request
      * @param Response $response
      * @param array $args
+     *
      * @return mixed
+     * @throws \Throwable
      */
     abstract protected function doAction(Request $request, Response $response, array $args);
 
@@ -102,9 +113,17 @@ abstract class AbstractUsersAction
      * @param array $args
      * @return Response
      */
-    public function __invoke(Request $request, Response $response, array $args): Response
+    final public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $responseData = $this->doAction($request, $response, $args);
+        $responseData = [
+            'data'  => null,
+            'error' => null,
+        ];
+        try {
+            $responseData['data'] = $this->doAction($request, $response, $args);
+        } catch (\Throwable $e) {
+            $responseData['error'] = $e->getMessage();
+        }
         $serializedData = $this->serializer->serialize($responseData, 'json');
         $dataStream = $this->streamFactory->createStream($serializedData);
 

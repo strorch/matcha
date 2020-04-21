@@ -3,12 +3,12 @@
 
 namespace App\Application\Actions\Users;
 
-use App\Application\Actions\AbstractUsersAction;
+use App\Application\Actions\AbstractJsonProxyAction;
 use App\Domain\ValueObject\UserSearch;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Request;
 
-class UsersSearchAction extends AbstractUsersAction
+class UsersSearchAction extends AbstractJsonProxyAction
 {
     /**
      * @inheritDoc
