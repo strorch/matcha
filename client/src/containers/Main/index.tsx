@@ -5,8 +5,6 @@ import { Actions } from 'actions';
 import { IUserState } from 'models';
 import MainPages from 'components/MainPages';
 
-import './styles.css';  // FIXME: remove custom styles
-
 interface IMainProps {
   user: IUserState;
 }
@@ -20,7 +18,13 @@ const Main = ({ user }: IMainProps) => {
     } else if (!isInitialInfoSet) {
       return <MainPages.Option2 />;
     } else {
-      return <MainPages.Option3 />;
+      return (
+        <MainPages.Option3
+          cards={[]}
+          isFetching={false}
+          fetchCards={() => console.log('fetchCards')}
+        />
+      );
     }
   };
 

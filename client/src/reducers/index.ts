@@ -44,6 +44,7 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         ...state,
         user: {
           ...state.user,
+          isInitialInfoSet: true, // FIXME: remove when API functionality be ready
           isAuthenticated: true,
           isFetching: false,
           data: action.payload
