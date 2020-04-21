@@ -8,6 +8,9 @@ import { Actions } from 'actions';
 import './styles.sass';
 import 'semantic-ui-css/semantic.min.css';
 
+// fonts
+import './assets/fonts/LeckerliOne/LeckerliOne-Regular.ttf';
+
 interface IApp {
   actions: typeof Actions;
 }

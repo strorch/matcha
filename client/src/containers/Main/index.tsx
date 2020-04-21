@@ -2,23 +2,34 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Actions } from 'actions';
-import logo from 'assets/logo.svg';
+import { IUserState } from 'models';
+import MainPages from 'components/MainPages';
 
 import './styles.css';  // FIXME: remove custom styles
 
 interface IMainProps {
-  temp?: string;
+  user: IUserState;
 }
 
-const Main = ({ temp }: IMainProps) => {  
-  return (
-      <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img src={logo} className="App-logo" alt="logo" />
-      </div>
-  );
+const Main = ({ user }: IMainProps) => {
+  const { isAuthenticated, isInitialInfoSet } = user;
+
+  const renderMainPage = () => {
+    if (!isAuthenticated) {
+      return <MainPages.Option1 />;
+    } else if (!isInitialInfoSet) {
+      return <MainPages.Option2 />;
+    } else {
+      return <MainPages.Option3 />;
+    }
+  };
+
+  return renderMainPage();
 };
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  user: state.general.user
+});
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch)
 });
