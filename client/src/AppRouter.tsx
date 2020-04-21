@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
-import { Container } from 'semantic-ui-react';
+import { Container, Loader } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
 import { Footer } from 'components';
 import { MainHeader } from 'containers';
@@ -22,7 +22,7 @@ const AppRouter = () => (
   <div className="global-app-container">
     <MainHeader />
     <Container className="app-container">
-      <Suspense fallback={<div>Loading..</div>}>
+      <Suspense fallback={<Loader size="huge" active />}>
         <Switch>
           <Route exact path={GeneralRoutes.Main} component={Main} />
           <ProtectedRoute path={GeneralRoutes.Chat} component={Chat} />

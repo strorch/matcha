@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Grid, Image, Segment } from 'semantic-ui-react';
+import { Grid, Image, Segment, Loader } from 'semantic-ui-react';
 
 interface IMainOption3Props {
   cards?: object[]; // FIXME: fix any type
@@ -14,19 +14,20 @@ const MainOption3 = ({ cards, isFetching, fetchCards }: IMainOption3Props) => {
   }, [fetchCards]);
   
   return (
-    <Segment vertical padded>
-      {isFetching
-        ? <div>Loading...</div>
-        : (
+    isFetching
+      ? (
+        <Loader content='Loading..' size="huge" active />
+      ) : (
+        <Segment vertical padded>
           <Grid columns={3}>
-            {cards && cards.map(card => (
-              <Grid.Column>
-                <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-              </Grid.Column>
-            ))}
+              {cards && cards.map(card => (
+                <Grid.Column>
+                  <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
+                </Grid.Column>
+              ))}
           </Grid>
-        )}
-    </Segment>
+        </Segment>
+      )
   );
 };
 
