@@ -8,7 +8,6 @@ const initState: IGeneralState = {
   socketStatus: SocketConnectionStatus.Off,
   user: {
     ...initReducer,
-    isConfirmed: false,
     isAuthenticated: false,
     isInitialInfoSet: false,
     isLocalStorageChecking: true // default true as we check localStorage first

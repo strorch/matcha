@@ -16,8 +16,7 @@ function* callSignIn(action) {
     last_name: 'Smith',
     username,
     email: 'alexsmith@email.com',
-    isConfirmed: true,
-    isInitialInfoSet: false
+    isConfirmed: true
   };
 
   if (!user) {

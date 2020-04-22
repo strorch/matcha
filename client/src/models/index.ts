@@ -13,10 +13,9 @@ export interface IGeneralState {
 
 export interface IUserState {
   isAuthenticated: boolean;
-  isConfirmed: boolean;
   isInitialInfoSet: boolean;
-  isFetching: boolean;
   isLocalStorageChecking: boolean;
+  isFetching: boolean;
   data: IUser;
   error: any;
 }
@@ -26,6 +25,7 @@ export interface IUser {
   last_name: string;
   username: string;
   email: string;
+  isConfirmed: boolean;
 }
 
 export enum SocketConnectionStatus {
