@@ -1,5 +1,11 @@
 import { GeneralRoutes } from "routes";
 
+export const initReducer = {
+  isFetching: false,
+  data: null,
+  error: null
+};
+
 export interface IGeneralState {
   socketStatus: SocketConnectionStatus;
   user: IUserState
@@ -64,4 +70,18 @@ export interface IInterestsState {
 export interface IInterest {
   id: number;
   title: string;
+}
+
+export interface IUsersState {
+  currentProfile: IProfileState;
+}
+
+export interface IProfileState {
+  isFetching: boolean;
+  data: IProfile[];
+  error: any;
+}
+
+export interface IProfile {
+  id: number;
 }

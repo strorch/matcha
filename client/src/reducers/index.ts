@@ -1,18 +1,17 @@
 import { combineReducers, Reducer } from "redux";
 import * as types from 'actions/types';
+import usersReducer from './users';
 import formDataReducer from './formData';
-import { SocketConnectionStatus, IGeneralState } from "models";
+import { SocketConnectionStatus, IGeneralState, initReducer } from "models";
 
 const initState: IGeneralState = {
   socketStatus: SocketConnectionStatus.Off,
   user: {
-    isAuthenticated: false,
+    ...initReducer,
     isConfirmed: false,
+    isAuthenticated: false,
     isInitialInfoSet: false,
-    isFetching: false,
-    isLocalStorageChecking: true, // default true as we check localStorage first
-    data: null,
-    error: null
+    isLocalStorageChecking: true // default true as we check localStorage first
   }
 }
 
@@ -65,10 +64,8 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         ...state,
         user: {
           ...state.user,
-          isAuthenticated: false,
-          isFetching: false,
-          data: null,
-          error: null
+          ...initReducer,
+          isAuthenticated: false
         }
       };
     default:
@@ -80,5 +77,6 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
 export default () =>
   combineReducers<IGeneralState & any /* Declare rest of reducers*/>({
     general: GeneralReducer,
+    users: usersReducer,
     formData: formDataReducer
   });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Actions } from 'actions';
 import { IUserState } from 'models';
-import MainPages from 'components/MainPages';
+import { MainPages } from 'components';
 
 interface IMainProps {
   user: IUserState;

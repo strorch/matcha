@@ -31,6 +31,11 @@ export const SEND_CHAT_MESSAGE_DONE = 'SEND_CHAT_MESSAGE_DONE';
 export const SEND_CHAT_MESSAGE_FAIL = 'SEND_CHAT_MESSAGE_FAIL';
 // <-- End of Chat
 
+// Users -->
+export const SET_CURRENT_PROFILE = 'SET_CURRENT_PROFILE';
+export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE';
+// <-- End of Users
+
 // Form data -->
 export const GET_INTERESTS_LIST = 'GET_INTERESTS_LIST';
 export const GET_INTERESTS_LIST_DONE = 'GET_INTERESTS_LIST_DONE';
