@@ -1,8 +1,12 @@
+@font-face
+  font-family: 'Leckerli One'
+  src: url('./assets/fonts/LeckerliOne/LeckerliOne-Regular.ttf') format('truetype')
+
+$porcelain: #F3F4F5
+
 *
   margin: 0
   padding: 0
-
-$porcelain: #F3F4F5
 
 header
   min-height: 58px
@@ -17,7 +21,7 @@ footer
 .global-app-container
   height: 100vh
   .app-container
-    height: calc(100vh - 58px - 90px)
+    min-height: calc(100vh - 58px - 90px)
 
 
 // single classes

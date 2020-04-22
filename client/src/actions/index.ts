@@ -1,4 +1,7 @@
-import * as types from 'actions/types';
+import { History } from 'history';
+import * as types from './types';
+import { ISignUpFormValues } from 'containers/SignUp';
+import { ISignInFormValues } from 'containers/SignIn';
 
 export const Actions = {
 
@@ -11,6 +14,17 @@ export const Actions = {
   sendMessage: <T extends object>(payload) => ({ type: types.SEND_MESSAGE, payload }),
   // <-- End of Sockets
 
-  sendChatMessage: (sender_id: string, receiver_id: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { sender_id, receiver_id, message } })
+  // Auth -->
+  signUp: (payload: ISignUpFormValues, history: History) => ({type: types.SIGN_UP, payload: { ...payload, history } }),
+  signIn: (payload: ISignInFormValues, history: History) => ({ type: types.SIGN_IN, payload: { ...payload, history } }),
+  signOut: () => ({ type: types.SIGN_OUT }),
 
+  checkForSignedInUser: () => ({ type: types.CHECK_FOR_SIGNED_IN_USER }),
+  // <-- End of Auth
+
+  sendChatMessage: (sender_id: string, receiver_id: string, message: string) => ({ type: types.SEND_CHAT_MESSAGE, payload: { sender_id, receiver_id, message } }),
+
+  // Form data -->
+  getInterestsList: () => ({ type: types.GET_INTERESTS_LIST })
+  // <-- End of Form data
 };

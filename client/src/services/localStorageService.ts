@@ -1,5 +1,5 @@
 export enum LocalStorageKeys {
-  USER = 'user'
+  User = 'user'
 }
 
 export const getLocalStorageItem = (key: string, isJson?: boolean) => {
@@ -10,7 +10,7 @@ export const getLocalStorageItem = (key: string, isJson?: boolean) => {
   return item || null;
 }
 
-export const setLocalStorageItem = (key: string, data: any) => {
+export const setLocalStorageItem = (key: LocalStorageKeys, data: any) => {
   let dataToStore = '';
   if (typeof data === 'object') {
     dataToStore = JSON.stringify(data);
@@ -20,4 +20,8 @@ export const setLocalStorageItem = (key: string, data: any) => {
     dataToStore = data;
   }
   localStorage.setItem(key, dataToStore as any);
+}
+
+export const removeLocalStorageItem = (key: LocalStorageKeys) => {
+  localStorage.removeItem(key);
 }

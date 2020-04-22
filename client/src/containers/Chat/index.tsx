@@ -2,22 +2,27 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Form } from 'semantic-ui-react';
+import { RouteComponentProps } from 'react-router';
 import { Field, withFormik, FormikProps } from 'formik';
 import { Actions } from 'actions';
+import { IUserState } from 'models';
 import { FormikElements } from 'components';
+import { useCheckForInitialInfo } from 'hooks';
 
 interface IFormValues {
   sender_id: string;
   receiver_id: string;
   message: string;
 }
-interface IOuterProps {
+interface IOuterProps extends RouteComponentProps {
   actions: typeof Actions;
+  isInitialInfoSet: Pick<IUserState, 'isInitialInfoSet'>;
 }
 
-type IChat = IOuterProps & FormikProps<IFormValues>;
+type Chat = IOuterProps & FormikProps<IFormValues>;
 
-const Chat = ({ handleSubmit }: IChat) => {
+const Chat = ({ isInitialInfoSet, history, handleSubmit }: Chat) => {
+  useCheckForInitialInfo(history, isInitialInfoSet);
   
   const { LabeledInput, LabeledTextarea } = FormikElements;
   
@@ -64,7 +69,9 @@ const WithFormik = withFormik<IOuterProps, IFormValues>({
   }
 })(Chat);
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  isInitialInfoSet: state.general.user.isInitialInfoSet
+});
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch)
 });

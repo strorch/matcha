@@ -7,22 +7,17 @@ interface ILabeledTextarea extends FieldProps {
 }
 
 const LabeledTextarea = ({
-  form: { setFieldValue },
-  field: { name, value },
+  form: { getFieldProps },
+  field: { name },
   label,
   ...props
 }: ILabeledTextarea) => (
-  <Form.Field>
-    <label>{label}</label>
-    <textarea
-      name={name}
-      value={value}
-      onChange={event => {
-        setFieldValue(name, event.target.value);
-      }}
-      {...props}
-    />
-  </Form.Field>
+  <Form.TextArea
+    name={name}
+    label={label}
+    {...getFieldProps(name)}
+    {...props}
+  />
 );
 
 export default LabeledTextarea;

@@ -1,43 +1,39 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import { Button } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { Actions } from 'actions';
-import logo from 'assets/logo.svg';
-import { GeneralRoutes } from 'routes';
-
-import './styles.css';  // FIXME: remove custom styles
+import { IUserState } from 'models';
+import MainPages from 'components/MainPages';
 
 interface IMainProps {
-  actions: typeof Actions;
+  user: IUserState;
 }
 
-const Main = ({ actions }: IMainProps) => {
-  useEffect(() => {
-    actions.wsChannelStart();
-  }, [actions]);
-  
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Link to={GeneralRoutes.Chat}>
-          <Button>Chat</Button>
-        </Link>
-        <Link to={GeneralRoutes.SignIn}>
-          <Button>Sign in</Button>
-        </Link>
-        <Link to={GeneralRoutes.SignUp}>
-          <Button>Sign up</Button>
-        </Link>
-      </header>
-    </div>
-  );
+const Main = ({ user }: IMainProps) => {
+  const { isAuthenticated, isInitialInfoSet } = user;
+
+  const renderMainPage = () => {
+    if (!isAuthenticated) {
+      return <MainPages.Option1 />;
+    } else if (!isInitialInfoSet) {
+      return <MainPages.Option2 />;
+    } else {
+      return (
+        <MainPages.Option3
+          cards={[]}
+          isFetching={false}
+          fetchCards={() => console.log('fetchCards')}
+        />
+      );
+    }
+  };
+
+  return renderMainPage();
 };
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  user: state.general.user
+});
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch)
 });

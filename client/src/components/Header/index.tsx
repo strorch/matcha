@@ -1,42 +1,49 @@
 import * as React from 'react';
-import { useState } from 'react';
-import logo from 'assets/logo.svg';
-import { MainHeaderItems } from 'models';
-import { Menu, Container } from 'semantic-ui-react';
+import { useMemo } from 'react';
+import { Responsive } from 'semantic-ui-react';
+import { MainHeaderItems, IUserState } from 'models';
+import DesktopHeader from './DesktopHeader';
+import MobileHeader from './MobileHeader';
 
 interface IHeader {
   currentItem: string;
+  currentUser: IUserState;
+  onSignOutClick(): void;
   onMenuItemClick(item: MainHeaderItems): void;
 }
 
 const Header = ({
+  currentUser,
   currentItem,
+  onSignOutClick,
   onMenuItemClick
 }: IHeader) => {
-  const [activeItem, setActiveItem] = useState(currentItem || '');
+  const { isAuthenticated, isInitialInfoSet } = currentUser;
 
-  const handleClickHome = () => {
-    setActiveItem('');
-    onMenuItemClick(MainHeaderItems.Home);
-  };
+  const isUserReady = useMemo(() => {
+    return !!(isAuthenticated && isInitialInfoSet);
+  }, [isAuthenticated, isInitialInfoSet]);
 
   return (
     <header>
-      <Menu size='large'>
-        <Container>
-          <Menu.Item onClick={handleClickHome}>
-            <img src={logo} alt="logo" />
-          </Menu.Item>
-          <Menu.Item
-            name={MainHeaderItems.Chat}
-            active={activeItem === MainHeaderItems.Chat}
-            onClick={() => {
-              setActiveItem(MainHeaderItems.Chat);
-              onMenuItemClick(MainHeaderItems.Chat);
-            }}
-          />
-        </Container>
-      </Menu>
+      <Responsive maxWidth={Responsive.onlyTablet.minWidth}>
+        <MobileHeader
+          isAuthenticated={isAuthenticated}
+          isUserReady={isUserReady}
+          currentItem={currentItem}
+          onSignOutClick={onSignOutClick}
+          clickHandler={onMenuItemClick}
+        />
+      </Responsive>
+      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+        <DesktopHeader
+          isAuthenticated={isAuthenticated}
+          isUserReady={isUserReady}
+          currentItem={currentItem}
+          onSignOutClick={onSignOutClick}
+          clickHandler={onMenuItemClick}
+        />
+      </Responsive>
     </header>
   );
 };

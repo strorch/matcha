@@ -1,4 +1,6 @@
-import SignUpForm from './SignUp';
-import SignInForm from './SignIn';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
+import Forgot from './Forgot';
+import InitialInfo from './InitialInfo';
 
-export default { SignUpForm, SignInForm };
+export default { SignUp, SignIn, Forgot, InitialInfo };

@@ -1,29 +1,41 @@
 import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
+import { Container, Loader } from 'semantic-ui-react';
 import { GeneralRoutes } from 'routes';
 import { Footer } from 'components';
 import { MainHeader } from 'containers';
+import { ProtectedRoute } from 'HOC';
 
 const Main = lazy(() => import('containers/Main'));
 const Chat = lazy(() => import('containers/Chat'));
+const Profile = lazy(() => import('containers/Profile'));
 const SignIn = lazy(() => import('containers/SignIn'));
 const SignUp = lazy(() => import('containers/SignUp'));
+const Forgot = lazy(() => import('containers/Forgot'));
+const SetInitialInfo = lazy(() => import('containers/SetInitialInfo'));
+const MessagePage = lazy(() => import('components/MessagePage'));
+const NotFoundPage = lazy(() => import('components/NotFoundPage'));
 
 // TODO: add loader
 const AppRouter = () => (
   <div className="global-app-container">
     <MainHeader />
-    <div className="app-container">
-      <Suspense fallback={<div>Loading..</div>}>
+    <Container className="app-container">
+      <Suspense fallback={<Loader size="huge" active />}>
         <Switch>
           <Route exact path={GeneralRoutes.Main} component={Main} />
-          <Route path={GeneralRoutes.Chat} component={Chat} />
+          <ProtectedRoute path={GeneralRoutes.Chat} component={Chat} />
+          <ProtectedRoute path={GeneralRoutes.Profile} component={Profile} />
+          <ProtectedRoute path={GeneralRoutes.SetInitialInfo} component={SetInitialInfo} />
           <Route path={GeneralRoutes.SignIn} component={SignIn} />
           <Route path={GeneralRoutes.SignUp} component={SignUp} />
+          <Route path={GeneralRoutes.Forgot} component={Forgot} />
+          <Route path={GeneralRoutes.Message} component={MessagePage} />
+          <Route component={NotFoundPage} />
         </Switch>
       </Suspense>
-    </div>
+    </Container>
     <Footer />
   </div>
 );
