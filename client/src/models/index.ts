@@ -10,6 +10,7 @@ export interface IUserState {
   isConfirmed: boolean;
   isInitialInfoSet: boolean;
   isFetching: boolean;
+  isLocalStorageChecking: boolean;
   data: IUser;
   error: any;
 }

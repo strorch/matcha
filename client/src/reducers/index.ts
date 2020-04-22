@@ -10,6 +10,7 @@ const initState: IGeneralState = {
     isConfirmed: false,
     isInitialInfoSet: false,
     isFetching: false,
+    isLocalStorageChecking: true, // default true as we check localStorage first
     data: null,
     error: null
   }
@@ -21,6 +22,15 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
       return { ...state, socketStatus: SocketConnectionStatus.On };
     case types.WS_STATUS_OFF:
       return { ...state, socketStatus: SocketConnectionStatus.Off };
+
+    case types.CHECK_FOR_SIGNED_IN_USER_DONE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isLocalStorageChecking: false
+        }
+      };
 
     case types.SIGN_UP:
     case types.SIGN_IN:
