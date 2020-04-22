@@ -54,3 +54,5 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules/
+
+# docker-compose up -d --build
