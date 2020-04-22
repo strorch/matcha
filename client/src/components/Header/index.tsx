@@ -26,7 +26,7 @@ const Header = ({
 
   return (
     <header>
-      <Responsive {...Responsive.onlyMobile}>
+      <Responsive maxWidth={Responsive.onlyTablet.minWidth}>
         <MobileHeader
           isAuthenticated={isAuthenticated}
           isUserReady={isUserReady}
