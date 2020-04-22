@@ -1,17 +1,16 @@
 import { combineReducers, Reducer } from "redux";
 import * as types from 'actions/types';
+import usersReducer from './users';
 import formDataReducer from './formData';
-import { SocketConnectionStatus, IGeneralState } from "models";
+import { SocketConnectionStatus, IGeneralState, initReducer } from "models";
 
 const initState: IGeneralState = {
   socketStatus: SocketConnectionStatus.Off,
   user: {
+    ...initReducer,
     isAuthenticated: false,
-    isConfirmed: false,
     isInitialInfoSet: false,
-    isFetching: false,
-    data: null,
-    error: null
+    isLocalStorageChecking: true // default true as we check localStorage first
   }
 }
 
@@ -21,6 +20,15 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
       return { ...state, socketStatus: SocketConnectionStatus.On };
     case types.WS_STATUS_OFF:
       return { ...state, socketStatus: SocketConnectionStatus.Off };
+
+    case types.CHECK_FOR_SIGNED_IN_USER_DONE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isLocalStorageChecking: false
+        }
+      };
 
     case types.SIGN_UP:
     case types.SIGN_IN:
@@ -55,10 +63,8 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         ...state,
         user: {
           ...state.user,
-          isAuthenticated: false,
-          isFetching: false,
-          data: null,
-          error: null
+          ...initReducer,
+          isAuthenticated: false
         }
       };
     default:
@@ -70,5 +76,6 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
 export default () =>
   combineReducers<IGeneralState & any /* Declare rest of reducers*/>({
     general: GeneralReducer,
+    users: usersReducer,
     formData: formDataReducer
   });

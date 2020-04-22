@@ -17,7 +17,6 @@ const SetInitialInfo = lazy(() => import('containers/SetInitialInfo'));
 const MessagePage = lazy(() => import('components/MessagePage'));
 const NotFoundPage = lazy(() => import('components/NotFoundPage'));
 
-// TODO: add loader
 const AppRouter = () => (
   <div className="global-app-container">
     <MainHeader />
@@ -26,7 +25,7 @@ const AppRouter = () => (
         <Switch>
           <Route exact path={GeneralRoutes.Main} component={Main} />
           <ProtectedRoute path={GeneralRoutes.Chat} component={Chat} />
-          <ProtectedRoute path={GeneralRoutes.Profile} component={Profile} />
+          <ProtectedRoute path={`${GeneralRoutes.Profile}/:id?`} component={Profile} />
           <ProtectedRoute path={GeneralRoutes.SetInitialInfo} component={SetInitialInfo} />
           <Route path={GeneralRoutes.SignIn} component={SignIn} />
           <Route path={GeneralRoutes.SignUp} component={SignUp} />

@@ -16,8 +16,7 @@ function* callSignIn(action) {
     last_name: 'Smith',
     username,
     email: 'alexsmith@email.com',
-    isConfirmed: true,
-    isInitialInfoSet: false
+    isConfirmed: true
   };
 
   if (!user) {
@@ -62,6 +61,9 @@ function* callSignOut() {
 
 function* callCheckForSignedInUser() {
   const activeUser = yield call(getLocalStorageItem, LocalStorageKeys.User);
+  yield put({
+    type: types.CHECK_FOR_SIGNED_IN_USER_DONE
+  });
 
   if (activeUser) {
     yield put({

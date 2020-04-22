@@ -22,6 +22,7 @@ export const SIGN_IN_DONE = 'SIGN_IN_DONE';
 export const SIGN_OUT = 'SIGN_OUT';
 
 export const CHECK_FOR_SIGNED_IN_USER = 'CHECK_FOR_SIGNED_IN_USER';
+export const CHECK_FOR_SIGNED_IN_USER_DONE = 'CHECK_FOR_SIGNED_IN_USER_DONE';
 // <-- End of Auth
 
 // Chat -->
@@ -29,6 +30,11 @@ export const SEND_CHAT_MESSAGE = 'SEND_CHAT_MESSAGE';
 export const SEND_CHAT_MESSAGE_DONE = 'SEND_CHAT_MESSAGE_DONE';
 export const SEND_CHAT_MESSAGE_FAIL = 'SEND_CHAT_MESSAGE_FAIL';
 // <-- End of Chat
+
+// Users -->
+export const SET_CURRENT_PROFILE = 'SET_CURRENT_PROFILE';
+export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE';
+// <-- End of Users
 
 // Form data -->
 export const GET_INTERESTS_LIST = 'GET_INTERESTS_LIST';

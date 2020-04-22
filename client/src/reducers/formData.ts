@@ -1,13 +1,10 @@
 import { Reducer } from "redux";
 import { IFormDataState } from "models";
 import * as types from 'actions/types';
+import { initReducer } from "models";
 
 const initState: IFormDataState = {
-  interests: {
-    isFetching: false,
-    data: null,
-    error: null
-  }
+  interests: initReducer
 };
 
 const formDataReducer: Reducer<IFormDataState> = (state = initState, action) => {

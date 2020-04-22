@@ -5,7 +5,7 @@ import { GeneralRoutes } from 'routes';
 
 const useCheckForInitialInfo = (
   history: History,
-  isInitialInfoSet: Pick<IUserState, 'isInitialInfoSet'>
+  isInitialInfoSet: Pick<IUserState, 'isInitialInfoSet'> | boolean
 ) => {
   useEffect(() => {
     if (!isInitialInfoSet) history.push(GeneralRoutes.SetInitialInfo);
