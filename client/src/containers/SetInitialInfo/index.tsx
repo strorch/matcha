@@ -36,7 +36,7 @@ const SetInitialInfo = ({
       history.push(GeneralRoutes.Main);
     }
 
-    actions.getInterestsList();
+    actions.fetchInterestsList();
   }, [user.isInitialInfoSet, history, actions]);
 
   const handleAddInterest = (interest: string) => {

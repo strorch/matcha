@@ -28,11 +28,12 @@ export const Actions = {
   // <-- End of Chat
 
   // Users -->
-  setCurrentProfile: (user: IUser) => ({ type: types.SET_CURRENT_PROFILE, payload: user }),
+  fetchUserProfile: (id: number) => ({ type: types.FETCH_USER_PROFILE, payload: { id } }),
+  setCurrentUserProfile: (user: IUser) => ({ type: types.SET_CURRENT_PROFILE, payload: user }),
   clearCurrentProfile: () => ({ type: types.CLEAR_CURRENT_PROFILE }),
   // <-- End of Users
 
   // Form data -->
-  getInterestsList: () => ({ type: types.GET_INTERESTS_LIST })
+  fetchInterestsList: () => ({ type: types.FETCH_INTERESTS_LIST })
   // <-- End of Form data
 };
