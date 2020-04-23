@@ -8,13 +8,13 @@ const MainOption1 = () => (
   <Segment vertical padded textAlign="center">
     <Greetings />
     <Header as="h2" style={{ fontFamily: 'Leckerli One' }}>Let's, </Header>
-    <Button.Group>
+    <Button.Group size='huge'>
       <Link to={GeneralRoutes.SignUp}>
-        <Button size="big" primary>Sign Up</Button>
+        <Button primary>Sign Up</Button>
       </Link>
       <Button.Or />
       <Link to={GeneralRoutes.SignIn}>
-        <Button size="big">Sign In</Button>
+        <Button>Sign In</Button>
       </Link>
     </Button.Group>
   </Segment>
