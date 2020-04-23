@@ -1,18 +1,44 @@
-GET http://localhost:8080/api/users
+### Logout
+POST http://127.0.0.2:8080/auth/logout
 Accept: application/json
 Content-Type: application/json
+Cookie: XDEBUG_SESSION=1
 
-###
-POST http://127.0.0.2:8080/auth/signUp?XDEBUG_SESSION_START=1
+### Sign Up
+POST http://127.0.0.2:8080/auth/signUp
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
 
 {
-   "kek": {
-     "12": 12
-   },
-   "jest": [12, 1]
+   "user": {
+     "username": "str1111211",
+     "email": "str111111@user.ua",
+     "lastName": "str",
+     "firstName": "str",
+     "password": "str"
+   }
 }
 
-###
+### Confirm email
+PATCH http://127.0.0.2:8080/auth/confirm-email
+Accept: application/json
+Content-Type: application/json
+Cookie: XDEBUG_SESSION=1
+
+{
+   "token": "WLc1MN1k8Zfr"
+}
+
+### Login
+POST http://127.0.0.2:8080/auth/login
+Accept: application/json
+Content-Type: application/json
+Cookie: XDEBUG_SESSION=1
+
+{
+  "user": {
+    "username": "str1111211",
+    "password": "str"
+  }
+}
