@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Menu, Container, Button } from 'semantic-ui-react';
+import { Menu, Container, Button, Dropdown, Icon, Label } from 'semantic-ui-react';
 import logo from 'assets/logo.svg';
 import { MainHeaderItems } from 'models';
 
@@ -51,14 +51,50 @@ const DesktopHeader = ({
         {
           isAuthenticated
             ? (
+              <>
               <Menu.Item>
-                <Button
-                  primary
-                  onClick={onSignOutClick}
-                >
-                  Sign Out
-                </Button>
-              </Menu.Item>
+                  <Dropdown
+                    icon={
+                      <>
+                        <Icon name="comments" color="grey" size="large" />
+                        <Label color='red' floating circular size="small">22</Label>
+                      </>
+                    }
+                    pointing="top right"
+                  >
+                    <Dropdown.Menu>
+                      <Dropdown.Header>
+                        Last Messages
+                      </Dropdown.Header>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Menu.Item>
+                <Menu.Item>
+                  <Dropdown
+                    icon={
+                      <>
+                        <Icon name="bell" color="grey" size="large" />
+                        <Label color='red' floating circular size="small">22</Label>
+                      </>
+                    }
+                    pointing="top right"
+                  >
+                    <Dropdown.Menu>
+                      <Dropdown.Header>
+                        Last Notifications
+                      </Dropdown.Header>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Menu.Item>
+                <Menu.Item>
+                  <Button
+                    primary
+                    onClick={onSignOutClick}
+                  >
+                    Sign Out
+                  </Button>
+                </Menu.Item>
+              </>
             ) : (
               <>
                 <Menu.Item>
