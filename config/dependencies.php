@@ -145,7 +145,7 @@ return static function (ContainerBuilder $containerBuilder): void {
                         ->getSettingByName('projectDir');
 
                     $directory = new \DirectoryIterator($projectDir . '/migrations');
-                    $regex = new \RegexIterator($directory, '/^.+\.php$/i', \RecursiveRegexIterator::GET_MATCH);
+                    $regex = new \RegexIterator($directory, '/^.+\.php$/i', \RegexIterator::GET_MATCH);
 
                     foreach ($regex as $item) {
                         $className = "\\App\\migrations\\" . basename(reset($item), '.php');

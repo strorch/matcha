@@ -27,11 +27,21 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     /**
      * @inheritDoc
      */
-    public function create(User $user): bool
+    public function create(User $user): void
     {
+        $id = $this->db->query(<<<SQL
+            INSERT INTO users (email, username, last_name, first_name, password)
+            VALUES (:email, :username, :last_name, :first_name, :password)
+            RETURNING id
+        SQL, [
+            'email' => $user->getEmail(),
+            'username' => $user->getUsername(),
+            'last_name' => $user->getLastName(),
+            'first_name' => $user->getFirstName(),
+            'password' => $user->getPassword(),
+        ]);
 
-
-        return true;
+        $user->setId(reset($id)['id']);
     }
 
     /**
@@ -45,11 +55,30 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     /**
      * @inheritDoc
      */
-    public function update(User $user): bool
+    public function update(User $user): void
     {
+        $this->db->query(<<<SQL
+            UPDATE users
+            SET
+                email = :email,
+                username = :username,
+                last_name = :last_name,
+                first_name = :first_name,
+                password = :password,
+                is_confirmed = :is_confirmed
+            WHERE id = :id
+        SQL, [
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'username' => $user->getUsername(),
+            'last_name' => $user->getLastName(),
+            'first_name' => $user->getFirstName(),
+            'password' => $user->getPassword(),
+            'is_confirmed' => $user->getIsConfirmed(),
+        ]);
+
         if (!empty($user->getContact())) {
             $this->contactRepository->setContact($user->getId(), $user->getContact());
         }
-        return true;
     }
 }

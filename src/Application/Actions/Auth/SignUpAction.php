@@ -26,7 +26,7 @@ final class SignUpAction extends AbstractJsonProxyAction
 
         $this->sendConfirmEmail($user);
 
-        return $user;
+        return ['user' => $user];
     }
 
     /**

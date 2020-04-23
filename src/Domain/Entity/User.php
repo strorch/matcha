@@ -35,8 +35,8 @@ class User
     /** @var User[] TODO: refactor with sql filter */
     private array $blockedUsers = [];
 
-    /** @var int|null */
-    private ?int $fameRate;
+    /** @var int */
+    private int $fameRate = 0;
 
     /** @var string[] */
     private array $fakeAccounts = [];
@@ -98,7 +98,7 @@ class User
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getFameRate(): ?int
     {
@@ -111,6 +111,14 @@ class User
     public function getFakeAccounts(): array
     {
         return $this->fakeAccounts;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsConfirmed(): bool
+    {
+        return $this->isConfirmed;
     }
 
     /**
@@ -206,6 +214,28 @@ class User
     public function setEmailConfirmed(): self
     {
         $this->isConfirmed = true;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $id
+     * @return User
+     */
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $lastName
+     * @return User
+     */
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }

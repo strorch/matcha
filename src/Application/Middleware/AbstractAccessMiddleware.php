@@ -42,13 +42,12 @@ abstract class AbstractAccessMiddleware implements MiddlewareInterface
      */
     final public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!$this->checkAccess($request, $handler)) {
-            return (new Response())
-                ->withBody($this->streamFactory->createStream('not allowed'))
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(403);
+        if ($this->checkAccess($request, $handler)) {
+            return $handler->handle($request);
         }
 
-        return $handler->handle($request);
+        return (new Response())
+            ->withBody($this->streamFactory->createStream('{"error": "Not allowed"}'))
+            ->withStatus(403);
     }
 }

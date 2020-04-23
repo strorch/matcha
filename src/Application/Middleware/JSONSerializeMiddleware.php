@@ -18,7 +18,8 @@ class JSONSerializeMiddleware implements MiddlewareInterface
     {
         $contentType = $request->getHeaderLine('Content-Type');
         if (strstr($contentType, 'application/json')) {
-            $contents = json_decode((string)$request->getBody(), true);
+            $bodyString = $request->getBody()->getContents();
+            $contents = json_decode($bodyString, true);
             if (json_last_error() === JSON_ERROR_NONE) {
                 $request = $request->withParsedBody($contents);
             }

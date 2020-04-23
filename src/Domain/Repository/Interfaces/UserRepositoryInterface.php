@@ -13,9 +13,10 @@ interface UserRepositoryInterface
      * Returns boolean result of operation
      *
      * @param User $user
-     * @return bool
+     *
+     * @throws \PDOException
      */
-    public function create(User $user): bool;
+    public function create(User $user): void;
 
     /**
      * Returns a search result which is a array of [[User]] entities
@@ -28,7 +29,6 @@ interface UserRepositoryInterface
 
     /**
      * @param User $user
-     * @return bool
      */
-    public function update(User $user): bool;
+    public function update(User $user): void;
 }

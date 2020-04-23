@@ -68,8 +68,9 @@ class TokenProvider implements TokenProviderInterface
     {
         $projectDir = $this->provider->getSettingByName('projectDir');
         $tokensDir = $projectDir . '/runtime/tokens';
-        if (!is_dir($projectDir)) {
-            @mkdir($tokensDir, 777, true);
+
+        if (!is_dir($tokensDir) && !mkdir($tokensDir, 0755, true) && !is_dir($tokensDir)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $tokensDir));
         }
 
         return $tokensDir;
