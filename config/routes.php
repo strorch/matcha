@@ -46,7 +46,6 @@ return static function (App $app): void {
             ->add(CheckGuestMiddleware::class);
         $group->post('/logout', function (Request $request, Response $response, array $params) use ($c): Response {
                 $c->get(SessionInterface::class)->clear();
-                $response->getBody()->write('success');
                 return $response;
             })
             ->add(CheckAuthMiddleware::class);

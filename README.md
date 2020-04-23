@@ -22,56 +22,26 @@ To run PHP apps you need to install required packages and prepare configuration.
 
 If you will have errors like `bad configuration` or other, try to run ``composer du`` command.
 
-`Also` while you are working not in docker, all server logs and errors will displaying in your terminal.
-In case docker logs will be in `runtime/app.log`.
-
 After preparing environment you need to run http and websocket servers.
 
-### Websocket
+Use ``dc up -d``. Websocket, http and database will work on `SITE_HOST` param from `.env` file.
 
-To run websocket server you need to run command:
-
-    php socket/index.php
-
-Now you need just to connect to `ws://0.0.0.0:8000`.
-
-Host and port of socket connection are configured in .env file.
-
-### Http
-
-To run http server you need to run command:
-
-    php -S localhost:8080 -t http http/index.php
-
-Now you can check `localhost:8080`.
-
-This will work for auth and client actions.
-
-### Docker
-
-Also you can run whole application with docker. Use ``dc up -d``.
-Websocket, http and database will work on `SITE_HOST` param from `.env` file.
+Now you can check http on `http://127.0.0.2:8080` and websocket on `ws://127.0.0.2:8000`.
 
 ### Database
 
 To configure migration you have to run next command:
-
-   1. In local environment:
    
-            ./migrate.php
-            
-   2. Docker environment (after changing of db host in .env file):
-   
-            dc exec http ./migrate.php
+    dc exec http ./migrate.php
 
 HTTP manual:
 
     GET /
-    GET /testCacheSet - проверка что то положить в сессию для проверки ее на вебсокетсервере
-    GET /testSendMail - проверка отправки емейла
-    POST /auth/login - можно если не залогинен
-    POST /auth/signUp - можно если не залогинен
-    POST /auth/logout - можно если залогинен
+    GET /testCacheSet - check session work with test data
+    GET /testSendMail - check send email
+    POST /auth/login - allowed while guest
+    POST /auth/signUp - allowed while guest
+    POST /auth/logout - allowed while authenticated
     PATCH /auth/confirm-email
-    GET /api/users - поиск юзеров с параметрами, можно если залогинен
-    PUT /api/user - апдейт юзера, можно если залогинен
+    GET /api/users - users search with parameters, allowed while authenticated
+    PUT /api/user - user update, allowed while authenticated
