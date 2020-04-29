@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    working_dir: /var/www
     command: php -S 0.0.0.0:8080 -t http http/index.php
     env_file:
       - .env
@@ -14,7 +13,8 @@ services:
     ports:
       - "${SITE_HOST}:8080:8080"
     volumes:
-      - .:/var/www
+      - .:/app
+      - /app/vendor/
     links:
       - pgsql
       - memcached
@@ -23,7 +23,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    working_dir: /var/www
     command: php socket/index.php
     env_file:
       - .env
@@ -32,7 +31,8 @@ services:
     ports:
       - "${SITE_HOST}:8000:8000"
     volumes:
-      - .:/var/www
+      - .:/app
+      - /app/vendor/
     links:
       - pgsql
       - memcached

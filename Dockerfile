@@ -2,10 +2,6 @@ FROM chialab/php:7.4
 
 WORKDIR /app
 
-COPY composer.json /app/composer.json
-
-RUN composer install
-
 # memcache config
 RUN echo 'memcached.sess_locking=0' >> /usr/local/etc/php/php.ini
 RUN echo 'memcached.serializer=php' >> /usr/local/etc/php/php.ini

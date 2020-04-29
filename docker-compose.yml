@@ -12,7 +12,6 @@ services:
       - "${SITE_HOST}:8080:8080"
     volumes:
       - .:/app
-      - /app/vendor/
     links:
       - pgsql
       - memcached
@@ -28,7 +27,6 @@ services:
       - "${SITE_HOST}:8000:8000"
     volumes:
       - .:/app
-      - /app/vendor/
     links:
       - pgsql
       - memcached
