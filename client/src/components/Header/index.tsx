@@ -24,9 +24,11 @@ const Header = ({
     return !!(isAuthenticated && isInitialInfoSet);
   }, [isAuthenticated, isInitialInfoSet]);
 
+  const minTabletWidth: number = useMemo(() => Number(Responsive.onlyTablet.minWidth), []);
+
   return (
     <header>
-      <Responsive maxWidth={Responsive.onlyTablet.minWidth}>
+      <Responsive maxWidth={minTabletWidth - 1}>
         <MobileHeader
           isAuthenticated={isAuthenticated}
           isUserReady={isUserReady}

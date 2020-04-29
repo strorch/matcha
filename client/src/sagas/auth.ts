@@ -61,9 +61,6 @@ function* callSignOut() {
 
 function* callCheckForSignedInUser() {
   const activeUser = yield call(getLocalStorageItem, LocalStorageKeys.User);
-  yield put({
-    type: types.CHECK_FOR_SIGNED_IN_USER_DONE
-  });
 
   if (activeUser) {
     yield put({
@@ -71,6 +68,10 @@ function* callCheckForSignedInUser() {
       payload: JSON.parse(activeUser)
     });
   }
+
+  yield put({
+    type: types.CHECK_FOR_SIGNED_IN_USER_DONE
+  });
 }
 
 export default function* auth() {
