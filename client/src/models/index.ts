@@ -78,7 +78,7 @@ export interface IUsersState {
 
 export interface IProfileState {
   isFetching: boolean;
-  data: IProfile[];
+  data: IProfile;
   error: any;
 }
 

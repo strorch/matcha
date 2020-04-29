@@ -21,11 +21,11 @@ function* callGetInterestsList() {
 
   yield delay(1000);
   yield put({
-    type: types.GET_INTERESTS_LIST_DONE,
+    type: types.FETCH_INTERESTS_LIST_DONE,
     payload: INTERESTS_LIST_MOCK
   });
 }
 
 export default function* formData() {
-  yield takeLatest(types.GET_INTERESTS_LIST, callGetInterestsList);
+  yield takeLatest(types.FETCH_INTERESTS_LIST, callGetInterestsList);
 }
