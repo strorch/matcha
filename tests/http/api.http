@@ -1,11 +1,11 @@
 ### Logout
-POST http://127.0.0.2:8080/auth/logout
+POST http://127.0.0.1:8080/auth/logout
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
 
 ### Sign Up
-POST http://127.0.0.2:8080/auth/signUp
+POST http://127.0.0.1:8080/auth/signUp
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
@@ -21,7 +21,7 @@ Cookie: XDEBUG_SESSION=1
 }
 
 ### Confirm email
-PATCH http://127.0.0.2:8080/auth/confirm-email
+PATCH http://127.0.0.1:8080/auth/confirm-email
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
@@ -31,7 +31,7 @@ Cookie: XDEBUG_SESSION=1
 }
 
 ### Login
-POST http://127.0.0.2:8080/auth/login
+POST http://127.0.0.1:8080/auth/login
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
