@@ -14,9 +14,9 @@ final class ConfirmEmailAction extends AbstractJsonProxyAction
      */
     protected function doAction(Request $request, Response $response, array $args)
     {
-        $body = $request->getParsedBody();
+        ['token' => $token] = $request->getParsedBody();
 
-        $user = $this->tokenProvider->find($body['token'] ?? '');
+        $user = $this->tokenProvider->find($token ?? '');
         if (empty($user)) {
             throw new \Exception('empty or fake token');
         }
@@ -27,7 +27,7 @@ final class ConfirmEmailAction extends AbstractJsonProxyAction
 
         $this->session->set('user', $user);
 
-        $this->tokenProvider->remove($body['token']);
+        $this->tokenProvider->remove($token);
 
         return $user;
     }

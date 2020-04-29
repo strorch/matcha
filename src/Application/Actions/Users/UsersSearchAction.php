@@ -15,11 +15,10 @@ class UsersSearchAction extends AbstractJsonProxyAction
      */
     protected function doAction(Request $request, Response $response, array $args)
     {
-        $search = new UserSearch();
-        $search->username = $args['username'] ?? null;
-        $search->password = $args['password'] ?? null;
+        // TODO think about it
+        $search = $this->hydrator->hydrate($args ?? [], UserSearch::class);
 
         /** @var \App\Domain\Entity\User[] $res */
-        return $this->userRepository->search($search);
+        return $this->userProvider->search($search);
     }
 }

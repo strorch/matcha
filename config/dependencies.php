@@ -9,15 +9,19 @@ use App\Domain\Repository\ContactRepository;
 use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\IoMessageBody;
+use App\Domain\ValueObject\UserSearch;
 use App\Infrastructure\DB\DB;
 use App\Infrastructure\Hydrator\ConfigurableAggregateHydrator;
 use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
 use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Hydrator\UserHydrator;
+use App\Infrastructure\Hydrator\UserSearchHydrator;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProvider;
 use App\Infrastructure\Provider\TokenProviderInterface;
+use App\Infrastructure\Provider\UserProvider;
+use App\Infrastructure\Provider\UserProviderInterface;
 use App\Socket\BaseSocketManager;
 use DI\ContainerBuilder;
 use Dotenv\Exception\InvalidFileException;
@@ -51,6 +55,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
         ContactRepositoryInterface::class => DI\autowire(ContactRepository::class),
         TokenProviderInterface::class => DI\autowire(TokenProvider::class),
+        UserProviderInterface::class => DI\autowire(UserProvider::class),
 
         /**
          * Classes definitions
@@ -85,6 +90,7 @@ return static function (ContainerBuilder $containerBuilder): void {
                 IoMessage::class => IoMessageHydrator::class,
                 IoMessageBody::class => IoMessageBodyHydrator::class,
                 User::class => UserHydrator::class,
+                UserSearch::class => UserSearchHydrator::class,
             ]);
         },
         SerializerInterface::class => function (): SerializerInterface {

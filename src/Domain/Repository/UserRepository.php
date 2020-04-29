@@ -7,7 +7,6 @@ namespace App\Domain\Repository;
 use App\Domain\Entity\User;
 use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
-use App\Domain\ValueObject\UserSearch;
 use App\Infrastructure\DB\DB;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
@@ -42,14 +41,6 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         ]);
 
         $user->setId(reset($id)['id']);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function search(UserSearch $search): array
-    {
-        return [];
     }
 
     /**

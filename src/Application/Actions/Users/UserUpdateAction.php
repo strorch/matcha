@@ -5,6 +5,7 @@ namespace App\Application\Actions\Users;
 
 
 use App\Application\Actions\AbstractJsonProxyAction;
+use App\Domain\Entity\User;
 use App\Domain\ValueObject\Contact;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Psr7\Request;
@@ -18,7 +19,12 @@ class UserUpdateAction extends AbstractJsonProxyAction
     {
         ['user' => $body] = $request->getParsedBody();
 
-        $contact = new Contact();
-        $contact->gender = $body['gender'];
+        $user = $this->hydrator->hydrate($body, User::class);
+
+        $this->userRepository->update($user);
+
+        $this->session->set('user', $user);
+
+        return ['user' => $user];
     }
 }

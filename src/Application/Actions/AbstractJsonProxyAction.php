@@ -8,6 +8,7 @@ use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProviderInterface;
+use App\Infrastructure\Provider\UserProviderInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
@@ -64,15 +65,24 @@ abstract class AbstractJsonProxyAction
     protected HydratorInterface $hydrator;
 
     /**
+     * @var UserProviderInterface
+     */
+    protected UserProviderInterface $userProvider;
+
+    /**
+     * TODO: refactor
      * GetDomainInfoAction constructor.
      * @param StreamFactoryInterface $streamFactory
+     * @param SerializerInterface $serializer
+     *
      * @param UserRepositoryInterface $userRepository
      * @param SessionInterface $session
-     * @param SerializerInterface $serializer
-     * @param Swift_Mailer $mailer
-     * @param CustomMessageFactory $messageFactory
      * @param TokenProviderInterface $tokenProvider
      * @param HydratorInterface $hydrator
+     * @param UserProviderInterface $userProvider
+     *
+     * @param Swift_Mailer $mailer
+     * @param CustomMessageFactory $messageFactory
      * @param SettingsProviderInterface $settingsProvider
      */
     public function __construct(
@@ -84,6 +94,7 @@ abstract class AbstractJsonProxyAction
         CustomMessageFactory $messageFactory,
         TokenProviderInterface $tokenProvider,
         HydratorInterface $hydrator,
+        UserProviderInterface $userProvider,
         SettingsProviderInterface $settingsProvider
     ) {
         $this->streamFactory = $streamFactory;
@@ -95,6 +106,7 @@ abstract class AbstractJsonProxyAction
         $this->tokenProvider = $tokenProvider;
         $this->settingsProvider = $settingsProvider;
         $this->hydrator = $hydrator;
+        $this->userProvider = $userProvider;
     }
 
     /**

@@ -17,11 +17,9 @@ final class LoginAction extends AbstractJsonProxyAction
     {
         ['user' => $body] = $request->getParsedBody();
 
-        $search = new UserSearch();
-        $search->username = $body['username'] ?? null;
-        $search->password = $body['password'] ?? null;
+        $search = $this->hydrator->hydrate($body, UserSearch::class);
 
-        $res = $this->userRepository->search($search);
+        $res = $this->userProvider->search($search);
         if (empty($res)) {
             throw new \Exception('user does not exists');
         }
@@ -29,6 +27,6 @@ final class LoginAction extends AbstractJsonProxyAction
         $res = reset($res);
         $this->session->set('user', $res);
 
-        return $res;
+        return ['user' => $res];
     }
 }
