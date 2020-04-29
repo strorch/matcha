@@ -1,3 +1,9 @@
+// HTTP -->
+export const MAKE_HTTP_REQUEST = 'MAKE_HTTP_REQUEST';
+export const MAKE_HTTP_REQUEST_DONE = 'MAKE_HTTP_REQUEST_DONE';
+export const MAKE_HTTP_REQUEST_FAIL = 'MAKE_HTTP_REQUEST_FAIL';
+// <-- End of HTTP
+
 // Sockets -->
 const ws = 'WS_';
 export const WS_STATUS_ON = `${ws}STATUS_ON`;
