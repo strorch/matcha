@@ -9,3 +9,6 @@ export const makeDropdownListFromObjArr = (arr: Array<any>, textField: string, v
     text: el[textField],
     value: el[valueField]
   }));
+
+export const actionDone = (type: string) => `${type}_DONE`;
+export const actionFail = (type: string) => `${type}_FAIL`;

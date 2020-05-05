@@ -1,9 +1,12 @@
-import { put, call, takeLatest, delay } from 'redux-saga/effects';
+import { put, call, takeLatest, take, delay } from 'redux-saga/effects';
 import * as types from 'actions/types';
-import { GeneralRoutes } from 'routes';
+import { GeneralRoutes, ApiRoutes } from 'routes';
 import { IUser } from 'models';
 import { IMessagePageLocationState } from 'components/MessagePage';
 import { setLocalStorageItem, removeLocalStorageItem, LocalStorageKeys, getLocalStorageItem } from 'services/localStorageService';
+import { Actions } from 'actions';
+import { RequestTypes } from 'models/request';
+import { actionDone } from 'helpers';
 
 function* callSignIn(action) {
   console.log('SignIn: ', action);
@@ -12,8 +15,8 @@ function* callSignIn(action) {
 
   const { payload: { history, username } } = action;
   const user = {
-    first_name: 'Alex',
-    last_name: 'Smith',
+    firstName: 'Alex',
+    lastName: 'Smith',
     username,
     email: 'alexsmith@email.com',
     isConfirmed: true
@@ -40,19 +43,28 @@ function* callSignIn(action) {
 }
 
 function* callSignUp(action) {
-  console.log('SignUp: ', action);
+  const { type, payload: { username, email, lastName, firstName, password, history } } = action;
 
-  yield delay(1000);
+  yield put(
+    Actions.makeHttpRequest({
+      type,
+      endpoint: ApiRoutes.SignUp,
+      method: RequestTypes.Post,
+      data: {
+        user: { username, email, lastName, firstName, password }
+      }
+    })
+  );
 
-  const { payload: { history, username, email } } = action;
-  history.push(GeneralRoutes.Message, {
-    isSuccess: true,
-    icon: 'inbox',
-    header: 'Signed Up!',
-    content: `You did it, ${username}! Confirmation email was sent to ${email}, follow the instructions to validate your account ;)`
-  } as IMessagePageLocationState);
-
-  yield put({ type: types.SIGN_UP_DONE });
+  const response = yield take(actionDone(type));
+  if (response.ok) {
+    history.push(GeneralRoutes.Message, {
+      isSuccess: true,
+      icon: 'inbox',
+      header: 'Signed Up!',
+      content: `You did it, ${username}! Confirmation email was sent to ${email}, follow the instructions to validate your account ;)`
+    } as IMessagePageLocationState);
+  }
 }
 
 function* callSignOut() {
