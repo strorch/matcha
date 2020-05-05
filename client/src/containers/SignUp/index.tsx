@@ -13,12 +13,12 @@ import { IUserState } from 'models';
 import { GeneralRoutes } from 'routes';
 
 export interface ISignUpFormValues {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   password: string;
-  password_confirm: string;
+  passwordConfirm: string;
 }
 
 interface IOuterProps extends RouteComponentProps {
@@ -56,21 +56,21 @@ const WithFormik = withFormik<IOuterProps, ISignUpFormValues>({
     actions.signUp(values, history);  // Not the best decision but the easiest one
   },
   mapPropsToValues: () => ({
-      first_name: '',
-      last_name: '',
+      firstName: '',
+      lastName: '',
       username: '',
       email: '',
       password: '',
-      password_confirm: ''
+      passwordConfirm: ''
     }),
   validationSchema: () =>
     Yup.object().shape({
-      first_name: validators.firstName,
-      last_name: validators.lastName,
+      firstName: validators.firstName,
+      lastName: validators.lastName,
       username: validators.username,
       email: validators.email,
       password: validators.password,
-      password_confirm: validators.passwordConfirm
+      passwordConfirm: validators.passwordConfirm
     })
 })(SignUp);
 

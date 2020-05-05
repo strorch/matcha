@@ -21,8 +21,8 @@ export interface IUserState {
 }
 
 export interface IUser {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   isConfirmed: boolean;
