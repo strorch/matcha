@@ -19,18 +19,18 @@ const SignUpForm = ({ errors, touched, isFetching, handleSubmit }: ISignUpForm) 
       />
       <Form className='attached fluid segment' onSubmit={handleSubmit}>
         <Field
-          name='first_name'
+          name='firstName'
           label="First name:"
           placeholder='First Name'
           component={LabeledInput}
-          error={touched.first_name && errors.first_name}
+          error={touched.firstName && errors.firstName}
         />
         <Field
-          name='last_name'
+          name='lastName'
           label="Last name:"
           placeholder='Last Name'
           component={LabeledInput}
-          error={touched.last_name && errors.last_name}
+          error={touched.lastName && errors.lastName}
         />
         <Field
           name="username"
@@ -59,12 +59,12 @@ const SignUpForm = ({ errors, touched, isFetching, handleSubmit }: ISignUpForm) 
         />
         <Field
           type="password"
-          name="password_confirm"
+          name="passwordConfirm"
           label="Confirm password:"
           autoComplete="new-password"
           placeholder="Confirm password"
           component={LabeledInput}
-          error={touched.password_confirm && errors.password_confirm}
+          error={touched.passwordConfirm && errors.passwordConfirm}
         />
         <Button
           fluid

@@ -1,10 +1,14 @@
 import { History } from 'history';
 import * as types from './types';
+import { RequestShape } from 'models/request';
+import { IUser } from 'models';
 import { ISignUpFormValues } from 'containers/SignUp';
 import { ISignInFormValues } from 'containers/SignIn';
-import { IUser } from 'models';
 
 export const Actions = {
+  // Http -->
+  makeHttpRequest: (payload: RequestShape) => ({ type: types.MAKE_HTTP_REQUEST, payload }),
+  // <-- End of Http
 
   // Sockets -->
   wsChannelStart: () => ({ type: types.WS_CHANNEL_START }),
@@ -12,7 +16,7 @@ export const Actions = {
   wsStatusOn: () => ({ type: types.WS_STATUS_ON }),
   wsStatusOff: () => ({ type: types.WS_STATUS_OFF }),
 
-  sendMessage: <T extends object>(payload) => ({ type: types.SEND_MESSAGE, payload }),
+  sendMessage: (payload: RequestShape) => ({ type: types.SEND_MESSAGE, payload }),
   // <-- End of Sockets
 
   // Auth -->

@@ -1,3 +1,4 @@
+// UI routes
 export enum GeneralRoutes {
   Main = '/',
   Profile = '/profile',
@@ -8,3 +9,8 @@ export enum GeneralRoutes {
   Message = '/message',
   SetInitialInfo = '/set-initial-info'
 };
+
+// API endpoints
+export enum ApiRoutes {
+  SignUp = '/auth/signUp'
+}
