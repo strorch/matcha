@@ -47,6 +47,15 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
           isFetching: false
         }
       };
+    case types.SIGN_UP_FAIL:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isFetching: false,
+          error: action.error
+        }
+      };
     case types.SIGN_IN_DONE:
       return {
         ...state,
@@ -65,6 +74,14 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
           ...state.user,
           ...initReducer,
           isAuthenticated: false
+        }
+      };
+    case types.CLEAR_USER_ERROR:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          error: null
         }
       };
     default:
