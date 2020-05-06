@@ -20,7 +20,7 @@ const SearchBar = ({
       />
     </Grid.Column>
     <Grid.Column mobile={16} tablet={6} computer={4}>
-      <Button onClick={toggleIsAdvancedSearch}>{!isAdvancedSearch ? 'Open Advanced Search' : 'Hide Advanced Search'}</Button>
+      <Button basic onClick={toggleIsAdvancedSearch}>{!isAdvancedSearch ? 'Open Advanced Search' : 'Hide Advanced Search'}</Button>
     </Grid.Column>
   </Grid>
 );
