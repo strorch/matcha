@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Segment, Header, Container } from 'semantic-ui-react';
-import SearchBar from 'components/SearchBar';
+import { Segment, Container } from 'semantic-ui-react';
+import SearchBar from './SearchBar';
+import AdvancedSearchBar from './AdvancedSearchBar';
 
 const SearchBlock = () => {
   const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
@@ -14,12 +15,9 @@ const SearchBlock = () => {
             toggleIsAdvancedSearch={() => setIsAdvanced(!isAdvanced)}
           />
           {
-            isAdvanced
-              ? (
-                <Header as='h2'>Advanced</Header>
-              ) : (
-                <Header as='h2'>Not Advanced</Header>
-              )
+            isAdvanced && (
+              <AdvancedSearchBar />
+            )
           }
         </Container>
       </Segment>

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Grid, Image, Segment, Loader, Dropdown } from 'semantic-ui-react';
-import SearchBlock from 'components/SearchBlock';
-import SortLine from 'components/SortLine';
-import FilterSelect from 'components/FilterSelect';
+import { Grid, Image, Segment, Loader } from 'semantic-ui-react';
+import { MainSearch, SortLine, FilterSelect } from 'components';
 
 interface IMainOption3Props {
   cards?: object[]; // FIXME: fix any type
@@ -25,7 +23,7 @@ const MainOption3 = ({ cards, isFetching, fetchCards }: IMainOption3Props) => {
         <Loader content='Loading..' size="huge" active />
       ) : (
         <>
-          <SearchBlock />
+          <MainSearch />
           <Segment vertical>
             <Grid container verticalAlign="middle">
               <Grid.Row columns={2}>
