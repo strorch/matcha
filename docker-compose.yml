@@ -3,13 +3,10 @@ version: '3.7'
 services:
   http:
     build: .
-    command: php -S 0.0.0.0:8080 -t http http/index.php
     env_file:
       - .env
-    environment:
-      docker: "true"
     ports:
-      - "${SITE_HOST}:8080:8080"
+      - "${SITE_HOST}:8080:80"
     volumes:
       - .:/app
     links:
@@ -21,8 +18,6 @@ services:
     command: php socket/index.php
     env_file:
       - .env
-    environment:
-      docker: "true"
     ports:
       - "${SITE_HOST}:8000:8000"
     volumes:

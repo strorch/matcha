@@ -5,13 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    command: php -S 0.0.0.0:8080 -t http http/index.php
     env_file:
       - .env
-    environment:
-      docker: "true"
     ports:
-      - "${SITE_HOST}:8080:8080"
+      - "${SITE_HOST}:8080:80"
     volumes:
       - .:/app
       - /app/vendor/
@@ -26,8 +23,6 @@ services:
     command: php socket/index.php
     env_file:
       - .env
-    environment:
-      docker: "true"
     ports:
       - "${SITE_HOST}:8000:8000"
     volumes:
