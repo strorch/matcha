@@ -1,13 +1,14 @@
 import React from 'react';
 import { withFormik, FormikProps } from 'formik';
 import { Segment, Container } from 'semantic-ui-react';
+import { IInterestsState } from 'models';
 import { SearchBar, AdvancedSearchBar } from 'components/MainSearchComponents';
 
 export interface IFormValues {
-  ageFrom: number;
-  ageTo: number;
-  fameRatingFrom: number;
-  fameRatingTo: number;
+  ageFrom: string;
+  ageTo: string;
+  fameRatingFrom: string;
+  fameRatingTo: string;
   interests: number[];
   location: any; // FIXME: any
   searchQuery: string;
@@ -15,12 +16,13 @@ export interface IFormValues {
 }
 
 interface IOuterProps {
-  temp?: string;
+  interests: IInterestsState;
 }
 
 type ISearchBlock = IOuterProps & FormikProps<IFormValues>;
 
 const SearchBlock = ({
+  interests,
   values: {
     isAdvancedSearch
   },
@@ -39,7 +41,11 @@ const SearchBlock = ({
           />
           {
             isAdvancedSearch && (
-              <AdvancedSearchBar handleSearch={handleSubmit} />
+              <AdvancedSearchBar
+                handleSearch={handleSubmit}
+                interests={interests.data || []}
+                isInterestsFetching={interests.isFetching}
+              />
             )
           }
         </Container>
@@ -51,10 +57,10 @@ const SearchBlock = ({
 export default withFormik<IOuterProps, IFormValues>({
   handleSubmit: values => console.log(values),
   mapPropsToValues: () => ({
-    ageFrom: undefined,
-    ageTo: undefined,
-    fameRatingFrom: undefined,
-    fameRatingTo: undefined,
+    ageFrom: '',
+    ageTo: '',
+    fameRatingFrom: '',
+    fameRatingTo: '',
     interests: [],
     location: '',
     searchQuery: '',
