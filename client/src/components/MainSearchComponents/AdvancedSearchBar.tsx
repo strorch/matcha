@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Input, Grid } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 interface IAdvancedSearchBar {
   temp?: string;
 }
 
-const AdvancedSearchBar = ({}: IAdvancedSearchBar) => (
+const AdvancedSearchBar = ({ temp }: IAdvancedSearchBar) => (
   // <Grid container verticalAlign="middle" textAlign="center">
   //   <Grid.Column mobile={16} tablet={10} computer={12}>
   //     <Input
