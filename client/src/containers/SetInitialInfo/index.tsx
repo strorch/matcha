@@ -9,6 +9,7 @@ import { Actions } from 'actions';
 import { Forms } from 'components';
 import { IUserState, Gender, IInterestsState } from 'models';
 import { GeneralRoutes } from 'routes';
+import useConditionalFetch from 'hooks/useConditionalFetch';
 
 export interface ISetInitialInfoFormValues {
   gender: Gender;
@@ -35,9 +36,9 @@ const SetInitialInfo = ({
     if (user.isInitialInfoSet) {
       history.push(GeneralRoutes.Main);
     }
-
-    actions.fetchInterestsList();
   }, [user.isInitialInfoSet, history, actions]);
+
+  useConditionalFetch(interests, actions.fetchInterestsList);
 
   const handleAddInterest = (interest: string) => {
     console.log('Add: ', interest);
