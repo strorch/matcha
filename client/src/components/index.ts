@@ -2,7 +2,6 @@ export { default as Header } from './Header';
 export { default as Footer } from './Footer';
 
 export { default as SortLine } from './SortLine';
-export { default as MainSearch } from './MainSearch';
 export { default as FilterSelect } from './FilterSelect';
 
 export { default as MainPages } from './MainPages';

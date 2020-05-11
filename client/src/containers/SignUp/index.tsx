@@ -40,7 +40,7 @@ const SignUp = ({
   useEffect(() => {
     if (isAuthenticated) history.push(GeneralRoutes.Main);
     return actions.clearUserError;
-  }, [isAuthenticated, history]);
+  }, [isAuthenticated, history, actions]);
 
   const resetSignUpForm = () => {
     actions.clearUserError();
