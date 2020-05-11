@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Actions } from 'actions';
 import { IUserState } from 'models';
 import { MainPages } from 'components';
+import { MainSearch } from 'containers';
+import { FilterAndSortLine } from 'components/MainSearchComponents';
 
 interface IMainProps {
   user: IUserState;
@@ -23,6 +25,8 @@ const Main = ({ user }: IMainProps) => {
           cards={[]}
           isFetching={false}
           fetchCards={() => console.log('fetchCards')}
+          searchBlock={<MainSearch />}
+          filterAndSortLine={<FilterAndSortLine />}
         />
       );
     }

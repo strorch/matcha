@@ -19,7 +19,7 @@ const AdvancedSearchBar = ({}: IAdvancedSearchBar) => (
   //     <Button basic onClick={toggleIsAdvancedSearch}>{!isAdvancedSearch ? 'Open Advanced Search' : 'Hide Advanced Search'}</Button>
   //   </Grid.Column>
   // </Grid>
-  <h1>Hello</h1>
+  <Button basic color='blue' content='Apply' />
 );
 
 export default AdvancedSearchBar;
