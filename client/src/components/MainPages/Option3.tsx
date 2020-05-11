@@ -15,24 +15,26 @@ const MainOption3 = ({ cards, isFetching, fetchCards, searchBlock, filterAndSort
   }, [fetchCards]);
   
   return (
-    isFetching
-      ? (
-        <Loader content='Loading..' size="huge" active />
-      ) : (
-        <>
-          {searchBlock}
-          {filterAndSortLine}
-          <Segment vertical padded>
-            <Grid columns={3}>
-                {['1', '2', '3'] && ['1', '2', '3'].map(card => (
-                  <Grid.Column>
-                    <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                  </Grid.Column>
-                ))}
-            </Grid>
-          </Segment>
-        </>
-      )
+    <>
+      {searchBlock}
+      {filterAndSortLine}
+      {
+        isFetching
+          ? (
+            <Loader content='Loading..' size="huge" active />
+          ) : (
+            <Segment vertical padded>
+              <Grid columns={3}>
+                  {['1', '2', '3'] && ['1', '2', '3'].map(card => (
+                    <Grid.Column key={card}>
+                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
+                    </Grid.Column>
+                  ))}
+              </Grid>
+            </Segment>
+          )
+      }
+    </>
   );
 };
 
