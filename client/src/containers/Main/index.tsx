@@ -1,24 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Actions } from 'actions';
+import MainPage from './MainPage';
+import { IUserState } from 'models';
 import { MainPages } from 'components';
-import { MainSearch } from 'containers';
-import { IUserState, IInterestsState } from 'models';
-import useConditionalFetch from 'hooks/useConditionalFetch';
-import { FilterAndSortLine } from 'components/MainSearchComponents';
 
 interface IMainProps {
   user: IUserState;
-  actions: typeof Actions;
-  interests: IInterestsState;
 }
 
-const Main = ({ user, actions, interests }: IMainProps) => {
+const Main = ({ user }: IMainProps) => {
   const { isAuthenticated, isInitialInfoSet } = user;
-
-  useConditionalFetch(interests, actions.fetchInterestsList);
-
 
   const renderMainPage = () => {
     if (!isAuthenticated) {
@@ -26,15 +17,7 @@ const Main = ({ user, actions, interests }: IMainProps) => {
     } else if (!isInitialInfoSet) {
       return <MainPages.Option2 />;
     } else {
-      return (
-        <MainPages.Option3
-          cards={[]}
-          isFetching={false}
-          fetchCards={() => console.log('fetchCards')}
-          searchBlock={<MainSearch interests={interests} />}
-          filterAndSortLine={<FilterAndSortLine />}
-        />
-      );
+      return <MainPage />;
     }
   };
 
@@ -42,14 +25,9 @@ const Main = ({ user, actions, interests }: IMainProps) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.general.user,
-  interests: state.formData.interests
-});
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch)
+  user: state.general.user
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Main);

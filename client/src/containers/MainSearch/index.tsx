@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withFormik, FormikProps } from 'formik';
 import { Segment, Container } from 'semantic-ui-react';
+import { Actions } from 'actions';
 import { IInterestsState } from 'models';
 import { SearchBar, AdvancedSearchBar } from 'components/MainSearchComponents';
 
@@ -16,12 +17,14 @@ export interface IFormValues {
 }
 
 interface IOuterProps {
+  actions: typeof Actions;
   interests: IInterestsState;
 }
 
 type ISearchBlock = IOuterProps & FormikProps<IFormValues>;
 
 const SearchBlock = ({
+  actions,
   interests,
   values: {
     isAdvancedSearch
@@ -29,6 +32,16 @@ const SearchBlock = ({
   handleSubmit,
   setFieldValue
 }: ISearchBlock) => {
+  useEffect(() => {
+    if (isAdvancedSearch && !interests.data && !interests.isFetching) {
+      actions.fetchInterestsList();
+    }
+  }, [isAdvancedSearch, interests, actions]);
+
+  const handleToggleIsAdvancedSearch = () => {
+    setFieldValue('searchQuery', '');
+    setFieldValue('isAdvancedSearch', !isAdvancedSearch);
+  };
   
   return (
     <>
@@ -37,7 +50,7 @@ const SearchBlock = ({
           <SearchBar
             handleSearch={handleSubmit}
             isAdvancedSearch={isAdvancedSearch}
-            toggleIsAdvancedSearch={() => setFieldValue('isAdvancedSearch', !isAdvancedSearch)}
+            toggleIsAdvancedSearch={handleToggleIsAdvancedSearch}
           />
           {
             isAdvancedSearch && (
