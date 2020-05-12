@@ -42,7 +42,7 @@ const SearchBlock = ({
     setFieldValue('searchQuery', '');
     setFieldValue('isAdvancedSearch', !isAdvancedSearch);
   };
-  
+
   return (
     <>
       <Segment vertical padded>
