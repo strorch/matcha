@@ -19,13 +19,14 @@ export const SEND_MESSAGE_FAIL = `${ws}SEND_MESSAGE_FAIL`;
 // Auth -->
 export const SIGN_UP = 'SIGN_UP';
 export const SIGN_UP_DONE = 'SIGN_UP_DONE';
-// export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
+export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
 
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_IN_DONE = 'SIGN_IN_DONE';
 // export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
 
 export const SIGN_OUT = 'SIGN_OUT';
+export const CLEAR_USER_ERROR = 'CLEAR_USER_ERROR';
 
 export const CHECK_FOR_SIGNED_IN_USER = 'CHECK_FOR_SIGNED_IN_USER';
 export const CHECK_FOR_SIGNED_IN_USER_DONE = 'CHECK_FOR_SIGNED_IN_USER_DONE';

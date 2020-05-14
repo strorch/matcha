@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Message } from 'semantic-ui-react';
 import { bindActionCreators } from 'redux';
 import { withFormik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router';
@@ -29,15 +29,23 @@ interface IOuterProps extends RouteComponentProps {
 type ISignUp = IOuterProps & FormikProps<ISignUpFormValues>;
 
 const SignUp = ({
+  actions,
   errors,
   touched,
   history,
-  handleSubmit, 
-  user: { isFetching, isAuthenticated }
+  resetForm,
+  handleSubmit,
+  user: { isFetching, isAuthenticated, error }
 }: ISignUp) => {
   useEffect(() => {
     if (isAuthenticated) history.push(GeneralRoutes.Main);
-  }, [isAuthenticated, history]);
+    return actions.clearUserError;
+  }, [isAuthenticated, history, actions]);
+
+  const resetSignUpForm = () => {
+    actions.clearUserError();
+    resetForm();
+  };
 
   return (
     <Segment vertical padded>
@@ -47,6 +55,7 @@ const SignUp = ({
         isFetching={isFetching}
         handleSubmit={handleSubmit}
       />
+      {!!error && <Message attached negative content={error} onDismiss={resetSignUpForm} />}
     </Segment>
   );
 }

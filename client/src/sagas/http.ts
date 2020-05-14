@@ -5,11 +5,11 @@ import { RequestTypes } from 'models/request';
 import { actionDone, actionFail } from 'helpers';
 
 const formRequestInit = (method: RequestTypes, payload): RequestInit => {
-  const { headers, params } = payload;
+  const { headers, data } = payload;
 
   return method === RequestTypes.Get
     ? { method, headers }
-    : { method, headers, body: JSON.stringify(params) };
+    : { method, headers, body: JSON.stringify(data) };
 };
 
 // const formFileRequestInit = (payload): RequestInit => {
