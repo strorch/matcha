@@ -11,6 +11,8 @@ return static function (ContainerBuilder $containerBuilder): void {
             'env' => getenv('ENV'),
             'displayErrorDetails' => getenv('ENV') === 'dev',
             'clientUrl' => getenv('CLIENT_URL'),
+            'mailerEnabled' => getenv('MAILER_ENABLED'),
+
             'logger' => [
                 'name' => 'matcha',
                 'path' => !empty(getenv('DOCKER')) ? 'php://stdout' : __DIR__ . '/../runtime/app.log',

@@ -5,24 +5,25 @@ namespace App\Infrastructure\Provider;
 
 
 use App\Domain\Entity\User;
+use App\Infrastructure\Helper\RuntimeHelper;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class TokenProvider implements TokenProviderInterface
 {
     /**
-     * @var SettingsProviderInterface
+     * @var RuntimeHelper
      */
-    private SettingsProviderInterface $provider;
+    private RuntimeHelper $runtimeHelper;
 
     /**
      * @var SerializerInterface
      */
     private SerializerInterface $serializer;
 
-    public function __construct(SettingsProviderInterface $provider, SerializerInterface $serializer)
+    public function __construct(RuntimeHelper $runtimeHelper, SerializerInterface $serializer)
     {
-        $this->provider = $provider;
         $this->serializer = $serializer;
+        $this->runtimeHelper = $runtimeHelper;
     }
 
     /**
@@ -66,14 +67,7 @@ class TokenProvider implements TokenProviderInterface
      */
     private function getTokensDir(): string
     {
-        $projectDir = $this->provider->getSettingByName('projectDir');
-        $tokensDir = $projectDir . '/runtime/tokens';
-
-        if (!is_dir($tokensDir) && !mkdir($tokensDir, 0755, true) && !is_dir($tokensDir)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $tokensDir));
-        }
-
-        return $tokensDir;
+        return $this->runtimeHelper->provideDir('tokens');
     }
 
     /**

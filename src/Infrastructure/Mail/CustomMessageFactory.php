@@ -20,15 +20,22 @@ final class CustomMessageFactory
     }
 
     /**
-     * @param string $subject
+     * Params:
+     *   - subject
+     *   - to
+     *   - message body
+     *
+     * @param array $params
      * @return Swift_Message
      */
-    public function create(string $subject): Swift_Message
+    public function create(array $params): Swift_Message
     {
         $settings = $this->settingsProvider->getSettingByName('mail');
 
-        return (new Swift_Message($subject))
+        return (new Swift_Message($params['subject']))
             ->setFrom([$settings['from_email'] => $settings['from_fname']])
+            ->setTo([$params['to'] => $params['to']])
+            ->setBody($params['body'], 'text/html')
         ;
     }
 }

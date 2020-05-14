@@ -30,12 +30,14 @@ return static function (App $app): void {
     });
     $app->get('/testSendMail', function (Request $request, Response $response) use ($c): Response {
         $message = $c->get(\App\Infrastructure\Mail\CustomMessageFactory::class)
-            ->create('Wonderful Subject')
-            ->setTo(['smy980807@ukr.net' => 'smy980807@ukr.net'])
-            ->setBody('Here is the message itself', 'text/html');
-        $mailer = $c->get(\Swift_Mailer::class);
-        $res = $mailer->send($message);
-        $response->getBody()->write('hello api: ' . $res);
+            ->create([
+                'subject' => 'Wonderful Subject',
+                'to' => 'smy980807@ukr.net',
+                'body' => 'Here is the message itself <a href="http://127.0.0.1:3000">Matcha</a>',
+            ]);
+        $mailer = $c->get(\App\Infrastructure\Mail\MailerInterface::class);
+        $mailer->send($message);
+        $response->getBody()->write('message sent');
         return $response;
     });
 

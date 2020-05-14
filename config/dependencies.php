@@ -16,6 +16,8 @@ use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
 use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Hydrator\UserHydrator;
 use App\Infrastructure\Hydrator\UserSearchHydrator;
+use App\Infrastructure\Mail\ConfigurableMailer;
+use App\Infrastructure\Mail\MailerInterface;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProvider;
@@ -56,6 +58,8 @@ return static function (ContainerBuilder $containerBuilder): void {
         ContactRepositoryInterface::class => DI\autowire(ContactRepository::class),
         TokenProviderInterface::class => DI\autowire(TokenProvider::class),
         UserProviderInterface::class => DI\autowire(UserProvider::class),
+        MailerInterface::class => DI\autowire(ConfigurableMailer::class),
+        SettingsProviderInterface::class => DI\autowire(SettingsProvider::class),
 
         /**
          * Classes definitions
@@ -73,17 +77,6 @@ return static function (ContainerBuilder $containerBuilder): void {
             $memcached->addServer($memData['host'], $memData['port']);
 
             return $memcached;
-        },
-        Swift_Mailer::class => function (SettingsProviderInterface $settingsProvider): Swift_Mailer {
-            $settings = $settingsProvider->getSettingByName('mail');
-
-            $transport = (new Swift_SmtpTransport($settings['host'], $settings['port']))
-                ->setUsername($settings['login'])
-                ->setPassword($settings['password'])
-                ->setEncryption('TLS')
-            ;
-
-            return new Swift_Mailer($transport);
         },
         HydratorInterface::class => function (ContainerInterface $c): HydratorInterface {
             return new ConfigurableAggregateHydrator($c, [
@@ -111,9 +104,6 @@ return static function (ContainerBuilder $containerBuilder): void {
             $logger->pushHandler($handler);
 
             return $logger;
-        },
-        SettingsProviderInterface::class => function (ContainerInterface $c): SettingsProviderInterface {
-            return new SettingsProvider($c->get('settings'));
         },
         DB::class => function (SettingsProviderInterface $settingsProvider): DB {
             return DB::get($settingsProvider->getSettingByName('dbParams'));

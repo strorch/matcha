@@ -12,7 +12,7 @@ use App\Infrastructure\Provider\UserProviderInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
-use Swift_Mailer;
+use App\Infrastructure\Mail\MailerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Zend\Hydrator\HydratorInterface;
@@ -40,9 +40,9 @@ abstract class AbstractJsonProxyAction
     protected SerializerInterface $serializer;
 
     /**
-     * @var Swift_Mailer
+     * @var MailerInterface
      */
-    protected Swift_Mailer $mailer;
+    protected MailerInterface $mailer;
 
     /**
      * @var CustomMessageFactory
@@ -81,7 +81,7 @@ abstract class AbstractJsonProxyAction
      * @param HydratorInterface $hydrator
      * @param UserProviderInterface $userProvider
      *
-     * @param Swift_Mailer $mailer
+     * @param MailerInterface $mailer
      * @param CustomMessageFactory $messageFactory
      * @param SettingsProviderInterface $settingsProvider
      */
@@ -90,7 +90,7 @@ abstract class AbstractJsonProxyAction
         UserRepositoryInterface $userRepository,
         SessionInterface $session,
         SerializerInterface $serializer,
-        Swift_Mailer $mailer,
+        MailerInterface $mailer,
         CustomMessageFactory $messageFactory,
         TokenProviderInterface $tokenProvider,
         HydratorInterface $hydrator,

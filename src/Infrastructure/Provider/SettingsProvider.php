@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Provider;
 
 use InvalidArgumentException;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class SettingsProvider
@@ -18,11 +19,12 @@ class SettingsProvider implements SettingsProviderInterface
 
     /**
      * SettingsProvider constructor.
-     * @param array $settings
+     *
+     * @param ContainerInterface $container
      */
-    public function __construct(array $settings)
+    public function __construct(ContainerInterface $container)
     {
-        $this->settings = $settings;
+        $this->settings = $container->get('settings');
     }
 
     /**
@@ -38,9 +40,6 @@ class SettingsProvider implements SettingsProviderInterface
      */
     public function getSettingByName(string $name)
     {
-        if (empty($this->settings[$name])) {
-            throw new InvalidArgumentException("Invalid setting name '$name'");
-        }
         return $this->settings[$name];
     }
 }

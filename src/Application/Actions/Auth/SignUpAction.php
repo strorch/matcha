@@ -38,13 +38,13 @@ final class SignUpAction extends AbstractJsonProxyAction
         $hash = $this->tokenProvider->saveUser($user);
         $link = $this->prepareLink($hash);
 
-        $message = $this->messageFactory->create('Matcha: confirm your email!')
-            ->setTo([$user->getEmail() => $user->getEmail()])
-            ->setBody("Visit <a href='$link'>link</a> to confirm your email", 'text/html');
+        $message = $this->messageFactory->create([
+            'subject' => 'Matcha: confirm your email!',
+            'to' => $user->getEmail(),
+            'body' => "Visit <a href='$link'>link</a> to confirm your email",
+        ]);
 
-        if (empty($this->mailer->send($message))) {
-            throw new \Exception('failed to send email');
-        }
+        $this->mailer->send($message);
     }
 
     private function prepareLink(string $hash): string
