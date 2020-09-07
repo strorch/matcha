@@ -10,8 +10,7 @@ use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\IoMessageBody;
 use App\Domain\ValueObject\UserSearch;
-use App\Infrastructure\DB\DB;
-use App\Infrastructure\Hydrator\ConfigurableAggregateHydrator;
+use App\Infrastructure\Hydrator\Lib\ConfigurableAggregateHydrator;
 use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
 use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Hydrator\UserHydrator;
@@ -72,7 +71,7 @@ return static function (ContainerBuilder $containerBuilder): void {
         Memcached::class => function (SettingsProviderInterface $provider): Memcached {
             $memData = $provider->getSettingByName('memcached');
 
-            $memcached = new \Memcached;
+            $memcached = new Memcached;
             $memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
             $memcached->addServer($memData['host'], $memData['port']);
 
@@ -105,9 +104,6 @@ return static function (ContainerBuilder $containerBuilder): void {
 
             return $logger;
         },
-        DB::class => function (SettingsProviderInterface $settingsProvider): DB {
-            return DB::get($settingsProvider->getSettingByName('dbParams'));
-        },
         IoServer::class => function (
             SettingsProviderInterface $settingsProvider,
             BaseSocketManager $baseSocketManager,
@@ -123,7 +119,7 @@ return static function (ContainerBuilder $containerBuilder): void {
                     )
                 ),
                 $socketParams['port'],
-                $socketParams['host']
+                $socketParams['host'],
             );
         },
         MigrationInterface::class => function (ContainerInterface $c): MigrationInterface {

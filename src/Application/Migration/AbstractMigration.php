@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Migration;
 
-use App\Infrastructure\DB\DB;
+use App\Infrastructure\DB\Lib\DB;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use Dotenv\Exception\InvalidFileException;
 use PDO;

@@ -3,8 +3,6 @@ version: '3.7'
 services:
   http:
     build: .
-    env_file:
-      - .env
     ports:
       - "${SITE_HOST}:8080:80"
     volumes:
@@ -16,8 +14,6 @@ services:
   socket:
     build: .
     command: php socket/index.php
-    env_file:
-      - .env
     ports:
       - "${SITE_HOST}:8000:8000"
     volumes:
@@ -28,8 +24,6 @@ services:
 
   pgsql:
     image: postgres:11.0
-    env_file:
-      - .env
     ports:
       - "${SITE_HOST}:5432:5432"
 

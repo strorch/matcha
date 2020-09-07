@@ -20,6 +20,10 @@ final class SignUpAction extends AbstractJsonProxyAction
         /** @var User $user */
         $user = $this->hydrator->hydrate($body, User::class);
 
+        /**
+         * TODO refactor exceptions to assert methods
+         */
+
         $this->userRepository->create($user);
 
         $this->session->set('user', $user);

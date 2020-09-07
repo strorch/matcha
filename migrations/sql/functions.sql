@@ -5,6 +5,29 @@ END
 $$ LANGUAGE 'plpgsql';
 
 CREATE OR REPLACE FUNCTION prop_id (a_name TEXT) RETURNS INT AS $$
-    SELECT id FROM prop WHERE name=a_name;
-$$ LANGUAGE SQL IMMUTABLE STRICT;
+DECLARE
+    res INT;
+BEGIN
+    SELECT id FROM prop WHERE name=a_name INTO res;
+    RETURN res;
+END
+$$ LANGUAGE 'plpgsql';
 
+
+CREATE OR REPLACE FUNCTION crypt_password (password TEXT) RETURNS TEXT AS $$
+DECLARE
+    res TEXT;
+BEGIN
+    SELECT crypt(password, gen_salt('md5')) INTO res;
+    RETURN res;
+END
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION check_password (to_check TEXT, db_record TEXT) RETURNS TEXT AS $$
+DECLARE
+    res BOOL;
+BEGIN
+    SELECT db_record = crypt(to_check, db_record) INTO res;
+    RETURN res;
+END
+$$ LANGUAGE 'plpgsql';

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Hydrator;
+namespace App\Infrastructure\Hydrator\Lib;
 
 use Psr\Container\ContainerInterface;
 use Zend\Hydrator\ExtractionInterface;

@@ -4,7 +4,7 @@
 namespace App\Domain\Repository;
 
 
-use App\Infrastructure\DB\DB;
+use App\Infrastructure\DB\Lib\DB;
 
 abstract class AbstractRepository
 {

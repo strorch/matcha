@@ -25,41 +25,6 @@ class IoMessage
      */
     private ConnectionInterface $author;
 
-    public static function create(ConnectionInterface $author, string $messageString): self
-    {
-        $static = new static();
-
-        $messageArray = json_decode($messageString, true);
-        if (!is_array($messageArray) || !is_string($messageArray[0] ?? null) || !is_array($messageArray[1] ?? null)) {
-            throw new InvalidArgumentException("Invalid message body");
-        }
-        // TODO: refactor with hydrator
-        $ioMessageBody = new IoMessageBody();
-//        $ioMessageBody->message = $messageArray[]
-
-        $static->setType($messageArray[0]);
-        $static->setBody($messageArray[1]);
-        $static->setAuthor($author);
-
-        return $static;
-    }
-
-    /**
-     * @param array $body
-     */
-    public function setBody(array $body): void
-    {
-        $this->body = $body;
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType(string $type): void
-    {
-        $this->type = $type;
-    }
-
     /**
      * @return string
      */
@@ -82,13 +47,5 @@ class IoMessage
     public function getAuthor(): ConnectionInterface
     {
         return $this->author;
-    }
-
-    /**
-     * @param ConnectionInterface $author
-     */
-    public function setAuthor(ConnectionInterface $author): void
-    {
-        $this->author = $author;
     }
 }

@@ -7,7 +7,7 @@ namespace App\Domain\Repository;
 use App\Domain\Entity\User;
 use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
-use App\Infrastructure\DB\DB;
+use App\Infrastructure\DB\Lib\DB;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
@@ -30,7 +30,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     {
         $id = $this->db->query(<<<SQL
             INSERT INTO users (email, username, last_name, first_name, password)
-            VALUES (:email, :username, :last_name, :first_name, :password)
+            VALUES (:email, :username, :last_name, :first_name, crypt_password(:password))
             RETURNING id
         SQL, [
             'email' => $user->getEmail(),
@@ -55,7 +55,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
                 username = :username,
                 last_name = :last_name,
                 first_name = :first_name,
-                password = :password,
+                password = crypt_password(:password),
                 is_confirmed = :is_confirmed
             WHERE id = :id
         SQL, [

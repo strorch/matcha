@@ -5,8 +5,9 @@ namespace App\Infrastructure\DB;
 
 
 use App\Domain\ValueObject\UserSearch;
+use App\Infrastructure\DB\Lib\QueryInterface;
 
-final class UserSearchQuery
+final class UserSearchQuery implements QueryInterface
 {
     /**
      * @var UserSearch
@@ -21,6 +22,14 @@ final class UserSearchQuery
     public function build(): string
     {
 
+        // TODO create UserSearchQuery and work with it
+        $res = $this->db->query(<<<SQL
+            SELECT 
+            FROM        users t1
+            WHERE       t1.username = :username
+            AND         check_password(:password, )
+        SQL, [
+        ]);
     }
 
     private function getSelect(): string

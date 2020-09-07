@@ -33,7 +33,8 @@ class ConfigurableMailer implements MailerInterface
      * @param RuntimeHelper $runtimeHelper
      * @param SettingsProvider $settingsProvider
      */
-    public function __construct(RuntimeHelper $runtimeHelper, SettingsProvider $settingsProvider) {
+    public function __construct(RuntimeHelper $runtimeHelper, SettingsProvider $settingsProvider)
+    {
         $this->runtimeHelper = $runtimeHelper;
         $this->settingsProvider = $settingsProvider;
     }

@@ -1,3 +1,9 @@
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- TODO:
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- user_id   UUID   NOT NULL   DEFAULT uuid_generate_v1(),
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id           SERIAL NOT NULL,

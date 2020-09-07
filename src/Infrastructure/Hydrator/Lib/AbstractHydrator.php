@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Infrastructure\Hydrator;
+namespace App\Infrastructure\Hydrator\Lib;
 
 
 use GeneratedHydrator\Configuration;

@@ -5,6 +5,7 @@ namespace App\Socket;
 
 
 use App\Domain\Entity\IoMessage;
+use App\Infrastructure\Hydrator\IoMessageHydrator;
 use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
@@ -29,7 +30,7 @@ final class BaseSocketManager implements MessageComponentInterface
     private $connections;
 
     /**
-     * @var HydratorInterface
+     * @var HydratorInterface|IoMessageHydrator
      */
     private HydratorInterface $hydrator;
 
@@ -79,7 +80,7 @@ final class BaseSocketManager implements MessageComponentInterface
         $session = $from->Session;
         var_dump($session->get('user'));
 
-        $message = IoMessage::create($from, $msg);
+        $message = $this->hydrator->hydrate($msg, IoMessage::class);
 
         $this->handler->handle($message, $this->connections);
     }
