@@ -11,7 +11,6 @@ services:
       - "${SITE_HOST}:8080:80"
     volumes:
       - .:/app
-      - /app/vendor/
     links:
       - pgsql
       - memcached
@@ -27,7 +26,6 @@ services:
       - "${SITE_HOST}:8000:8000"
     volumes:
       - .:/app
-      - /app/vendor/
     links:
       - pgsql
       - memcached
@@ -49,8 +47,9 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     ports:
-      - "${SITE_HOST}:80:80"
-
-# docker-compose -f docker-compose.prod.yml up -d --build
+      - "${SITE_HOST}:80:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules/

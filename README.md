@@ -1,4 +1,28 @@
-### Matcha educational project
+# Matcha educational project
+
+### Authors
+* [mstorcha](https://github.com/strorch)
+* [grevenko](https://github.com/charmingelle/)
+* [vlvereta](https://github.com/vlvereta/)
+
+# Run application
+
+To prepare configs you need to create ``.env`` file. Example of this file is ``.env.local`` file.
+
+To prepare docker environment you need to create ``docker-compose.yml`` file from examples.
+For backend development use ``docker-compose.back.yml``, for frontend - ``docker-compose.front.yml``.
+
+To build and run application use ``docker-compose up -d --build``. All services will work on `SITE_HOST` param from `.env` file.
+
+Now you can check web interface on `http://{SITE_HOST}`, http api on `http://{SITE_HOST}:8080`, websocket api on `ws://{SITE_HOST}:8000` and etc.
+
+### Database
+
+To configure a database you have to run next command:
+   
+    docker-compose exec http ./migrate.php
+    
+### Dir manual
 
     client/     - react client app
     config/     - DI, http routes and settings configuration
@@ -9,32 +33,7 @@
     src/        - project source code
     test/       - phpunit tests
 
-### Authors
-* [mstorcha](https://github.com/strorch)
-* [vlvereta](https://github.com/vlvereta/)
-
-# Run application
-
-To run PHP apps you need to install required packages and prepare configuration.
-
-  1. To install packages run ``composer update`` in root of repository.
-  2. To prepare configs you need to create ``.env`` file. Example of this file is ``.env.local`` file.
-
-If you will have errors like `bad configuration` or other, try to run ``composer du`` command.
-
-After preparing environment you need to run http and websocket servers.
-
-Use ``dc up -d``. Websocket, http and database will work on `SITE_HOST` param from `.env` file.
-
-Now you can check http on `http://127.0.0.2:8080` and websocket on `ws://127.0.0.2:8000`.
-
-### Database
-
-To configure migration you have to run next command:
-   
-    dc exec http ./migrate.php
-
-HTTP manual:
+### HTTP manual:
 
     GET /
     GET /testCacheSet - check session work with test data

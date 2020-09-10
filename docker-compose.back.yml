@@ -2,7 +2,11 @@ version: '3.7'
 
 services:
   http:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
     ports:
       - "${SITE_HOST}:8080:80"
     volumes:
@@ -12,8 +16,12 @@ services:
       - memcached
 
   socket:
-    build: .
-    command: php socket/index.php
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    command: php socket/index.php
+    env_file:
+      - .env
     ports:
       - "${SITE_HOST}:8000:8000"
     volumes:
@@ -24,6 +32,8 @@ services:
 
   pgsql:
     image: postgres:11.0
+    env_file:
+      - .env
     ports:
       - "${SITE_HOST}:5432:5432"
 
@@ -37,11 +47,6 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
-      - "${SITE_HOST}:3000:3000"
-    volumes:
-      - ./client:/app
-      - /app/node_modules/
-
-# docker-compose up -d --build
+      - "${SITE_HOST}:80:80"
