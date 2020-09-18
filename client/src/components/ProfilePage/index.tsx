@@ -1,7 +1,8 @@
 import React from 'react';
+import SetProfileInfo from '../../containers/SetProfileInfo';
 
 const ProfilePage = () => {
-  return <div />;
+  return <SetProfileInfo />;
 };
 
 export default ProfilePage;
