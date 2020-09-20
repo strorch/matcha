@@ -1,11 +1,11 @@
-import { Reducer } from "redux";
+import { Reducer } from 'redux';
 import * as types from 'actions/types';
-import { IUsersState } from "models";
-import { initReducer } from "models";
+import { IUsersState } from 'models';
+import { initReducer } from 'models';
 
 const initState: IUsersState = {
-  currentProfile: initReducer
-}
+  currentProfile: initReducer,
+};
 
 const usersReducer: Reducer<IUsersState> = (state = initState, action) => {
   switch (action.type) {
@@ -14,8 +14,8 @@ const usersReducer: Reducer<IUsersState> = (state = initState, action) => {
         ...state,
         currentProfile: {
           ...state.currentProfile,
-          isFetching: true
-        }
+          isFetching: true,
+        },
       };
     case types.FETCH_USER_PROFILE_DONE:
       return {
@@ -23,8 +23,8 @@ const usersReducer: Reducer<IUsersState> = (state = initState, action) => {
         currentProfile: {
           ...state.currentProfile,
           isFetching: false,
-          data: action.payload  // the field is also can be set by SET_CURRENT_PROFILE
-        }
+          data: action.payload, // the field is also can be set by SET_CURRENT_PROFILE
+        },
       };
 
     case types.SET_CURRENT_PROFILE:
@@ -32,17 +32,20 @@ const usersReducer: Reducer<IUsersState> = (state = initState, action) => {
         ...state,
         currentProfile: {
           ...state.currentProfile,
-          data: action.payload  // the field is also can be set by FETCH_USER_PROFILE_DONE
-        }
+          data: action.payload, // the field is also can be set by FETCH_USER_PROFILE_DONE
+        },
       };
     case types.CLEAR_CURRENT_PROFILE:
       return {
         ...state,
-        currentProfile: initReducer
+        currentProfile: initReducer,
       };
+    case types.UPDATE_USER_PROFILE: {
+      return state;
+    }
     default:
       return state;
   }
-}
+};
 
 export default usersReducer;
