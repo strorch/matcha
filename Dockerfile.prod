@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY composer.json /app/composer.json
 
-RUN composer install
+RUN composer update
 
 # memcache config
 RUN echo 'memcached.sess_locking=0' >> /usr/local/etc/php/php.ini
