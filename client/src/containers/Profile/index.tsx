@@ -18,13 +18,8 @@ const Profile = ({
   match,
   history,
   actions,
-  user: {
-    isInitialInfoSet,
-    data: user
-  },
-  currentProfile: {
-    isFetching
-  }
+  user: { isInitialInfoSet, data: user },
+  currentProfile: { isFetching },
 }: IProfile) => {
   useCheckForInitialInfo(history, isInitialInfoSet);
 
@@ -41,22 +36,15 @@ const Profile = ({
     return actions.clearCurrentProfile;
   }, [actions, match.params, user]);
 
-  return (
-    isFetching
-      ? <Loader size="huge" active />
-      : <ProfilePage />
-  );
+  return isFetching ? <Loader size="huge" active /> : <ProfilePage />;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.general.user,
-  currentProfile: state.users.currentProfile
+  currentProfile: state.users.currentProfile,
 });
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
