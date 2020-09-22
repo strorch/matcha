@@ -26,7 +26,6 @@ const usersReducer: Reducer<IUsersState> = (state = initState, action) => {
           data: action.payload, // the field is also can be set by SET_CURRENT_PROFILE
         },
       };
-
     case types.SET_CURRENT_PROFILE:
       return {
         ...state,
@@ -41,7 +40,13 @@ const usersReducer: Reducer<IUsersState> = (state = initState, action) => {
         currentProfile: initReducer,
       };
     case types.UPDATE_USER_PROFILE: {
-      return state;
+      return {
+        ...state,
+        currentProfile: {
+          ...state.currentProfile,
+          data: { ...state.currentProfile.data, ...action.payload },
+        },
+      };
     }
     default:
       return state;

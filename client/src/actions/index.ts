@@ -65,9 +65,17 @@ export const Actions = {
     type: types.UPDATE_USER_PROFILE,
     payload: user,
   }),
+  updateUserImages: (images: any[]) => ({
+    type: types.UPDATE_USER_IMAGES,
+    payload: images
+  }),
   // <-- End of Users
 
   // Form data -->
   fetchInterestsList: () => ({ type: types.FETCH_INTERESTS_LIST }),
+  addNewInterest: (interest: string) => ({
+    type: types.ADD_NEW_INTEREST,
+    payload: interest,
+  }),
   // <-- End of Form data
 };

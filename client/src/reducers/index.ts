@@ -1,8 +1,8 @@
-import { combineReducers, Reducer } from "redux";
+import { combineReducers, Reducer } from 'redux';
 import * as types from 'actions/types';
 import usersReducer from './users';
 import formDataReducer from './formData';
-import { SocketConnectionStatus, IGeneralState, initReducer } from "models";
+import { SocketConnectionStatus, IGeneralState, initReducer } from 'models';
 
 const initState: IGeneralState = {
   socketStatus: SocketConnectionStatus.Off,
@@ -10,9 +10,9 @@ const initState: IGeneralState = {
     ...initReducer,
     isAuthenticated: false,
     isInitialInfoSet: false,
-    isLocalStorageChecking: true // default true as we check localStorage first
-  }
-}
+    isLocalStorageChecking: true, // default true as we check localStorage first
+  },
+};
 
 const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
   switch (action.type) {
@@ -26,8 +26,8 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         ...state,
         user: {
           ...state.user,
-          isLocalStorageChecking: false
-        }
+          isLocalStorageChecking: false,
+        },
       };
 
     case types.SIGN_UP:
@@ -36,16 +36,16 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         ...state,
         user: {
           ...state.user,
-          isFetching: true
-        }
+          isFetching: true,
+        },
       };
     case types.SIGN_UP_DONE:
       return {
         ...state,
         user: {
           ...state.user,
-          isFetching: false
-        }
+          isFetching: false,
+        },
       };
     case types.SIGN_UP_FAIL:
       return {
@@ -53,8 +53,8 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         user: {
           ...state.user,
           isFetching: false,
-          error: action.error
-        }
+          error: action.error,
+        },
       };
     case types.SIGN_IN_DONE:
       return {
@@ -64,8 +64,8 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
           isInitialInfoSet: true, // FIXME: remove when API functionality be ready
           isAuthenticated: true,
           isFetching: false,
-          data: action.payload
-        }
+          data: action.payload,
+        },
       };
     case types.SIGN_OUT:
       return {
@@ -73,26 +73,35 @@ const GeneralReducer: Reducer<IGeneralState> = (state = initState, action) => {
         user: {
           ...state.user,
           ...initReducer,
-          isAuthenticated: false
-        }
+          isAuthenticated: false,
+        },
       };
     case types.CLEAR_USER_ERROR:
       return {
         ...state,
         user: {
           ...state.user,
-          error: null
-        }
+          error: null,
+        },
       };
+    case types.UPDATE_USER_IMAGES: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          data: { ...state.user.data, images: action.payload },
+        },
+      };
+    }
     default:
       return state;
   }
-}
+};
 
 // FIXME: fix any
 export default () =>
   combineReducers<IGeneralState & any /* Declare rest of reducers*/>({
     general: GeneralReducer,
     users: usersReducer,
-    formData: formDataReducer
+    formData: formDataReducer,
   });
