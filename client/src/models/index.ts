@@ -1,14 +1,14 @@
-import { GeneralRoutes } from "routes";
+import { GeneralRoutes } from 'routes';
 
 export const initReducer = {
   isFetching: false,
   data: null,
-  error: null
+  error: null,
 };
 
 export interface IGeneralState {
   socketStatus: SocketConnectionStatus;
-  user: IUserState
+  user: IUserState;
 }
 
 export interface IUserState {
@@ -26,11 +26,16 @@ export interface IUser {
   username: string;
   email: string;
   isConfirmed: boolean;
+  gender: Gender;
+  sexualPref: Gender;
+  bio: string;
+  interests: string[];
+  images: any[];
 }
 
 export enum SocketConnectionStatus {
   Off = 'OFF',
-  On = 'ON'
+  On = 'ON',
 }
 
 export enum MainHeaderItems {
@@ -39,7 +44,7 @@ export enum MainHeaderItems {
   Chat = 'chat',
   SignUp = 'sign-up',
   SignIn = 'sign-in',
-  SetInitialInfo = 'set-initial-info'
+  SetInitialInfo = 'set-initial-info',
 }
 
 export const routeByHeaderItem = {
@@ -48,23 +53,24 @@ export const routeByHeaderItem = {
   [MainHeaderItems.Chat]: GeneralRoutes.Chat,
   [MainHeaderItems.SignUp]: GeneralRoutes.SignUp,
   [MainHeaderItems.SignIn]: GeneralRoutes.SignIn,
-  [MainHeaderItems.SetInitialInfo]: GeneralRoutes.SetInitialInfo
+  [MainHeaderItems.SetInitialInfo]: GeneralRoutes.SetInitialInfo,
 };
 
 export enum Gender {
   Male = 'male',
   Female = 'female',
-  Other = 'other'
+  Other = 'other',
 }
 
 export interface IFormDataState {
   interests: IInterestsState;
+  newInterests: IInterest[];
 }
 
 export interface IInterestsState {
   isFetching: boolean;
   data: IInterest[];
-  error: any;  // FIXME: fix any
+  error: any; // FIXME: fix any
 }
 
 export interface IInterest {
