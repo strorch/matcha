@@ -14,7 +14,7 @@ function* callFetchUserProfile(action) {
 }
 
 function* callUpdateUserProfile(action) {
-  console.log('callUpdateUserProfile');
+  console.log('callUpdateUserProfile', action.payload);
 }
 
 export default function* users() {

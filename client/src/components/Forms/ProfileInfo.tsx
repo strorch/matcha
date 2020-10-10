@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { FormikProps, Field } from 'formik';
 import { Grid, Form, Button, Image, Segment } from 'semantic-ui-react';
-import { Gender, IInterestsState } from 'models';
+import { Gender, IInterestsState, IInterest } from 'models';
 import user from 'assets/user.svg';
 import {
   makeDropdownListFromObject,
@@ -15,23 +15,41 @@ import LabeledTextarea from 'components/FormikElements/LabeledTextarea';
 interface IProfileInfoForm
   extends Pick<FormikProps<ISetProfileInfoFormValues>, 'handleSubmit'> {
   isFetching: boolean;
-  interests: IInterestsState;
+  allInterests: IInterestsState;
+  newInterests: IInterest[];
+  images: any[];
   onAddInterest(interest: string): void;
+  updateUserImages(images: any[]): any;
 }
 
 const ProfileInfoForm = ({
-  interests,
+  allInterests,
+  newInterests,
   isFetching,
+  images,
   handleSubmit,
   onAddInterest,
+  updateUserImages,
 }: IProfileInfoForm) => {
   const genderList = useMemo(() => makeDropdownListFromObject(Gender), []);
   const interestsList = useMemo(
-    () => makeDropdownListFromObjArr(interests.data, 'title', 'id'),
-    [interests.data]
+    () =>
+      makeDropdownListFromObjArr(
+        allInterests.data
+          ? [
+              ...allInterests.data,
+              ...newInterests.map((newInterest) => ({
+                id: newInterest,
+                title: newInterest,
+              })),
+            ]
+          : null,
+        'title',
+        'id'
+      ),
+    [allInterests.data, newInterests]
   );
   const fileElem = React.useRef(null);
-  const [images, setImages] = React.useState(Array(5).fill(user));
   const fileReader = new FileReader();
 
   const onAddImageClick = () => fileElem.current.click();
@@ -47,7 +65,7 @@ const ProfileInfoForm = ({
 
         images[imageIndex] = result;
       }
-      setImages([...images]);
+      updateUserImages([...images]);
     });
   };
 
@@ -55,8 +73,11 @@ const ProfileInfoForm = ({
     index !== 0 && image !== user;
 
   const setAsAvatar = (index: number) => () =>
-    setImages(
-      Object.assign([], images, { 0: images[index], [index]: images[0] })
+    updateUserImages(
+      Object.assign([], images, {
+        0: images[index],
+        [index]: images[0],
+      })
     );
 
   return (
@@ -93,7 +114,7 @@ const ProfileInfoForm = ({
             search
             selection
             multiple
-            loading={interests.isFetching}
+            loading={allInterests.isFetching}
             placeholder="#vegan #geek #piercing"
             onAddItem={(_, { value }) => onAddInterest(value)}
           />
@@ -136,7 +157,9 @@ const ProfileInfoForm = ({
               ref={fileElem}
               onChange={onFileInputChange}
             />
-            <Button onClick={onAddImageClick}>Add image</Button>
+            <Button type="button" onClick={onAddImageClick}>
+              Add image
+            </Button>
           </Segment>
           <Button fluid color="blue" type="submit" loading={isFetching}>
             Save
