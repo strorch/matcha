@@ -9,29 +9,16 @@ use PDO;
 
 final class DB
 {
-    /**
-     * @var string[]
-     */
     private array $dbParams;
 
-    /**
-     * @var PDO
-     */
     private PDO $pdo;
 
-    /**
-     * DB constructor.
-     * @param SettingsProviderInterface $settingsProvider
-     */
     public function __construct(SettingsProviderInterface $settingsProvider)
     {
         $this->dbParams = $settingsProvider->getSettingByName('dbParams');
         $this->pdo = $this->initPdo();
     }
 
-    /**
-     * @return PDO
-     */
     public function getPDO(): PDO
     {
         return $this->pdo;
@@ -46,10 +33,6 @@ final class DB
         return $pdo;
     }
 
-    /**
-     * @param string $command
-     * @param array $params
-     */
     public function exec(string $command, array $params = []): void
     {
         if (empty($params)) {
@@ -60,11 +43,6 @@ final class DB
         $prepared->execute($params);
     }
 
-    /**
-     * @param string $command
-     * @param array $params
-     * @return array|null
-     */
     public function query(string $command, array $params = []): ?array
     {
         if (empty($params)) {
@@ -77,9 +55,6 @@ final class DB
         return $prepared->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * @return string
-     */
     private function getDSN(): string
     {
         $params = $this->dbParams;
@@ -87,17 +62,11 @@ final class DB
         return "{$params['type']}:host={$params['host']};dbname={$params['dbName']};port={$params['port']}";
     }
 
-    /**
-     * @return string
-     */
     private function getUser(): string
     {
         return $this->dbParams['user'];
     }
 
-    /**
-     * @return string
-     */
     private function getPassword(): string
     {
         return $this->dbParams['password'];

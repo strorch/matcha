@@ -10,14 +10,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class TokenProvider implements TokenProviderInterface
 {
-    /**
-     * @var RuntimeHelper
-     */
     private RuntimeHelper $runtimeHelper;
 
-    /**
-     * @var SerializerInterface
-     */
     private SerializerInterface $serializer;
 
     public function __construct(RuntimeHelper $runtimeHelper, SerializerInterface $serializer)
@@ -62,18 +56,11 @@ class TokenProvider implements TokenProviderInterface
         unlink($tokensDir . '/' . $hash);
     }
 
-    /**
-     * @return string
-     */
     private function getTokensDir(): string
     {
         return $this->runtimeHelper->provideDir('tokens');
     }
 
-    /**
-     * @param int $length
-     * @return string
-     */
     private function generateTokenName(int $length = 32): string
     {
         $res = '';

@@ -8,9 +8,6 @@ use App\Infrastructure\Provider\SettingsProvider;
 
 final class RuntimeHelper
 {
-    /**
-     * @var SettingsProvider
-     */
     private SettingsProvider $provider;
 
     public function __construct(SettingsProvider $provider)
@@ -18,10 +15,6 @@ final class RuntimeHelper
         $this->provider = $provider;
     }
 
-    /**
-     * @param string $name Dir name
-     * @return string Absolute dir path
-     */
     public function provideDir(string $name): string
     {
         $projectDir = $this->provider->getSettingByName('projectDir');

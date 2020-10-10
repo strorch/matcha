@@ -11,9 +11,6 @@ use App\Infrastructure\DB\UserSearchQuery;
 
 class UserProvider extends AbstractRepository implements UserProviderInterface
 {
-    /**
-     * @var UserSearchQuery
-     */
     private UserSearchQuery $queryBuilder;
 
     public function __construct(DB $db, UserSearchQuery $queryBuilder)

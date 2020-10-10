@@ -9,9 +9,6 @@ use Swift_Message;
 
 final class CustomMessageFactory
 {
-    /**
-     * @var SettingsProviderInterface
-     */
     private SettingsProviderInterface $settingsProvider;
 
     public function __construct(SettingsProviderInterface $settingsProvider)
@@ -24,9 +21,6 @@ final class CustomMessageFactory
      *   - subject
      *   - to
      *   - message body
-     *
-     * @param array $params
-     * @return Swift_Message
      */
     public function create(array $params): Swift_Message
     {

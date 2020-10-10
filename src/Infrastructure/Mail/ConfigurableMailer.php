@@ -13,35 +13,18 @@ use Swift_SmtpTransport;
 
 class ConfigurableMailer implements MailerInterface
 {
-    /**
-     * @var RuntimeHelper
-     */
     private RuntimeHelper $runtimeHelper;
 
-    /**
-     * @var SettingsProvider
-     */
     private SettingsProvider $settingsProvider;
 
-    /**
-     * @var Swift_Mailer
-     */
     private Swift_Mailer $swiftMailer;
 
-    /**
-     * ConfigurableMailer constructor.
-     * @param RuntimeHelper $runtimeHelper
-     * @param SettingsProvider $settingsProvider
-     */
     public function __construct(RuntimeHelper $runtimeHelper, SettingsProvider $settingsProvider)
     {
         $this->runtimeHelper = $runtimeHelper;
         $this->settingsProvider = $settingsProvider;
     }
 
-    /**
-     * @param Swift_Message $message
-     */
     public function send(Swift_Message $message): void
     {
         $mailerEnabled = $this->settingsProvider->getSettingByName('mailerEnabled');
@@ -49,9 +32,6 @@ class ConfigurableMailer implements MailerInterface
         !$mailerEnabled ? $this->saveEmail($message) : $this->sendEmail($message);
     }
 
-    /**
-     * @return Swift_Mailer
-     */
     public function getSwiftMailer(): Swift_Mailer
     {
         if (empty($this->swiftMailer)) {

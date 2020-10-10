@@ -9,14 +9,8 @@ use Zend\Hydrator\HydratorInterface;
 
 abstract class AbstractHydrator implements HydratorInterface
 {
-    /**
-     * @var HydratorInterface
-     */
     protected HydratorInterface $hydrator;
 
-    /**
-     * @var HydratorInterface[]
-     */
     protected array $generatedHydrators = [];
 
     public function __construct(HydratorInterface $hydrator)
@@ -46,12 +40,6 @@ abstract class AbstractHydrator implements HydratorInterface
         return $this->getGeneratedHydrator($object)->hydrate($data, $object);
     }
 
-    /**
-     * @param string $className
-     * @param array $data
-     * @return object
-     * @throws \ReflectionException
-     */
     public function createEmptyInstance(string $className, array $data = [])
     {
         $reflection = new \ReflectionClass($className);

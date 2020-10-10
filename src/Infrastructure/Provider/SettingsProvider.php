@@ -12,16 +12,8 @@ use Psr\Container\ContainerInterface;
  */
 class SettingsProvider implements SettingsProviderInterface
 {
-    /**
-     * @var array
-     */
     private array $settings;
 
-    /**
-     * SettingsProvider constructor.
-     *
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->settings = $container->get('settings');
