@@ -9,11 +9,8 @@ use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\DB\Lib\DB;
 
-class UserRepository extends AbstractRepository implements UserRepositoryInterface
+final class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
-    /**
-     * @var ContactRepositoryInterface
-     */
     private ContactRepositoryInterface $contactRepository;
 
     public function __construct(DB $db, ContactRepositoryInterface $contactRepository)
@@ -71,5 +68,19 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         if (!empty($user->getContact())) {
             $this->contactRepository->setContact($user->getId(), $user->getContact());
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function search(User $user): void
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(User $user): void
+    {
     }
 }

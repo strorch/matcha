@@ -9,19 +9,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Exception\HttpMethodNotAllowedException;
 use Slim\Psr7\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 abstract class AbstractAccessMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var SessionInterface
-     */
     protected SessionInterface $session;
-
-    /**
-     * @var StreamFactoryInterface
-     */
     protected StreamFactoryInterface $streamFactory;
 
     public function __construct(SessionInterface $session, StreamFactoryInterface $streamFactory)
@@ -30,11 +24,6 @@ abstract class AbstractAccessMiddleware implements MiddlewareInterface
         $this->streamFactory = $streamFactory;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return bool
-     */
     abstract protected function checkAccess(ServerRequestInterface $request, RequestHandlerInterface $handler): bool;
 
     /**
@@ -42,12 +31,10 @@ abstract class AbstractAccessMiddleware implements MiddlewareInterface
      */
     final public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->checkAccess($request, $handler)) {
-            return $handler->handle($request);
+        if (!$this->checkAccess($request, $handler)) {
+            throw new HttpMethodNotAllowedException($request);
         }
 
-        return (new Response())
-            ->withBody($this->streamFactory->createStream('{"error": "Not allowed"}'))
-            ->withStatus(403);
+        return $handler->handle($request);
     }
 }

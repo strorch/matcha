@@ -36,8 +36,6 @@ To configure a database you have to run next command:
 ### HTTP manual:
 
     GET /
-    GET /testCacheSet - check session work with test data
-    GET /testSendMail - check send email
     POST /auth/login - allowed while guest
     POST /auth/signUp - allowed while guest
     POST /auth/logout - allowed while authenticated

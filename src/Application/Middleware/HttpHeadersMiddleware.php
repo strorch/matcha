@@ -1,18 +1,20 @@
 <?php
-declare(strict_types=1);
 
-namespace App\Application\ResponseEmitter;
+
+namespace App\Application\Middleware;
+
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\ResponseEmitter as SlimResponseEmitter;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class ResponseEmitter extends SlimResponseEmitter
+class HttpHeadersMiddleware implements MiddlewareInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function emit(ResponseInterface $response): void
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $response = $handler->handle($request);
+
         $response = $response
             ->withHeader('Access-Control-Allow-Credentials', 'true')
             ->withHeader('Access-Control-Allow-Origin', '*')
@@ -28,6 +30,6 @@ class ResponseEmitter extends SlimResponseEmitter
             ob_clean();
         }
 
-        parent::emit($response);
+        return $response;
     }
 }

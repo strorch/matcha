@@ -9,27 +9,20 @@ use App\Infrastructure\DB\Lib\QueryInterface;
 
 final class UserSearchQuery implements QueryInterface
 {
-    /**
-     * @var UserSearch
-     */
-    private UserSearch $search;
-
-    public function __construct(UserSearch $search)
+    public function __construct()
     {
-        $this->search = $search;
     }
 
-    public function build(): string
+    public function build(UserSearch $search): string
     {
 
         // TODO create UserSearchQuery and work with it
-        $res = $this->db->query(<<<SQL
+        return <<<SQL
             SELECT 
             FROM        users t1
             WHERE       t1.username = :username
             AND         check_password(:password, )
-        SQL, [
-        ]);
+        SQL;
     }
 
     private function getSelect(): string

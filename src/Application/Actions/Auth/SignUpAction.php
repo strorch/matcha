@@ -3,13 +3,51 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Auth;
 
-use App\Application\Actions\AbstractJsonProxyAction;
+use App\Application\Actions\AbstractRestAction;
 use App\Domain\Entity\User;
+use App\Domain\Repository\Interfaces\UserRepositoryInterface;
+use App\Infrastructure\Mail\CustomMessageFactory;
+use App\Infrastructure\Mail\MailerInterface;
+use App\Infrastructure\Provider\SettingsProviderInterface;
+use App\Infrastructure\Provider\TokenProviderInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Zend\Hydrator\HydratorInterface;
 
-final class SignUpAction extends AbstractJsonProxyAction
+final class SignUpAction extends AbstractRestAction
 {
+    private HydratorInterface $hydrator;
+    private UserRepositoryInterface $userRepository;
+    private SessionInterface $session;
+    private SettingsProviderInterface $settingsProvider;
+    private MailerInterface $mailer;
+    private CustomMessageFactory $messageFactory;
+    private TokenProviderInterface $tokenProvider;
+
+    public function __construct(
+        StreamFactoryInterface $streamFactory,
+        SerializerInterface $serializer,
+        HydratorInterface $hydrator,
+        UserRepositoryInterface $userRepository,
+        SessionInterface $session,
+        SettingsProviderInterface $settingsProvider,
+        MailerInterface $mailer,
+        CustomMessageFactory $messageFactory,
+        TokenProviderInterface $tokenProvider
+    ) {
+        parent::__construct($streamFactory, $serializer);
+        $this->hydrator = $hydrator;
+        $this->userRepository = $userRepository;
+        $this->session = $session;
+        $this->settingsProvider = $settingsProvider;
+        $this->mailer = $mailer;
+        $this->messageFactory = $messageFactory;
+        $this->tokenProvider = $tokenProvider;
+    }
+
     /**
      * @inheritDoc
      */

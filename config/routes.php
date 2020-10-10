@@ -7,9 +7,10 @@ use App\Application\Actions\Auth\SignUpAction;
 use App\Application\Actions\Users\UsersSearchAction;
 use App\Application\Actions\Users\UserUpdateAction;
 use App\Application\Middleware\CheckGuestMiddleware;
+use App\Application\Middleware\HttpHeadersMiddleware;
+use App\Application\Middleware\ValidateInputMiddleware;
 use Slim\App;
 use App\Application\Middleware\CheckAuthMiddleware;
-use App\Application\Middleware\JSONSerializeMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
@@ -20,24 +21,6 @@ return static function (App $app): void {
 
     $app->get('/', function (Request $request, Response $response) use ($c): Response {
         $response->getBody()->write('hello api');
-        return $response;
-    });
-    $app->get('/testCacheSet', function (Request $request, Response $response) use ($c): Response {
-        $session = $c->get(SessionInterface::class);
-        $session->set('user', 'kekekekkke');
-        $response->getBody()->write($session->get('user') ?? 'empty');
-        return $response;
-    });
-    $app->get('/testSendMail', function (Request $request, Response $response) use ($c): Response {
-        $message = $c->get(\App\Infrastructure\Mail\CustomMessageFactory::class)
-            ->create([
-                'subject' => 'Wonderful Subject',
-                'to' => 'smy980807@ukr.net',
-                'body' => 'Here is the message itself <a href="http://127.0.0.1:3000">Matcha</a>',
-            ]);
-        $mailer = $c->get(\App\Infrastructure\Mail\MailerInterface::class);
-        $mailer->send($message);
-        $response->getBody()->write('message sent');
         return $response;
     });
 
@@ -59,5 +42,8 @@ return static function (App $app): void {
         $group->put('/user',  UserUpdateAction::class);
     })->add(CheckAuthMiddleware::class);
 
-    $app->add(JSONSerializeMiddleware::class);
+    $app->add(ValidateInputMiddleware::class);
+    $app->addBodyParsingMiddleware();
+    $app->add(HttpHeadersMiddleware::class);
+    $app->addRoutingMiddleware();
 };

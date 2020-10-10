@@ -26,11 +26,9 @@ class ConfigurableAggregateHydrator implements HydratorInterface
     }
 
     /**
-     * @param string $className
      * @return HydrationInterface|ExtractionInterface
-     * @throws \Exception
      */
-    protected function getHydrator($className)
+    protected function getHydrator(string $className)
     {
         if (!isset($this->hydrators[$className])) {
             throw new \Exception('Hydrator for "' . $className . '" is not configured');
