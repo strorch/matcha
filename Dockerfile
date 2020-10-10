@@ -16,8 +16,8 @@ RUN a2enmod rewrite
 
 # debug config
 RUN pecl install xdebug && docker-php-ext-enable xdebug
-#    && apt update && apt install -y iproute2
-#RUN echo "xdebug.remote_host=$(dig +short host.docker.internal)" >> /usr/local/etc/php/php.ini
-#RUN echo "xdebug.remote_host=$(ip route show | awk '/default/ {print $3}')" >> /usr/local/etc/php/php.ini
-RUN echo "xdebug.remote_host=192.168.7.101" >> /usr/local/etc/php/php.ini
+RUN apt update && apt install -y dnsutils
+RUN echo "xdebug.remote_host=$(dig +short host.docker.internal)" >> /usr/local/etc/php/php.ini
 RUN echo 'xdebug.remote_enable=1' >> /usr/local/etc/php/php.ini
+#apt update && apt install -y iproute2 && ip route show | awk '/default/ {print $3}'
+#RUN echo "xdebug.remote_host=192.168.7.101" >> /usr/local/etc/php/php.ini
