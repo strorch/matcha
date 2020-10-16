@@ -25,7 +25,7 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
      */
     public function create(User $user): void
     {
-        $id = $this->db->query(<<<SQL
+        $res = $this->db->query(<<<SQL
             INSERT INTO users (email, username, last_name, first_name, password)
             VALUES (:email, :username, :last_name, :first_name, crypt_password(:password))
             RETURNING id
@@ -37,7 +37,8 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             'password' => $user->getPassword(),
         ]);
 
-        $user->setId(reset($id)['id']);
+        ['id' => $id] = reset($res);
+        $user->setId($id);
     }
 
     /**
