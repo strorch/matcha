@@ -1,6 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- TODO:
 -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- user_id   UUID   NOT NULL   DEFAULT uuid_generate_v1(),
 

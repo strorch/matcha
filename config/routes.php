@@ -24,6 +24,25 @@ return static function (App $app): void {
         return $response;
     });
 
+    $app->get('/testCacheSet', function (Request $request, Response $response) use ($c): Response {
+        $session = $c->get(SessionInterface::class);
+        $session->set('user', 'kekekekkke');
+        $response->getBody()->write($session->get('user') ?? 'empty');
+        return $response;
+    });
+    $app->get('/testSendMail', function (Request $request, Response $response) use ($c): Response {
+        $message = $c->get(\App\Infrastructure\Mail\CustomMessageFactory::class)
+            ->create([
+                'subject' => 'Wonderful Subject',
+                'to' => 'xixexem852@septicvernon.com',
+                'body' => 'Here is the message itself <a href="http://127.0.0.1:3000">Matcha</a>',
+            ]);
+        $mailer = $c->get(\App\Infrastructure\Mail\MailSenderInterface::class);
+        $res = $mailer->send($message);
+        $response->getBody()->write('message sent "' . $res . '" ' . getenv('MAILER_ENABLED'));
+        return $response;
+    });
+
     $app->group('/auth', function (Group $group) use ($c) {
         $group->post('/login', LoginAction::class)
             ->add(CheckGuestMiddleware::class);
@@ -44,6 +63,6 @@ return static function (App $app): void {
 
     $app->add(ValidateInputMiddleware::class);
     $app->addBodyParsingMiddleware();
-    $app->add(HttpHeadersMiddleware::class);
     $app->addRoutingMiddleware();
+    $app->add(HttpHeadersMiddleware::class);
 };

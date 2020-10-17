@@ -30,12 +30,14 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Ratchet\Http\HttpServer;
 use Ratchet\Session\SessionProvider;
 use Ratchet\WebSocket\WsServer;
 use Ratchet\Server\IoServer;
+use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Factory\StreamFactory;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -53,6 +55,7 @@ return static function (ContainerBuilder $containerBuilder): void {
          * Autowiring
          */
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
+        ResponseFactoryInterface::class => DI\autowire(ResponseFactory::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
         ContactRepositoryInterface::class => DI\autowire(ContactRepository::class),
         TokenProviderInterface::class => DI\autowire(TokenProvider::class),

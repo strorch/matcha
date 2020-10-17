@@ -11,8 +11,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AbstractRestAction
 {
-    protected StreamFactoryInterface $streamFactory;
-    protected SerializerInterface $serializer;
+    private StreamFactoryInterface $streamFactory;
+    private SerializerInterface $serializer;
 
     public function __construct(
         StreamFactoryInterface $streamFactory,
@@ -34,5 +34,15 @@ abstract class AbstractRestAction
             ->withBody($dataStream)
             ->withHeader('Content-Type', 'application/json')
         ;
+    }
+
+    public function getStreamFactory(): StreamFactoryInterface
+    {
+        return $this->streamFactory;
+    }
+
+    public function getSerializer(): SerializerInterface
+    {
+        return $this->serializer;
     }
 }

@@ -24,9 +24,6 @@ class User
 
     private ?Contact $contact;
 
-    /** TODO: refactor with sql filter */
-    private array $blockedUsers = [];
-
     private int $fameRate = 0;
 
     private array $fakeAccounts = [];
@@ -81,44 +78,37 @@ class User
         return $this->isConfirmed;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function setContact(?Contact $contact): self
+    public function setContact(Contact $contact): self
     {
         $this->contact = $contact;
 
         return $this;
     }
 
-    public function setUsername(?string $username): self
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
 
-    public function setPassword(?string $password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function setFirstName(?string $firstName): self
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function addBlockedUsers(User $blockedUser): self
-    {
-        $this->blockedUsers[] = $blockedUser;
 
         return $this;
     }
@@ -144,14 +134,14 @@ class User
         return $this;
     }
 
-    public function setId(?int $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    public function setLastName(?string $lastName): self
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 

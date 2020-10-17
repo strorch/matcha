@@ -35,16 +35,16 @@ class ShutdownHandler
 
         if ($this->errorHandler->getDisplayErrorDetailsFlag()) {
             switch ($errorType) {
-                case E_USER_ERROR:
+                case E_ERROR:
                     $message = "FATAL ERROR: {$errorMessage}. ";
                     $message .= " on line {$errorLine} in file {$errorFile}.";
                     break;
 
-                case E_USER_WARNING:
+                case E_WARNING:
                     $message = "WARNING: {$errorMessage}";
                     break;
 
-                case E_USER_NOTICE:
+                case E_NOTICE:
                     $message = "NOTICE: {$errorMessage}";
                     break;
 

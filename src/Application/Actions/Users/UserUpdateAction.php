@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Zend\Hydrator\HydratorInterface;
 
-class UserUpdateAction extends AbstractRestAction
+final class UserUpdateAction extends AbstractRestAction
 {
     private HydratorInterface $hydrator;
     private UserRepositoryInterface $userRepository;

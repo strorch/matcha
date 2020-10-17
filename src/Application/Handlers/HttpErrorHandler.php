@@ -10,6 +10,9 @@ use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 
 class HttpErrorHandler extends SlimErrorHandler
 {
+    private const DEFAULT_HEADER_STATUS_CODE = 200;
+    private const DEFAULT_STATUS_ERROR_CODE = 500;
+
     public function setDisplayErrorDetailsFlag(bool $displayErrorDetails): void
     {
         $this->displayErrorDetails = $displayErrorDetails;
@@ -22,14 +25,11 @@ class HttpErrorHandler extends SlimErrorHandler
 
     protected function respond(): Response
     {
-        $exception = $this->exception;
-        $statusCode = 500;
+        $statusCode = ($this->exception instanceof HttpException)
+                        ? $this->exception->getCode()
+                        : self::DEFAULT_STATUS_ERROR_CODE;
 
-        if ($exception instanceof HttpException) {
-            $statusCode = $exception->getCode();
-        }
-
-        $response = $this->responseFactory->createResponse($statusCode);
+        $response = $this->responseFactory->createResponse(self::DEFAULT_HEADER_STATUS_CODE);
         $response->getBody()->write(json_encode(array_filter([
             'statusCode' => $statusCode,
             'error' => $this->exception->getMessage(),

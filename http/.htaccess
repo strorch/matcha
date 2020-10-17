@@ -1,4 +1,5 @@
 Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Headers "X-Requested-With, Content-Type, Accept, Origin, Authorization"
 
 RewriteEngine on
 

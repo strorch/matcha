@@ -71,10 +71,6 @@ final class SignUpAction extends AbstractRestAction
         return ['user' => $user];
     }
 
-    /**
-     * @param User $user
-     * @throws \Exception
-     */
     private function sendConfirmEmail(User $user): void
     {
         $hash = $this->tokenProvider->saveUser($user);

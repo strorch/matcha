@@ -1,19 +1,19 @@
 ### Logout
-POST http://127.0.0.1:8080/auth/logout
+POST http://{{SITE_URL}}/auth/logout
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
 
 ### Sign Up
-POST http://127.0.0.1:8080/auth/signUp
+POST http://{{SITE_URL}}/auth/signUp
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
 
 {
    "user": {
-     "username": "str1111211",
-     "email": "str111111@user.ua",
+     "username": "str14111112211222122211",
+     "email": "str1142111212112212211@user.ua",
      "lastName": "str",
      "firstName": "str",
      "password": "str"
@@ -21,7 +21,7 @@ Cookie: XDEBUG_SESSION=1
 }
 
 ### Confirm email
-PATCH http://127.0.0.1:8080/auth/confirm-email
+PATCH http://{{SITE_URL}}/auth/confirm-email
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
@@ -31,7 +31,7 @@ Cookie: XDEBUG_SESSION=1
 }
 
 ### Login
-POST http://127.0.0.1:8080/auth/login
+POST http://{{SITE_URL}}/auth/login
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
@@ -40,5 +40,43 @@ Cookie: XDEBUG_SESSION=1
   "user": {
     "username": "str1111211",
     "password": "str"
+  }
+}
+
+### Add interests
+PUT http://{{SITE_URL}}/api/interests
+Accept: application/json
+Content-Type: application/json
+Cookie: XDEBUG_SESSION=1
+
+{
+  "interests": [
+    {
+      "name": "bla"
+    },
+    {
+      "name": "kek"
+    }
+  ]
+}
+
+### Users search
+GET http://{{SITE_HOST}}/api/users?username=user&
+Accept: application/json
+Content-Type: application/json
+Cookie: XDEBUG_SESSION=1
+
+{
+  "where": {
+    "username": "user",
+    "location": "",
+    "interests": [
+
+    ],
+    "": "",
+  },
+  "orderBy": {
+    "username": "desc",
+    "fameRate": "asc"
   }
 }
