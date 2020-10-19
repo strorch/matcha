@@ -1,6 +1,8 @@
 Header set Access-Control-Allow-Origin "*"
 Header set Access-Control-Allow-Headers "X-Requested-With, Content-Type, Accept, Origin, Authorization"
 
+Options -Indexes
+
 RewriteEngine on
 
 RewriteCond %{REQUEST_FILENAME} !-f
