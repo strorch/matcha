@@ -7,13 +7,13 @@ namespace App\Infrastructure\Provider;
 use App\Domain\Repository\AbstractRepository;
 use App\Domain\ValueObject\UserSearch;
 use App\Infrastructure\DB\Lib\DB;
-use App\Infrastructure\DB\UserSearchQuery;
+use App\Infrastructure\DB\UserSearchQueryBuilder;
 
 class UserProvider extends AbstractRepository implements UserProviderInterface
 {
-    private UserSearchQuery $queryBuilder;
+    private UserSearchQueryBuilder $queryBuilder;
 
-    public function __construct(DB $db, UserSearchQuery $queryBuilder)
+    public function __construct(DB $db, UserSearchQueryBuilder $queryBuilder)
     {
         parent::__construct($db);
 
@@ -27,6 +27,6 @@ class UserProvider extends AbstractRepository implements UserProviderInterface
     {
         $query = $this->queryBuilder->build($search);
 
-        return $this->db->query($query);
+        return $this->getDb()->query($query);
     }
 }

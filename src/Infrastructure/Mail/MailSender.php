@@ -11,7 +11,7 @@ use Swift_Mailer;
 use Swift_Message;
 use Swift_SmtpTransport;
 
-class ConfigurableMailer implements MailerInterface
+class MailSender implements MailSenderInterface
 {
     private RuntimeHelper $runtimeHelper;
 
@@ -25,11 +25,11 @@ class ConfigurableMailer implements MailerInterface
         $this->settingsProvider = $settingsProvider;
     }
 
-    public function send(Swift_Message $message): void
+    public function send(Swift_Message $message): int
     {
         $mailerEnabled = $this->settingsProvider->getSettingByName('mailerEnabled');
 
-        !$mailerEnabled ? $this->saveEmail($message) : $this->sendEmail($message);
+        return !$mailerEnabled ? $this->saveEmail($message) : $this->sendEmail($message);
     }
 
     public function getSwiftMailer(): Swift_Mailer
@@ -54,19 +54,19 @@ class ConfigurableMailer implements MailerInterface
         return new Swift_Mailer($transport);
     }
 
-    private function sendEmail(Swift_Message $message): void
+    private function sendEmail(Swift_Message $message): int
     {
-        $this->getSwiftMailer()->send($message);
+        return $this->getSwiftMailer()->send($message);
     }
 
-    private function saveEmail(Swift_Message $message): void
+    private function saveEmail(Swift_Message $message): int
     {
         $mailDir = $this->runtimeHelper->provideDir('mail');
         $fileName = $this->generateMessageName();
 
         $filePath = $mailDir . '/' . $fileName;
 
-        file_put_contents($filePath, $message->toString());
+        return !empty(file_put_contents($filePath, $message->toString()));
     }
 
     private function generateMessageName(): string

@@ -5,8 +5,8 @@ use App\Application\Migration\MigrationInterface;
 use App\Domain\Entity\IoMessage;
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
-use App\Domain\Repository\ContactRepository;
-use App\Domain\Repository\Interfaces\ContactRepositoryInterface;
+use App\Domain\Repository\UserProfileDataRepository;
+use App\Domain\Repository\Interfaces\UserProfileDataRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\IoMessageBody;
 use App\Domain\ValueObject\UserSearch;
@@ -15,8 +15,8 @@ use App\Infrastructure\Hydrator\IoMessageBodyHydrator;
 use App\Infrastructure\Hydrator\IoMessageHydrator;
 use App\Infrastructure\Hydrator\UserHydrator;
 use App\Infrastructure\Hydrator\UserSearchHydrator;
-use App\Infrastructure\Mail\ConfigurableMailer;
-use App\Infrastructure\Mail\MailerInterface;
+use App\Infrastructure\Mail\MailSender;
+use App\Infrastructure\Mail\MailSenderInterface;
 use App\Infrastructure\Provider\SettingsProvider;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProvider;
@@ -57,10 +57,10 @@ return static function (ContainerBuilder $containerBuilder): void {
         StreamFactoryInterface::class => DI\autowire(StreamFactory::class),
         ResponseFactoryInterface::class => DI\autowire(ResponseFactory::class),
         UserRepositoryInterface::class => DI\autowire(UserRepository::class),
-        ContactRepositoryInterface::class => DI\autowire(ContactRepository::class),
+        UserProfileDataRepositoryInterface::class => DI\autowire(UserProfileDataRepository::class),
         TokenProviderInterface::class => DI\autowire(TokenProvider::class),
         UserProviderInterface::class => DI\autowire(UserProvider::class),
-        MailerInterface::class => DI\autowire(ConfigurableMailer::class),
+        MailSenderInterface::class => DI\autowire(MailSender::class),
         SettingsProviderInterface::class => DI\autowire(SettingsProvider::class),
 
         /**

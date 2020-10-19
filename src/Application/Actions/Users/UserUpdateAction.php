@@ -7,7 +7,7 @@ namespace App\Application\Actions\Users;
 use App\Application\Actions\AbstractRestAction;
 use App\Domain\Entity\User;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
-use App\Domain\ValueObject\Contact;
+use App\Domain\ValueObject\UserProfileData;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;

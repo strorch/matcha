@@ -4,7 +4,7 @@
 namespace App\Domain\Entity;
 
 
-use App\Domain\ValueObject\Contact;
+use App\Domain\ValueObject\UserProfileData;
 
 class User
 {
@@ -22,11 +22,7 @@ class User
 
     private bool $isConfirmed = false;
 
-    private ?Contact $contact;
-
-    private int $fameRate = 0;
-
-    private array $fakeAccounts = [];
+    private ?UserProfileData $profileData;
 
     public function getId(): ?int
     {
@@ -38,9 +34,9 @@ class User
         return $this->email;
     }
 
-    public function getContact(): ?Contact
+    public function getProfileData(): ?UserProfileData
     {
-        return $this->contact;
+        return $this->profileData;
     }
 
     public function getUsername(): ?string
@@ -63,16 +59,6 @@ class User
         return $this->lastName;
     }
 
-    public function getFameRate(): ?int
-    {
-        return $this->fameRate;
-    }
-
-    public function getFakeAccounts(): array
-    {
-        return $this->fakeAccounts;
-    }
-
     public function getIsConfirmed(): bool
     {
         return $this->isConfirmed;
@@ -85,9 +71,9 @@ class User
         return $this;
     }
 
-    public function setContact(Contact $contact): self
+    public function setProfileData(UserProfileData $profileData): self
     {
-        $this->contact = $contact;
+        $this->profileData = $profileData;
 
         return $this;
     }
@@ -109,20 +95,6 @@ class User
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function addFameRate(): self
-    {
-        $this->fameRate += 1;
-
-        return $this;
-    }
-
-    public function addFakeAccounts(User $fakeAccounts): self
-    {
-        $this->fakeAccounts[] = $fakeAccounts;
 
         return $this;
     }

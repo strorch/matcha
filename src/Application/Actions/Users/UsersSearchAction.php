@@ -4,28 +4,30 @@
 namespace App\Application\Actions\Users;
 
 use App\Application\Actions\AbstractRestAction;
+use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Domain\ValueObject\UserSearch;
-use App\Infrastructure\Provider\UserProviderInterface;
+use App\Infrastructure\Hydrator\UserSearchHydrator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Psr7\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Zend\Hydrator\HydratorInterface;
 
-class UsersSearchAction extends AbstractRestAction
+final class UsersSearchAction extends AbstractRestAction
 {
-    private UserProviderInterface $userProvider;
+    /** @var HydratorInterface|UserSearchHydrator  */
     private HydratorInterface $hydrator;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(
         StreamFactoryInterface $streamFactory,
         SerializerInterface $serializer,
-        UserProviderInterface $userProvider,
+        UserRepositoryInterface $userRepository,
         HydratorInterface $hydrator
     ) {
         parent::__construct($streamFactory, $serializer);
-        $this->userProvider = $userProvider;
         $this->hydrator = $hydrator;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -33,10 +35,9 @@ class UsersSearchAction extends AbstractRestAction
      */
     protected function doAction(Request $request, Response $response, array $args)
     {
-        // TODO think about it
-        $search = $this->hydrator->hydrate($args ?? [], UserSearch::class);
+        $search = $this->hydrator->hydrate($request->getQueryParams(), UserSearch::class);
 
         /** @var \App\Domain\Entity\User[] $res */
-        return $this->userProvider->search($search);
+        return $this->userRepository->search($search);
     }
 }

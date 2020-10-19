@@ -4,8 +4,10 @@
 namespace App\Domain\ValueObject;
 
 
-class Contact
+class UserProfileData
 {
+    public int $userId;
+
     public string $gender;
 
     public string $biography;
@@ -17,4 +19,8 @@ class Contact
     public string $location;
 
     public int $age;
+
+    private int $fameRate = 0;
+
+    private array $fakeAccounts = [];
 }

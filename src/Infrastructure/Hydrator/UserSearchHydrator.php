@@ -4,6 +4,7 @@
 namespace App\Infrastructure\Hydrator;
 
 
+use App\Domain\ValueObject\UserSearch;
 use App\Infrastructure\Hydrator\Lib\AbstractHydrator;
 
 /**
@@ -13,6 +14,8 @@ use App\Infrastructure\Hydrator\Lib\AbstractHydrator;
 class UserSearchHydrator extends AbstractHydrator
 {
     /**
+     * @param $object object|string
+     * @return UserSearch|object
      * @inheritDoc
      */
     public function hydrate(array $data, $object)

@@ -8,9 +8,9 @@ final class UserSearch
 {
     public ?string $username;
 
-    public ?string $password;
+    public array $genderIds = [];
 
-    public ?string $additionalPassword;
+    public int $fameRate;
 
     public ?string $location;
 }

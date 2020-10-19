@@ -1,5 +1,5 @@
-DROP VIEW IF EXISTS contact;
-CREATE VIEW contact AS
+DROP VIEW IF EXISTS profile_data;
+CREATE VIEW profile_data AS
 SELECT      us.id       AS user_id,
             fr.value    AS fame_rate,
             ge.value    AS gender,

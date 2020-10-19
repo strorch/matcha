@@ -7,7 +7,7 @@ use App\Application\Actions\AbstractRestAction;
 use App\Domain\Entity\User;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\Mail\CustomMessageFactory;
-use App\Infrastructure\Mail\MailerInterface;
+use App\Infrastructure\Mail\MailSenderInterface;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProviderInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -23,7 +23,7 @@ final class SignUpAction extends AbstractRestAction
     private UserRepositoryInterface $userRepository;
     private SessionInterface $session;
     private SettingsProviderInterface $settingsProvider;
-    private MailerInterface $mailer;
+    private MailSenderInterface $mailSender;
     private CustomMessageFactory $messageFactory;
     private TokenProviderInterface $tokenProvider;
 
@@ -34,7 +34,7 @@ final class SignUpAction extends AbstractRestAction
         UserRepositoryInterface $userRepository,
         SessionInterface $session,
         SettingsProviderInterface $settingsProvider,
-        MailerInterface $mailer,
+        MailSenderInterface $mailSender,
         CustomMessageFactory $messageFactory,
         TokenProviderInterface $tokenProvider
     ) {
@@ -43,7 +43,7 @@ final class SignUpAction extends AbstractRestAction
         $this->userRepository = $userRepository;
         $this->session = $session;
         $this->settingsProvider = $settingsProvider;
-        $this->mailer = $mailer;
+        $this->mailSender = $mailSender;
         $this->messageFactory = $messageFactory;
         $this->tokenProvider = $tokenProvider;
     }
@@ -82,7 +82,7 @@ final class SignUpAction extends AbstractRestAction
             'body' => "Visit <a href='$link'>link</a> to confirm your email",
         ]);
 
-        $this->mailer->send($message);
+        $this->mailSender->send($message);
     }
 
     private function prepareLink(string $hash): string
