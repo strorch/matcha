@@ -12,7 +12,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 final class HttpHeadersMiddleware implements MiddlewareInterface
 {
     private array $headers = [
-        'Access-Control-Request-Method' => ['GET POST PUT PATCH DELETE OPTIONS'],
+        'Access-Control-Allow-Origin' => ['*'],
+        'Access-Control-Allow-Methods' => ['GET, POST, PUT, PATCH, DELETE, OPTIONS'],
+        'Access-Control-Allow-Headers' => ["X-Requested-With, Content-Type, Accept, Origin, Authorization"],
         'Access-Control-Max-Age' => '600',
     ];
 
