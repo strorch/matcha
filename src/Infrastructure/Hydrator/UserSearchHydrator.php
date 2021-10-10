@@ -1,17 +1,17 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Infrastructure\Hydrator;
 
 
-use App\Domain\ValueObject\UserSearch;
-use App\Infrastructure\Hydrator\Lib\AbstractHydrator;
+use App\Domain\DTO\UserSearch;
+use hiqdev\DataMapper\Hydrator\GeneratedHydrator;
 
 /**
  * Class UserHydrator
  * @package App\Infrastructure\Hydrator
  */
-class UserSearchHydrator extends AbstractHydrator
+class UserSearchHydrator extends GeneratedHydrator
 {
     /**
      * @param $object object|string

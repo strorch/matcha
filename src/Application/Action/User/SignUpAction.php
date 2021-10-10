@@ -1,74 +1,67 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\Auth;
+namespace App\Application\Action\User;
 
-use App\Application\Actions\AbstractRestAction;
 use App\Domain\Entity\User;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
+use App\Infrastructure\Hydrator\UserHydrator;
 use App\Infrastructure\Mail\CustomMessageFactory;
 use App\Infrastructure\Mail\MailSenderInterface;
 use App\Infrastructure\Provider\SettingsProviderInterface;
 use App\Infrastructure\Provider\TokenProviderInterface;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Zend\Hydrator\HydratorInterface;
 
-final class SignUpAction extends AbstractRestAction
+final class SignUpAction
 {
+    /** @var HydratorInterface|UserHydrator  */
     private HydratorInterface $hydrator;
     private UserRepositoryInterface $userRepository;
-    private SessionInterface $session;
     private SettingsProviderInterface $settingsProvider;
     private MailSenderInterface $mailSender;
     private CustomMessageFactory $messageFactory;
     private TokenProviderInterface $tokenProvider;
+    private DataResponseFactoryInterface $responseFactory;
 
     public function __construct(
-        StreamFactoryInterface $streamFactory,
-        SerializerInterface $serializer,
         HydratorInterface $hydrator,
         UserRepositoryInterface $userRepository,
-        SessionInterface $session,
         SettingsProviderInterface $settingsProvider,
         MailSenderInterface $mailSender,
         CustomMessageFactory $messageFactory,
+        DataResponseFactoryInterface $responseFactory,
         TokenProviderInterface $tokenProvider
     ) {
-        parent::__construct($streamFactory, $serializer);
         $this->hydrator = $hydrator;
         $this->userRepository = $userRepository;
-        $this->session = $session;
         $this->settingsProvider = $settingsProvider;
         $this->mailSender = $mailSender;
         $this->messageFactory = $messageFactory;
         $this->tokenProvider = $tokenProvider;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
      * @inheritDoc
      */
-    protected function doAction(Request $request, Response $response, array $args)
+    public function __invoke(Request $request): ResponseInterface
     {
         ['user' => $body] = $request->getParsedBody();
 
-        /** @var User $user */
         $user = $this->hydrator->hydrate($body, User::class);
 
-        /**
-         * TODO refactor exceptions to assert methods
-         */
-
         $this->userRepository->create($user);
+        //TODO: check exception after create and validation
 
-        $this->session->set('user', $user);
 
-        $this->sendConfirmEmail($user);
+        //TODO: move it to event dispatcher and throw log if not possible to do
+//        $this->sendConfirmEmail($user);
 
-        return ['user' => $user];
+        return $this->responseFactory->createResponse(['user' => $this->hydrator->extract($user)]);
     }
 
     private function sendConfirmEmail(User $user): void

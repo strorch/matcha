@@ -9,46 +9,56 @@ use PDO;
 
 final class DB
 {
-    private array $dbParams;
-
     private PDO $pdo;
 
     public function __construct(SettingsProviderInterface $settingsProvider)
     {
-        $this->dbParams = $settingsProvider->getSettingByName('dbParams');
-        $this->pdo = $this->initPdo();
+        $this->checkEnvironmentVars();
+    }
+
+    private function checkEnvironmentVars()
+    {
+        foreach ([
+             'DB_TYPE',
+             'DB_HOST',
+             'DB_NAME',
+             'DB_USER',
+             'DB_PASSWORD',
+         ] as $var) {
+            if (is_null(getenv($var))) {
+                throw new \RuntimeException("missing db variable '$var'");
+            }
+        }
     }
 
     public function getPDO(): PDO
     {
+        if (empty($this->pdo)) {
+            $pdo = new PDO($this->getDSN(), $this->getUser(), $this->getPassword());
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $this->pdo = $pdo;
+        }
+
         return $this->pdo;
-    }
-
-    private function initPdo(): PDO
-    {
-        $pdo = new PDO($this->getDSN(), $this->getUser(), $this->getPassword());
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-        return $pdo;
     }
 
     public function exec(string $command, array $params = []): void
     {
         if (empty($params)) {
-            $this->pdo->exec($command);
+            $this->getPDO()->exec($command);
             return;
         }
-        $prepared = $this->pdo->prepare($command);
+        $prepared = $this->getPDO()->prepare($command);
         $prepared->execute($params);
     }
 
     public function query(string $command, array $params = []): ?array
     {
         if (empty($params)) {
-            $prepared = $this->pdo->query($command);
+            $prepared = $this->getPDO()->query($command);
         } else {
-            $prepared = $this->pdo->prepare($command);
+            $prepared = $this->getPDO()->prepare($command);
             $prepared->execute($params);
         }
 
@@ -57,18 +67,23 @@ final class DB
 
     private function getDSN(): string
     {
-        $params = $this->dbParams;
+        $params = [
+            'type' => getenv('DB_TYPE'),
+            'host' => getenv('DB_HOST'),
+            'name' => getenv('DB_NAME'),
+            'port' => getenv('DB_PORT'),
+        ];
 
-        return "{$params['type']}:host={$params['host']};dbname={$params['dbName']};port={$params['port']}";
+        return "{$params['type']}:host={$params['host']};dbname={$params['name']};port={$params['port']}";
     }
 
     private function getUser(): string
     {
-        return $this->dbParams['user'];
+        return getenv('DB_USER');
     }
 
     private function getPassword(): string
     {
-        return $this->dbParams['password'];
+        return getenv('DB_PASSWORD');
     }
 }

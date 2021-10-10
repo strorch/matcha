@@ -4,7 +4,7 @@
 namespace App\Infrastructure\DB;
 
 
-use App\Domain\ValueObject\UserSearch;
+use App\Domain\DTO\UserSearch;
 use App\Infrastructure\DB\Lib\QueryInterface;
 
 final class UserSearchQueryBuilder implements QueryInterface

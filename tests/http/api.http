@@ -12,8 +12,8 @@ Cookie: XDEBUG_SESSION=1
 
 {
    "user": {
-     "username": "str14111112211222122211",
-     "email": "str1142111212112212211@user.ua",
+     "username": "str111112123112122211",
+     "email": "str2111214212122@user.ua",
      "lastName": "str",
      "firstName": "str",
      "password": "str"
@@ -27,7 +27,7 @@ Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
 
 {
-   "token": "WLc1MN1k8Zfr"
+   "token": "eCqujJvby2f6"
 }
 
 ### Login
@@ -61,22 +61,7 @@ Cookie: XDEBUG_SESSION=1
 }
 
 ### Users search
-GET http://{{SITE_HOST}}/api/users?username=user&
+GET http://{{SITE_URL}}/api/users?username=user&orderby_desc[0]=username&orderby_asc[1]=kek
 Accept: application/json
 Content-Type: application/json
 Cookie: XDEBUG_SESSION=1
-
-{
-  "where": {
-    "username": "user",
-    "location": "",
-    "interests": [
-
-    ],
-    "": "",
-  },
-  "orderBy": {
-    "username": "desc",
-    "fameRate": "asc"
-  }
-}

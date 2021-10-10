@@ -1,15 +1,15 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Infrastructure\Hydrator;
 
 
 use App\Domain\Entity\IoMessage;
 use App\Domain\ValueObject\IoMessageBody;
-use App\Infrastructure\Hydrator\Lib\AbstractHydrator;
+use hiqdev\DataMapper\Hydrator\GeneratedHydrator;
 use InvalidArgumentException;
 
-class IoMessageHydrator extends AbstractHydrator
+class IoMessageHydrator extends GeneratedHydrator
 {
     /**
      * @inheritDoc

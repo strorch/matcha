@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Handlers\HttpErrorHandler;
-use App\Application\Handlers\ShutdownHandler;
-use Slim\Factory\AppFactory;
+use App\Application\Handler\HttpErrorHandler;
+use App\Application\Handler\ShutdownHandler;
+use DI\Bridge\Slim\Bridge;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -14,7 +15,7 @@ require __DIR__ . '/../vendor/autoload.php';
     /** @var \Closure $initializeRoutes */
     $initializeRoutes = require __DIR__ . '/../config/routes.php';
 
-    $app = AppFactory::create(null, $container);
+    $app = Bridge::create($container);
     call_user_func($initializeRoutes, $app);
 
     $errorHandler = new HttpErrorHandler($app->getCallableResolver(), $app->getResponseFactory());
@@ -24,9 +25,9 @@ require __DIR__ . '/../vendor/autoload.php';
     $errorMiddleware = $app->addErrorMiddleware($errorHandler->getDisplayErrorDetailsFlag(), false, false);
     $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
-    $request = ServerRequestCreatorFactory::create()->createServerRequestFromGlobals();
+    $request = $container->get(ServerRequestInterface::class);
     $shutdownHandler = new ShutdownHandler($request, $errorHandler);
     register_shutdown_function($shutdownHandler);
 
-    $app->run();
+    $app->run($request);
 })();

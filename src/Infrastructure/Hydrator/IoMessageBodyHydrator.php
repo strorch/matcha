@@ -1,13 +1,13 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Infrastructure\Hydrator;
 
 
 use App\Domain\ValueObject\IoMessageBody;
-use App\Infrastructure\Hydrator\Lib\AbstractHydrator;
+use hiqdev\DataMapper\Hydrator\GeneratedHydrator;
 
-class IoMessageBodyHydrator extends AbstractHydrator
+class IoMessageBodyHydrator extends GeneratedHydrator
 {
     /**
      * @inheritDoc

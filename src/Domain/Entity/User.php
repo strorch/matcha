@@ -1,30 +1,46 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-
 use App\Domain\ValueObject\UserProfileData;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class User
 {
-    private ?int $id;
+    private UuidInterface $id;
 
-    private ?string $username;
+    private string $username;
 
-    private ?string $email;
+    private string $email;
 
-    private ?string $lastName;
+    private string $lastName;
 
-    private ?string $firstName;
+    private string $firstName;
 
-    private ?string $password;
+    private string $passwordHash;
 
     private bool $isConfirmed = false;
 
-    private ?UserProfileData $profileData;
+    private ?UserProfileData $profileData = null;
 
-    public function getId(): ?int
+    public function __construct(
+        string $username,
+        string $email,
+        string $lastName,
+        string $firstName,
+        string $passwordHash
+    ) {
+        $this->id = Uuid::uuid4();
+        $this->username = $username;
+        $this->email = $email;
+        $this->lastName = $lastName;
+        $this->firstName = $firstName;
+        $this->passwordHash = $passwordHash;
+    }
+
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
@@ -44,9 +60,9 @@ class User
         return $this->username;
     }
 
-    public function getPassword(): ?string
+    public function getPasswordHash(): ?string
     {
-        return $this->password;
+        return $this->passwordHash;
     }
 
     public function getFirstName(): ?string
@@ -64,37 +80,9 @@ class User
         return $this->isConfirmed;
     }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function setProfileData(UserProfileData $profileData): self
+    public function setProfileData(?UserProfileData $profileData): self
     {
         $this->profileData = $profileData;
-
-        return $this;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
 
         return $this;
     }
@@ -102,20 +90,6 @@ class User
     public function setEmailConfirmed(): self
     {
         $this->isConfirmed = true;
-
-        return $this;
-    }
-
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
 
         return $this;
     }

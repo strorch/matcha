@@ -15,20 +15,21 @@ services:
       - pgsql
       - memcached
 
-  socket:
-    build:
-      context: .
-      dockerfile: Dockerfile
-#    command: php socket/index.php
-    env_file:
-      - .env
-    ports:
-      - "${SITE_HOST}:8000:8000"
-    volumes:
-      - .:/app
-    links:
-      - pgsql
-      - memcached
+#  socket:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    restart: unless-stopped
+#    entrypoint: [ "./usr/local/bin/php", "socket/index.php" ]
+#    env_file:
+#      - .env
+#    ports:
+#      - "${SITE_HOST}:8000:8000"
+#    volumes:
+#      - .:/app
+#    links:
+#      - pgsql
+#      - memcached
 
   pgsql:
     image: postgres:11.0

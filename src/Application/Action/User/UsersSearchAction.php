@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Application\Actions\Users;
+namespace App\Application\Action\User;
 
 use App\Application\Actions\AbstractRestAction;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
-use App\Domain\ValueObject\UserSearch;
+use App\Domain\DTO\UserSearch;
 use App\Infrastructure\Hydrator\UserSearchHydrator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -33,7 +33,7 @@ final class UsersSearchAction extends AbstractRestAction
     /**
      * @inheritDoc
      */
-    protected function doAction(Request $request, Response $response, array $args)
+    protected function doAction(Request $request, Response $response)
     {
         $search = $this->hydrator->hydrate($request->getQueryParams(), UserSearch::class);
 

@@ -5,7 +5,6 @@ namespace App\Domain\Repository\Interfaces;
 
 
 use App\Domain\Entity\User;
-use App\Domain\ValueObject\UserSearch;
 use App\Infrastructure\Provider\UserProviderInterface;
 
 interface UserRepositoryInterface extends UserProviderInterface

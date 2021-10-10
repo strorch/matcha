@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Handlers;
+namespace App\Application\Handler;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpException;
@@ -30,6 +30,9 @@ class HttpErrorHandler extends SlimErrorHandler
                         : self::DEFAULT_STATUS_ERROR_CODE;
 
         $response = $this->responseFactory->createResponse(self::DEFAULT_HEADER_STATUS_CODE);
+        if (headers_sent()) {
+            return $response;
+        }
         $response->getBody()->write(json_encode(array_filter([
             'statusCode' => $statusCode,
             'error' => $this->exception->getMessage(),

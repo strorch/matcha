@@ -5,7 +5,7 @@ namespace App\Infrastructure\Provider;
 
 
 use App\Domain\Repository\AbstractRepository;
-use App\Domain\ValueObject\UserSearch;
+use App\Domain\DTO\UserSearch;
 use App\Infrastructure\DB\Lib\DB;
 use App\Infrastructure\DB\UserSearchQueryBuilder;
 

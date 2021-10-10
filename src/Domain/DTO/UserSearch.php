@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Domain\ValueObject;
+namespace App\Domain\DTO;
 
 
 final class UserSearch

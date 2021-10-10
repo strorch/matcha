@@ -11,18 +11,28 @@
 		"ext-pdo": "*",
 		"ext-memcached": "*",
 
-		"slim/slim": "^4.1",
+		"php-di/slim-bridge": "dev-master",
 		"slim/psr7": "^0.5",
-		"php-di/php-di": "^6.0",
+		"vlucas/phpdotenv": "^3.6",
+		"swiftmailer/swiftmailer": "^6.0",
 		"monolog/monolog": "^1.24",
+
+		"firebase/php-jwt": "^5.0",
+		"madesimple/slim-auth": "dev-master",
+
 		"cboden/ratchet": "^0.4.2",
+
+		"ramsey/uuid": "4.x-dev",
 		"symfony/serializer": "^5.0",
 		"symfony/property-access": "^5.0",
-		"swiftmailer/swiftmailer": "^6.0",
-		"ocramius/generated-hydrator": "^3.1",
-		"vlucas/phpdotenv": "^3.6"
+		"gamez/ramsey-uuid-normalizer": "dev-master",
+		"symfony/event-dispatcher": "^5.0",
+		"yiisoft/data-response": "dev-master",
+		"hiqdev/php-data-mapper": "dev-master"
 	},
 	"require-dev": {
+		"vimeo/psalm": "^4.3",
+		"nikic/php-parser": "^4.4.0",
 		"phpunit/phpunit": "^9.0"
 	},
 	"autoload": {
@@ -35,10 +45,5 @@
 		"psr-4": {
 			"Tests\\": "tests/"
 		}
-	},
-	"scripts": {
-		"http": "php -S 0.0.0.0:8080 -t http http/index.php",
-		"socket": "php socket/index.php",
-		"test": "./vendor/bin/phpunit"
 	}
 }

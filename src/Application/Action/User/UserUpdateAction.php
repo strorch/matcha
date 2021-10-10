@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Application\Actions\Users;
+namespace App\Application\Action\User;
 
 
 use App\Application\Actions\AbstractRestAction;
@@ -37,7 +37,7 @@ final class UserUpdateAction extends AbstractRestAction
     /**
      * @inheritDoc
      */
-    protected function doAction(Request $request, Response $response, array $args)
+    protected function doAction(Request $request, Response $response)
     {
         ['user' => $body] = $request->getParsedBody();
 

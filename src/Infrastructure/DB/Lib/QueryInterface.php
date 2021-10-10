@@ -4,7 +4,7 @@
 namespace App\Infrastructure\DB\Lib;
 
 
-use App\Domain\ValueObject\UserSearch;
+use App\Domain\DTO\UserSearch;
 
 interface QueryInterface
 {

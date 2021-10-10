@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Repository;
 
-
 use App\Domain\Entity\User;
 use App\Domain\Repository\Interfaces\UserProfileDataRepositoryInterface;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
-use App\Domain\ValueObject\UserSearch;
+use App\Domain\DTO\UserSearch;
 use App\Infrastructure\DB\Lib\DB;
 use App\Infrastructure\Provider\UserProviderInterface;
 
@@ -32,21 +31,18 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
      */
     public function create(User $user): void
     {
-        $res = $this->getDb()->query(<<<SQL
-            INSERT INTO users (email, username, last_name, first_name, password)
-            VALUES (:email, :username, :last_name, :first_name, crypt_password(:password))
+        $this->getDb()->query(<<<SQL
+            INSERT INTO users (id, email, username, last_name, first_name, password)
+            VALUES (:id, :email, :username, :last_name, :first_name, :password)
             RETURNING id
         SQL, [
-            /** TODO hydrator->extract */
+            'id' => $user->getId(),
             'email' => $user->getEmail(),
             'username' => $user->getUsername(),
             'last_name' => $user->getLastName(),
             'first_name' => $user->getFirstName(),
-            'password' => $user->getPassword(),
+            'password' => $user->getPasswordHash(),
         ]);
-
-        ['id' => $id] = reset($res);
-        $user->setId($id);
     }
 
     /**
@@ -70,7 +66,7 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             'username' => $user->getUsername(),
             'last_name' => $user->getLastName(),
             'first_name' => $user->getFirstName(),
-            'password' => $user->getPassword(),
+            'password' => $user->getPasswordHash(),
             'is_confirmed' => $user->getIsConfirmed(),
         ]);
 

@@ -5,7 +5,7 @@ namespace App\Infrastructure\Provider;
 
 
 use App\Domain\Entity\User;
-use App\Domain\ValueObject\UserSearch;
+use App\Domain\DTO\UserSearch;
 
 interface UserProviderInterface
 {

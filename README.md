@@ -1,5 +1,6 @@
 # Matcha educational project
 
+<!-- TODO: add badges https://github.com/dwyl/repo-badges -->
 ### Authors
 * [mstorcha](https://github.com/strorch)
 * [grevenko](https://github.com/charmingelle/)

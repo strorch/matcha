@@ -6,7 +6,9 @@ use Dotenv\Dotenv;
 use Psr\Container\ContainerInterface;
 
 return static function (): ContainerInterface {
-    Dotenv::create(__DIR__ . '/../')->load();
+    error_reporting(E_ALL & ~E_NOTICE);
+
+    \Dotenv\Dotenv::create(__DIR__ . '/../')->load();
 
     $containerBuilder = new ContainerBuilder();
 
@@ -15,10 +17,10 @@ return static function (): ContainerInterface {
     }
 
     $settings = require __DIR__ . '/settings.php';
-    $settings($containerBuilder);
-
     $dependencies = require __DIR__ . '/dependencies.php';
-    $dependencies($containerBuilder);
+
+    $containerBuilder->addDefinitions(['settings' => $settings]);
+    $containerBuilder->addDefinitions($dependencies);
 
     return $containerBuilder->build();
 };

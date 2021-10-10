@@ -9,14 +9,11 @@ use Tests\Unit\TestCase;
 
 class SettingsProviderTest extends TestCase
 {
-    /**
-     * @var SettingsProvider
-     */
     private SettingsProvider $settingsProvider;
 
-    public function setUp()
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
-        parent::setUp();
+        parent::__construct($name, $data, $dataName);
 
         $this->settingsProvider = $this->getDi()->get(SettingsProvider::class);
     }

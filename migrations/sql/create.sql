@@ -1,11 +1,9 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
--- user_id   UUID   NOT NULL   DEFAULT uuid_generate_v1(),
-
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
-    id           SERIAL NOT NULL,
+    id           UUID   NOT NULL DEFAULT uuid_generate_v4(),
     email        TEXT   NOT NULL,
     is_confirmed BOOL   NOT NULL DEFAULT FALSE,
     username     TEXT   NOT NULL,
@@ -14,31 +12,30 @@ CREATE TABLE users (
     password     TEXT   NOT NULL
 );
 
-DROP TABLE IF EXISTS prop;
-CREATE TABLE prop (
-    id           SERIAL  NOT NULL,
-    name         TEXT    NOT NULL
-);
-
-DROP TABLE IF EXISTS value;
-CREATE TABLE value (
-    id           SERIAL NOT NULL,
-    user_id      INT    NOT NULL,
-    prop_id      INT    NOT NULL,
-    value        TEXT   NOT NULL
-);
-
-DROP TABLE IF EXISTS interests;
+DROP TABLE IF EXISTS interests CASCADE;
 CREATE TABLE interests (
-    id           SERIAL NOT NULL,
+    id           UUID   NOT NULL  DEFAULT uuid_generate_v4(),
     name         TEXT   NOT NULL
 );
 
-DROP TABLE IF EXISTS user2interest;
+DROP TABLE IF EXISTS prop CASCADE;
+CREATE TABLE prop (
+    id           UUID    NOT NULL  DEFAULT uuid_generate_v4(),
+    name         TEXT    NOT NULL
+);
+
+DROP TABLE IF EXISTS value CASCADE;
+CREATE TABLE value (
+    id           UUID   NOT NULL  DEFAULT uuid_generate_v4(),
+    user_id      UUID   NOT NULL,
+    prop_id      UUID   NOT NULL,
+    value        TEXT   NOT NULL
+);
+
+DROP TABLE IF EXISTS user2interest CASCADE;
 CREATE TABLE user2interest (
-    id           SERIAL NOT NULL,
-    user_id      INT    NOT NULL,
-    interest_id  INT    NOT NULL
+    user_id      UUID    NOT NULL,
+    interest_id  UUID    NOT NULL
 );
 
 /**

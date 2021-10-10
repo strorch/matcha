@@ -2,7 +2,6 @@ ALTER TABLE ONLY users          ADD CONSTRAINT user_id_pkey             PRIMARY 
 ALTER TABLE ONLY prop           ADD CONSTRAINT prop_id_pkey             PRIMARY KEY (id);
 ALTER TABLE ONLY value          ADD CONSTRAINT value_id_pkey            PRIMARY KEY (id);
 ALTER TABLE ONLY interests      ADD CONSTRAINT interest_id_pkey         PRIMARY KEY (id);
-ALTER TABLE ONLY user2interest  ADD CONSTRAINT user2interest_id_pkey    PRIMARY KEY (id);
 
 ALTER TABLE ONLY value          ADD CONSTRAINT value_user_id_fkey       FOREIGN KEY (user_id)       REFERENCES users (id) ON DELETE CASCADE;
 ALTER TABLE ONLY value          ADD CONSTRAINT value_prop_id_fkey       FOREIGN KEY (prop_id)       REFERENCES prop  (id);

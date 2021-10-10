@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\Auth;
+namespace App\Application\Action\User;
 
 use App\Application\Actions\AbstractRestAction;
 use App\Domain\Repository\Interfaces\UserRepositoryInterface;
@@ -34,7 +34,7 @@ final class ConfirmEmailAction extends AbstractRestAction
     /**
      * @inheritDoc
      */
-    protected function doAction(Request $request, Response $response, array $args)
+    protected function doAction(Request $request, Response $response)
     {
         ['token' => $token] = $request->getParsedBody();
 
